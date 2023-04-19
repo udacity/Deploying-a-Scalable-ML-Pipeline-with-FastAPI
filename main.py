@@ -33,11 +33,7 @@ path = # TODO: enter the path for the saved model
 model = load_model(path)
 
 # TODO: create a RESTful API using FastAPI
-app = FastAPI(
-    title="add a title",
-    description=" # add a description",
-    version="1.0.0",
-)
+app = # your code here
 
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
@@ -72,6 +68,7 @@ async def post_inference(data: Data):
         # your code here
         # use data as data input
         # use training = False
+        # do not need to pass lb as input
     )
     _inference = # your code here to predict the result using data_processed
     return {"result": apply_label(_inference)}
