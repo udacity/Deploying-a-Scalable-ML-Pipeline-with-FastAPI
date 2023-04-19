@@ -1,8 +1,8 @@
 Working in a command line environment is recommended for ease of use with git and dvc. If on Windows, WSL1 or 2 is recommended.
 
-# Environment Set up
-* Download and install conda if you don’t have it already.
-    * Use the supplied environment file `environment.yml` to create a new environment
+# Environment Set up (pip or conda)
+* Use the supplied file `environment.yml` to create a new environment with conda
+* OR use the supplied file `requirements.txt` to create a new environment with pip
     
 ## Repositories
 * Create a directory for the project and initialize git.
