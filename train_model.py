@@ -48,9 +48,9 @@ X_test, y_test, _, _ = process_data(
     label="salary",
     training=False,
     encoder=encoder,  # Pass the encoder object used during training
-    lb=None,
+    lb=lb,
 )
-
+print('model set xtran ytrain')
 model = train_model(X_train, y_train)
 
 # save the model and the encoder
@@ -66,18 +66,24 @@ model = load_model(
     model_path
 ) 
 
+print('before preds')
 preds = inference(model, X_test)
+print('after preds')
+print(preds)
 
+print('before compute')
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
 print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
+print('after compute')
 
 # iterate through the categorical features
 for col in cat_features:
+    print(col)
     # iterate through the unique values in one categorical feature
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
-        p, r, fb = performance_on_categorical_slice(test, col, slicevalue, categorical_features, label, encoder, lb, model)
-        with open("slice_output.txt", "a") as f:
+        p, r, fb = performance_on_categorical_slice(test, col, slicevalue, cat_features, "salary", encoder, lb, model)
+        with open(project_path + 'slice_output.txt', "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
             print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
