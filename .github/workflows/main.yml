@@ -19,7 +19,7 @@ jobs:
         run: pip install -r https://raw.githubusercontent.com/wgulw/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/main/requirements.txt
 
       - name: Run pytest
-        run: pytest
+        run: pytest test_ml.py
 
       - name: Run flake8
         run: flake8
