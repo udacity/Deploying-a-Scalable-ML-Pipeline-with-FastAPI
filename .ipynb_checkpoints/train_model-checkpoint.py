@@ -13,7 +13,8 @@ from ml.model import (
     train_model,
 )
 
-project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+#project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+project_path = os.getcwd()
 data_path = os.path.join(project_path, "data", "census.csv")
 print('this is the path', data_path)
 data = pd.read_csv(data_path, header=0)

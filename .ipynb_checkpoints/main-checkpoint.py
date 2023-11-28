@@ -26,7 +26,9 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+
+#project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+project_path = os.getcwd()
 encoder_path = os.path.join(project_path, "model", "encoder.pkl") # TODO: enter the path for the saved encoder 
 encoder = load_model(encoder_path)
 

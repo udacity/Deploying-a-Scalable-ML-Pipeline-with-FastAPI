@@ -21,7 +21,9 @@ def test_one():
     # add description for the first test
     """
     # Your code here
-    project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    #project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    #to get the current working directory
+    project_path = os.getcwd()
     data_path = os.path.join(project_path, "data", "census.csv")
     print('this is the path', data_path)
     df = pd.read_csv(data_path, header=0)
@@ -40,7 +42,8 @@ def test_two():
     """
     # Your code here
     # Assuming you have X_train and y_train as your training data
-    project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    #project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    project_path = os.getcwd()
     data_path = os.path.join(project_path, "data", "census.csv")
     print('this is the path', data_path)
     data = pd.read_csv(data_path, header=0)
@@ -89,7 +92,8 @@ def test_three():
     """
     # add description for the third test
     """
-    project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    #project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+    project_path = os.getcwd()
     with open(project_path + 'slice_output.txt', 'r') as file:
         file_content = file.read()
     
