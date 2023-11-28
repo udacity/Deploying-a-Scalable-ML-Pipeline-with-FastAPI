@@ -16,7 +16,7 @@ jobs:
           python-version: 3.11.5
 
       - name: Install dependencies
-        run: pip install -r https://raw.githubusercontent.com/wgulw/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/main/requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run pytest
         run: pytest
