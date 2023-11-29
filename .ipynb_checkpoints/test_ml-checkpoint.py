@@ -90,8 +90,8 @@ def test_three():
     # add description for the third test
     """
     project_path = os.getcwd()
-    data_path = os.path.join(project_path, "data", "census.csv")
-    with open(project_path + 'slice_output.txt', 'r') as file:
+    data_path = os.path.join(project_path, "slice_output.txt")
+    with open(data_path, 'r') as file:
         file_content = file.read()
     
     # Check if the file contains data
