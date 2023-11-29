@@ -25,5 +25,5 @@ jobs:
       run: |
         pytest
     - name: Run flake8
-      run: flake8 --exclude=fastapi/
+      run: flake8 --exclude=fastapi/,.ipynb_checkpoints/
         
