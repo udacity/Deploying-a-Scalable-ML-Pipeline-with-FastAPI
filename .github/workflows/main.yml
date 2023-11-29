@@ -28,5 +28,5 @@ jobs:
       uses: py-actions/flake8@v2
       with:
           ignore: "F401"
-          exclude: "src/ignoreme.py"
+          exclude: /fastapi/lib/, /.ipynb_checkpoints/
           max-line-length: "200"
