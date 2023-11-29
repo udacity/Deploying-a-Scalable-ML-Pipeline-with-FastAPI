@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest # Which OS this runs on, you can also build on Windows or MacOS.
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.11.5] # You can build against multiple Python versions.
+        python-version: [3.11.5] # You can build against multiple Python versions.
 
     steps:
     - uses: actions/checkout@v2 # Calling a pre-built GitHub Action which allows your Action to access your repository.
