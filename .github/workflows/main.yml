@@ -25,6 +25,5 @@ jobs:
       run: |
         pytest
     - name: Run flake8
-      run: |
-        find . -name "*.py" | xargs flake8
+      run: flake8 --exclude=fastapi/
         
