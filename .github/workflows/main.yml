@@ -25,5 +25,4 @@ jobs:
       run: |
         pytest
     - name: Test with Flake8 # Final action which runs Flake8. If any test fails, then this Action fails.
-      run: |
-        Flake8
+      uses: py-actions/flake8@v2
