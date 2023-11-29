@@ -24,8 +24,7 @@ jobs:
     - name: Test with pytest # Final action which runs pytest. If any test fails, then this Action fails.
       run: |
         pytest
-    - name: Test with Flake8 # Final action which runs Flake8. If any test fails, then this Action fails.
-      uses: py-actions/flake8@v2
-      with:
-          ignore: "F401"
-          max-line-length: "200"
+    - name: Run flake8
+      run: |
+        find . -name "*.py" | xargs flake8
+        
