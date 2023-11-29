@@ -5,7 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
 import joblib
+
 # TODO: add necessary import
+
 
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
@@ -23,10 +25,12 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-    model = RandomForestClassifier(n_estimators=100, max_depth=5) #inital model has the highest f1 score of 0.5778
+    model = RandomForestClassifier(
+        n_estimators=100, max_depth=5
+    )  # inital model has the highest f1 score of 0.5778
     model.fit(X_train, y_train)
-    #model = LogisticRegression(random_state=0).fit(X_train, y_train) # this model returned a f1 score of 0.4066
-    #model = LinearRegression().fit(X_train, y_train) # this model returned an error Classification metrics can't handle a mix of binary and continuous targets
+    # model = LogisticRegression(random_state=0).fit(X_train, y_train) # this model returned a f1 score of 0.4066
+    # model = LinearRegression().fit(X_train, y_train) # this model returned an error Classification metrics can't handle a mix of binary and continuous targets
     return model
 
 
@@ -53,7 +57,7 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, X):
-    """ Run model inferences and return the predictions.
+    """Run model inferences and return the predictions.
 
     Inputs
     ------
@@ -69,8 +73,9 @@ def inference(model, X):
     predictions = model.predict(X)
     return predictions
 
+
 def save_model(model, path):
-    """ Serializes model to a file.
+    """Serializes model to a file.
 
     Inputs
     ------
@@ -79,14 +84,14 @@ def save_model(model, path):
     path : str
         Path to save pickle file.
     """
-    with open(path, 'wb') as file:
+    with open(path, "wb") as file:
         pickle.dump(model, file)
 
 
 def load_model(path):
-    """ Loads pickle file from `path` and returns it."""
-    #print('this is the path received to load the model',path) #used for testing location of model recieved in function.
-    with open(path, 'rb') as file:
+    """Loads pickle file from `path` and returns it."""
+    # print('this is the path received to load the model',path) #used for testing location of model recieved in function.
+    with open(path, "rb") as file:
         loaded_model = pickle.load(file)
     return loaded_model
 
@@ -94,7 +99,7 @@ def load_model(path):
 def performance_on_categorical_slice(
     data, column_name, slice_value, categorical_features, label, encoder, lb, model
 ):
-    """ Computes the model metrics on a slice of the data specified by a column name and
+    """Computes the model metrics on a slice of the data specified by a column name and
 
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or
@@ -127,9 +132,11 @@ def performance_on_categorical_slice(
     fbeta : float
 
     """
-    #print(data.head(5)) this was for testing data getting here to this function
-    #X, categorical_features=[], label=None, training=True, encoder=None, lb=None
-    X_slice, y_slice, _, _ = process_data(data, categorical_features, label,  training=False,  encoder=encoder,  lb=lb)
-    preds = inference(model, X_slice) #model.predict(X_slice)
+    # print(data.head(5)) this was for testing data getting here to this function
+    # X, categorical_features=[], label=None, training=True, encoder=None, lb=None
+    X_slice, y_slice, _, _ = process_data(
+        data, categorical_features, label, training=False, encoder=encoder, lb=lb
+    )
+    preds = inference(model, X_slice)  # model.predict(X_slice)
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
     return precision, recall, fbeta

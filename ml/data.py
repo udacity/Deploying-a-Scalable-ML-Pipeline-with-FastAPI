@@ -5,7 +5,7 @@ from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
 ):
-    """ Process the data used in the machine learning pipeline.
+    """Process the data used in the machine learning pipeline.
 
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or
@@ -69,8 +69,9 @@ def process_data(
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
 
+
 def apply_label(inference):
-    """ Convert the binary label in a single inference sample into string output."""
+    """Convert the binary label in a single inference sample into string output."""
     if inference[0] == 1:
         return ">50K"
     elif inference[0] == 0:

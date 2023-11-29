@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
 
+
 # DO NOT MODIFY
 class Data(BaseModel):
     age: int = Field(..., example=37)
@@ -27,23 +28,26 @@ class Data(BaseModel):
     native_country: str = Field(..., example="United-States", alias="native-country")
 
 
-#project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+# project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
 project_path = os.getcwd()
-encoder_path = os.path.join(project_path, "model", "encoder.pkl") # TODO: enter the path for the saved encoder 
+encoder_path = os.path.join(
+    project_path, "model", "encoder.pkl"
+)  # TODO: enter the path for the saved encoder
 encoder = load_model(encoder_path)
 
 model_path = os.path.join(project_path, "model", "model.pkl")
 model = load_model(model_path)
 
 # TODO: create a RESTful API using FastAPI
-app = FastAPI() # your code here
+app = FastAPI()  # your code here
+
 
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
 async def get_root():
-    """ Say hello!"""
+    """Say hello!"""
     return {"greeting": "Hello World!"}
-    
+
 
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
@@ -66,13 +70,13 @@ async def post_inference(data: Data):
         "sex",
         "native-country",
     ]
-    
+
     data_processed, _, _, _ = process_data(
-        data, 
-        categorical_features=cat_features, 
-        training=False,  
-        encoder=encoder
+        data, categorical_features=cat_features, training=False, encoder=encoder
     )
-    _inference = (model, data_processed)# your code here to predict the result using data_processed
+    _inference = (
+        model,
+        data_processed,
+    )  # your code here to predict the result using data_processed
     print(_inference)
     return {"result": apply_label(_inference)}

@@ -15,23 +15,35 @@ from ml.model import (
     train_model,
 )
 
+
 # TODO: implement the first test. Change the function name and input as needed
 def test_one():
     """
     # add description for the first test
     """
-    #to get the current working directory
+    # to get the current working directory
     project_path = os.getcwd()
     data_path = os.path.join(project_path, "data", "census.csv")
-    print('this is the path', data_path)
+    print("this is the path", data_path)
     df = pd.read_csv(data_path, header=0)
 
     # Assuming you have a variable `df` that represents your dataframe
-    expected_columns = ["workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "native-country"]
-    
+    expected_columns = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+    ]
+
     # Check if all expected columns are present in the dataframe
-    assert all(col in df.columns for col in expected_columns), "Missing columns in the dataframe"
-    
+    assert all(
+        col in df.columns for col in expected_columns
+    ), "Missing columns in the dataframe"
+
 
 # TODO: implement the second test. Change the function name and input as needed
 def test_two():
@@ -42,12 +54,12 @@ def test_two():
     # Assuming you have X_train and y_train as your training data
     project_path = os.getcwd()
     data_path = os.path.join(project_path, "data", "census.csv")
-    print('this is the path', data_path)
+    print("this is the path", data_path)
     data = pd.read_csv(data_path, header=0)
 
     # Optional enhancement, use K-fold cross validation instead of a train-test split.
     train, test = train_test_split(data, test_size=0.2, random_state=42)
-    
+
     # DO NOT MODIFY
     cat_features = [
         "workclass",
@@ -59,7 +71,7 @@ def test_two():
         "sex",
         "native-country",
     ]
-    
+
     X_train, y_train, encoder, lb = process_data(
         test,
         categorical_features=cat_features,
@@ -68,7 +80,7 @@ def test_two():
         encoder=None,
         lb=None,
     )
-    
+
     X_test, y_test, _, _ = process_data(
         test,
         categorical_features=cat_features,
@@ -77,7 +89,7 @@ def test_two():
         encoder=encoder,  # Pass the encoder object used during training
         lb=lb,
     )
-    
+
     model = train_model(X_train, y_train)
 
     # Check if the returned model is of the expected type
@@ -91,8 +103,8 @@ def test_three():
     """
     project_path = os.getcwd()
     data_path = os.path.join(project_path, "slice_output.txt")
-    with open(data_path, 'r') as file:
+    with open(data_path, "r") as file:
         file_content = file.read()
-    
+
     # Check if the file contains data
     assert len(file_content) > 0, "Output file is empty"
