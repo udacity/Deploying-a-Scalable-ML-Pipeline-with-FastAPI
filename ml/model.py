@@ -2,6 +2,8 @@ import pickle
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from ml.data import process_data
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 import joblib
 # TODO: add necessary import
 
@@ -21,8 +23,10 @@ def train_model(X_train, y_train):
     model
         Trained machine learning model.
     """
-    model = RandomForestClassifier(n_estimators=100, max_depth=5)
+    model = RandomForestClassifier(n_estimators=100, max_depth=5) #inital model has the highest f1 score of 0.5778
     model.fit(X_train, y_train)
+    #model = LogisticRegression(random_state=0).fit(X_train, y_train) # this model returned a f1 score of 0.4066
+    #model = LinearRegression().fit(X_train, y_train) # this model returned an error Classification metrics can't handle a mix of binary and continuous targets
     return model
 
 
@@ -81,7 +85,7 @@ def save_model(model, path):
 
 def load_model(path):
     """ Loads pickle file from `path` and returns it."""
-    print('this is the path received to load the model',path)
+    #print('this is the path received to load the model',path) #used for testing location of model recieved in function.
     with open(path, 'rb') as file:
         loaded_model = pickle.load(file)
     return loaded_model

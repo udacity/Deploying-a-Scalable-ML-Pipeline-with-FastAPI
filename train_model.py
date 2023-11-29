@@ -16,7 +16,7 @@ from ml.model import (
 #project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
 project_path = os.getcwd()
 data_path = os.path.join(project_path, "data", "census.csv")
-print('this is the path', data_path)
+#print('this is the path', data_path) used while error testing
 data = pd.read_csv(data_path, header=0)
 
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
@@ -51,40 +51,41 @@ X_test, y_test, _, _ = process_data(
     encoder=encoder,  # Pass the encoder object used during training
     lb=lb,
 )
-print('model set xtran ytrain')
+#print('model set xtran ytrain') used while error testing
 model = train_model(X_train, y_train)
 
 # save the model and the encoder
-print('this is still the project path', project_path)
+#print('this is still the project path', project_path) used while error testing
 model_path = os.path.join(project_path, "model", "model.pkl")
 save_model(model, model_path)
 encoder_path = os.path.join(project_path, "model", "encoder.pkl")
 save_model(encoder, encoder_path)
 
 # load the model
-print('this is the model path',model_path)
+#print('this is the model path',model_path) used while error testing
 model = load_model(
     model_path
 ) 
 
-print('before preds')
+print('Before preds')
 preds = inference(model, X_test)
-print('after preds')
+print('After preds')
 print(preds)
 
-print('before compute')
+print('Before compute')
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)
 print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}")
-print('after compute')
+print('After compute')
 
+print('Before iterate through the categorical features')
 # iterate through the categorical features
 for col in cat_features:
-    print(col)
+    #print(col) used for testing which columns are being processed
     # iterate through the unique values in one categorical feature
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(test, col, slicevalue, cat_features, "salary", encoder, lb, model)
         with open(project_path + 'slice_output.txt', "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)
-            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)
+            print(f"Precision: {p:.4f} | Recall: {r:.4f} | F1: {fb:.4f}", file=f)            

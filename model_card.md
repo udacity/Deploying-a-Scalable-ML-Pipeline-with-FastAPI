@@ -5,6 +5,8 @@ For additional information see the Model Card paper: https://arxiv.org/pdf/1810.
 ## Model Details
 Here in this script we use sklearn RandomForestClassifier for our model. A random forest classifier. 
 A random forest is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting. The sub-sample size is controlled with the max_samples parameter if bootstrap=True (default), otherwise the whole dataset is used to build each tree. Here is a link to more documentation on sklearns RandomForestClassifier https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html.
+
+Here we also looked into some additional models that did not perform as well we tested a LogisticRegression model which returned a f1 score of 0.4066 so we when with the random forest calssifier model.
 ## Intended Use
 The intended use of this model is to be used on the census data to download the census data or review more information about the data you can visit this site. https://archive.ics.uci.edu/dataset/20/census+income.
 ## Training Data
