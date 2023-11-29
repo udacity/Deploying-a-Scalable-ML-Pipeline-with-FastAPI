@@ -26,3 +26,9 @@ jobs:
         pytest
     - name: Test with Flake8 # Final action which runs Flake8. If any test fails, then this Action fails.
       uses: py-actions/flake8@v2
+      with:
+          ignore: "F401"
+          exclude: "src/ignoreme.py"
+          max-line-length: "200"
+          path: "src"
+          plugins: "flake8-bugbear==22.1.11 flake8-black"
