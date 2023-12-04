@@ -10,7 +10,7 @@ r = requests.get("http://127.0.0.1:8000")
 print("Status Code:", r.status_code)
 
 # Print the welcome message
-print("Welcome Message:", r.json())
+print("Welcome Message:", r.text)
 
 data = {
     "age": 37,
@@ -39,4 +39,4 @@ response = requests.post(r, json=data)
 print("Status Code:", response.status_code)
 
 # Print the result
-print("Result:", response.json())
+print("Result:", response.text)
