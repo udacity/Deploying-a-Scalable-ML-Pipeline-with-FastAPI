@@ -45,7 +45,6 @@ app = FastAPI()
 async def get_root():
     """Say hello!"""
     return {"Result": "Hello from the API!"}
-
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
 async def post_inference(data: Data):
