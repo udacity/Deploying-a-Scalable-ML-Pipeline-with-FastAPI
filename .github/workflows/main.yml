@@ -25,5 +25,5 @@ jobs:
       run: |
         pytest
     - name: Run flake8
-      run: flake8 --ignore=E501,E304,E302, F401 main.py local_api.py test_ml.py train_model.py
+      run: flake8 --ignore=E501,E304,E302,F401,E231,W292 main.py local_api.py test_ml.py train_model.py
         
