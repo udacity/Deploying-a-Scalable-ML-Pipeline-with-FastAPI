@@ -27,18 +27,19 @@ class Data(BaseModel):
 
 
 # TODO: enter the path for the saved encoder
-path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/encoder.pkl' 
+path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/encoder.pkl'
 encoder = load_model(path)
 
 # TODO: enter the path for the saved model
-path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/model.pkl' 
+path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/model.pkl'
 model = load_model(path)
 
 # TODO: create a RESTful API using FastAPI
-app = FastAPI() # your code here
+app = FastAPI()
 
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
+
 async def get_root():
     """Say hello!"""
     return {"Result": "Hello from the API!"}
@@ -65,9 +66,10 @@ async def post_inference(data: Data):
         "sex",
         "native-country",
     ]
+    
     data_processed, _, _, _ = process_data(
-        data, cat_features, training = False, encoder=encoder,
+        data, cat_features, training = False, encoder = encoder,
     )
     # your code here to predict the result using data_processed
-    _inference = inference(model, data_processed) 
+    _inference = inference(model, data_processed)
     return {"result": apply_label(_inference)}
