@@ -5,7 +5,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 from ml.data import process_data
-
+from ml.model import (
+    compute_model_metrics,
+    inference,
+    load_model,
+    performance_on_categorical_slice,
+    save_model,
+    train_model,
+)
 # TODO: implement the first test. Change the function name and input as needed
 def test_one():
     """
