@@ -37,8 +37,10 @@ model = load_model(path)
 # TODO: create a RESTful API using FastAPI
 app = FastAPI()
 
+
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
+
 
 async def get_root():
     """Say hello!"""
@@ -67,9 +69,7 @@ async def post_inference(data: Data):
         "native-country",
     ]
     
-    data_processed, _, _, _ = process_data(
-        data, cat_features, training = False, encoder = encoder,
-    )
+    data_processed, _, _, _ = process_data(data,cat_features,training=False,encoder=encoder,)
     # your code here to predict the result using data_processed
     _inference = inference(model, data_processed)
     return {"result": apply_label(_inference)}
