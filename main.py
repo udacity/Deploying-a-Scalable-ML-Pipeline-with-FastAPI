@@ -34,7 +34,7 @@ encoder = load_model(path)
 path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/model.pkl'
 model = load_model(path)
 
-# TODO: create a RESTful API using FastAPI quick update
+# TODO: create a RESTful API using FastAPI
 app = FastAPI()
 
 
