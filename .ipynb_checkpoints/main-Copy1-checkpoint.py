@@ -1,11 +1,12 @@
 import os
-
+import joblib
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
+
 
 # DO NOT MODIFY
 class Data(BaseModel):
@@ -26,27 +27,32 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/encoder.pkl' # TODO: enter the path for the saved encoder 
-encoder = load_model(path)
 
-path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/model.pkl' # TODO: enter the path for the saved model 
-model = load_model(path)
+# project_path = '/home/lylewilliams/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/'
+project_path = os.getcwd()
+encoder_path = os.path.join(
+    project_path, "model", "encoder.pkl"
+)  # TODO: enter the path for the saved encoder
+encoder = load_model(encoder_path)
+model_path = os.path.join(project_path, "model", "model.pkl")
+model = load_model(model_path)
 
-# TODO: create a RESTful API using FastAPI
-app = FastAPI() # your code here
+app = FastAPI()  # here we instantiate the class - this class is our app
 
 # TODO: create a GET on the root giving a welcome message
 @app.get("/")
-async def get_root():
+async def say_hello():
     """Say hello!"""
     return {"Result": "Hello from the API!"}
 
 
 # TODO: create a POST on a different path that does model inference
 @app.post("/data/")
+#@app.post("/")
 async def post_inference(data: Data):
     # DO NOT MODIFY: turn the Pydantic model into a dict.
-    data_dict = data.dict()
+    #data_dict = data.dict() #Had to update this to resolve error AttributeError: 'dict' object has no attribute 'dict'
+    data_dict = data
     # DO NOT MODIFY: clean up the dict to turn it into a Pandas DataFrame.
     # The data has names with hyphens and Python does not allow those as variable names.
     # Here it uses the functionality of FastAPI/Pydantic/etc to deal with this.
@@ -63,12 +69,19 @@ async def post_inference(data: Data):
         "sex",
         "native-country",
     ]
+
+    project_path = os.getcwd()
+    encoder_path = os.path.join(project_path, "model", "encoder.pkl")
+    encoder = load_model(encoder_path)
+    
     data_processed, _, _, _ = process_data(
-        # your code here
-        # use data as data input
-        # use training = False
-        # do not need to pass lb as input
         data, cat_features, training = False, encoder=encoder,  # Pass the encoder object used during training
     )
-    _inference = inference(model, data_processed) # your code here to predict the result using data_processed
+
+    model = joblib.load(project_path + "/model/model.pkl")
+    
+    _inference = inference(model, data_processed)
+
+    x = apply_label(_inference)
+    
     return {"result": apply_label(_inference)}
