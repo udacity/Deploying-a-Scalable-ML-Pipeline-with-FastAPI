@@ -1,0 +1,29 @@
+name: Python package # Name of the Action.
+
+on: [push] # When this action runs.
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest # Which OS this runs on, you can also build on Windows or MacOS.
+    strategy:
+      matrix:
+        python-version: [3.11.5] # You can build against multiple Python versions.
+
+    steps:
+    - uses: actions/checkout@v2 # Calling a pre-built GitHub Action which allows your Action to access your repository.
+    - name: Set up Python ${{ matrix.python-version }} # Name of an action that sets up Python.
+      uses: actions/setup-python@v2 # A pre-built GitHub Action that sets up a Python environment.
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies # The first step that isn't just calling another action.
+      run: |
+        python -m pip install --upgrade pip # Upgrade pip to the latest version.
+        pip install pytest # Install pytest.
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi # If we have a requirements.txt, then install it.
+    - name: Test with pytest # Final action which runs pytest. If any test fails, then this Action fails.
+      run: |
+        pytest
+    - name: Run flake8
+      run: flake8 --ignore=E501,E304,E302,F401,E231,W292 main.py local_api.py test_ml.py train_model.py
+        

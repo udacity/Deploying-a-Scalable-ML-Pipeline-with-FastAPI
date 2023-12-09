@@ -1,0 +1,6 @@
+[core]
+    remote = localremote
+['remote "localremote"']
+    url = ../../local_remote_dir
+['remote "driveremote"']
+    url = gdrive://1PQFJ4IqSkAQhiGVPmPnimU2k6SFvq72j
