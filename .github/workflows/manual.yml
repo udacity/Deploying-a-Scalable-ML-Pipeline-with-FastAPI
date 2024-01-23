@@ -29,7 +29,4 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-me":"Github PR"}], "customfield_16449":"https://classroom.udacity.com/", "customfield_16450":"Resolve the PR", "priority":{"id": "4"}}'
 
-    - name: Log created issue
-      run: echo "Issue ${{ steps.create.outputs.issue }} was created"
