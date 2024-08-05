@@ -1,46 +1,31 @@
-# Workflow to ensure whenever a Github PR is submitted, 
-# a JIRA ticket gets created automatically. 
-name: Manual Workflow
+name: Python CI
 
-# Controls when the action will run. 
-on:
-  # Triggers the workflow on pull request events but only for the master branch
-  pull_request_target:
-    types: [opened, reopened]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push]
 
 jobs:
-  test-transition-issue:
-    name: Convert Github Issue to Jira Issue
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.10] 
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
-    - name: Login
-      uses: atlassian/gajira-login@master
-      env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-        
-    - name: Create NEW JIRA ticket
-      id: create
-      uses: atlassian/gajira-create@v2.0.1
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
       with:
-        project: CONUPDATE
-        issuetype: Task
-        summary: |
-          Github PR [Assign the ND component]  | Repo: ${{ github.repository }}  | PR# ${{github.event.number}}
-        description: |
-           Repo link: https://github.com/${{ github.repository }}   
-           PR no. ${{ github.event.pull_request.number }} 
-           PR title: ${{ github.event.pull_request.title }}  
-           PR description: ${{ github.event.pull_request.description }}  
-           In addition, please resolve other issues, if any. 
-        fields: '{"components": [{"name":"Github PR"}], "customfield_16449":"https://classroom.udacity.com/", "customfield_16450":"Resolve the PR", "priority":{"id": "4"}}'
-
-    - name: Log created issue
-      run: echo "Issue ${{ steps.create.outputs.issue }} was created"
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest test_ml.py -v
