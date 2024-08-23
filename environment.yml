@@ -11,4 +11,4 @@ dependencies:
   - fastapi=0.112.0
   - uvicorn=0.30.5
   - gunicorn=22.0.0
-  - pip=22.0.2
+  - pip=23.2.1

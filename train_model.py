@@ -16,11 +16,11 @@ from ml.model import (
 project_path = "Your path here"
 data_path = os.path.join(project_path, "data", "census.csv")
 print(data_path)
-data = # your code here
+data = None # your code here
 
 # TODO: split the provided data to have a train dataset and a test dataset
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
-train, test = # Your code here
+train, test = None, None# Your code here
 
 # DO NOT MODIFY
 cat_features = [
@@ -52,7 +52,7 @@ X_test, y_test, _, _ = process_data(
 )
 
 # TODO: use the train_model function to train the model on the training dataset
-model = # your code here
+model = None # your code here
 
 # save the model and the encoder
 model_path = os.path.join(project_path, "model", "model.pkl")
@@ -66,7 +66,7 @@ model = load_model(
 ) 
 
 # TODO: use the inference function to run the model inferences on the test dataset.
-preds = # your code here
+preds = None # your code here
 
 # Calculate and print the metrics
 p, r, fb = compute_model_metrics(y_test, preds)

@@ -3,7 +3,7 @@ import json
 import requests
 
 # TODO: send a GET using the URL http://127.0.0.1:8000
-r = # Your code here
+r = None # Your code here
 
 # TODO: print the status code
 # print()
@@ -30,7 +30,7 @@ data = {
 }
 
 # TODO: send a POST using the data above
-r = # Your code here
+r = None # Your code here
 
 # TODO: print the status code
 # print()
