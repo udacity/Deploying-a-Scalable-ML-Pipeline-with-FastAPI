@@ -71,7 +71,6 @@ def process_data(
 
 def apply_label(inference):
     """ Convert the binary label in a single inference sample into string output."""
-    if inference[0] == 1:
-        return ">50K"
-    elif inference[0] == 0:
-        return "<=50K"
+    if isinstance(inference, (list, np.ndarray)):
+        inference = inference[0]
+    return "<=50K" if inference == 0 else ">50K"
