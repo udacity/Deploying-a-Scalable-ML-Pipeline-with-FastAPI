@@ -111,7 +111,9 @@ def test_multiindex_get_loc(request, lexsort_depth, keys, frame_fixture, cols):
                 assert return_value is None
                 if len(right) == 1:  # single hit
                     right = Series(
-                        right["jolia"].values, name=right.index[0], index=["jolia"]
+                        right["jolia"].values,
+                        name=right.index[0],
+                        index=["jolia"],
                     )
                     tm.assert_series_equal(mi.loc[key[: i + 1]], right)
                 else:  # multi hit

@@ -16,17 +16,30 @@ def test_no_mlk_before_1986():
     class MLKCalendar(AbstractHolidayCalendar):
         rules = [USMartinLutherKingJr]
 
-    holidays = MLKCalendar().holidays(start="1984", end="1988").to_pydatetime().tolist()
+    holidays = (
+        MLKCalendar()
+        .holidays(start="1984", end="1988")
+        .to_pydatetime()
+        .tolist()
+    )
 
     # Testing to make sure holiday is not incorrectly observed before 1986.
-    assert holidays == [datetime(1986, 1, 20, 0, 0), datetime(1987, 1, 19, 0, 0)]
+    assert holidays == [
+        datetime(1986, 1, 20, 0, 0),
+        datetime(1987, 1, 19, 0, 0),
+    ]
 
 
 def test_memorial_day():
     class MemorialDay(AbstractHolidayCalendar):
         rules = [USMemorialDay]
 
-    holidays = MemorialDay().holidays(start="1971", end="1980").to_pydatetime().tolist()
+    holidays = (
+        MemorialDay()
+        .holidays(start="1971", end="1980")
+        .to_pydatetime()
+        .tolist()
+    )
 
     # Fixes 5/31 error and checked manually against Wikipedia.
     assert holidays == [
@@ -48,8 +61,12 @@ def test_federal_holiday_inconsistent_returntype():
     cal1 = USFederalHolidayCalendar()
     cal2 = USFederalHolidayCalendar()
 
-    results_2018 = cal1.holidays(start=datetime(2018, 8, 1), end=datetime(2018, 8, 31))
-    results_2019 = cal2.holidays(start=datetime(2019, 8, 1), end=datetime(2019, 8, 31))
+    results_2018 = cal1.holidays(
+        start=datetime(2018, 8, 1), end=datetime(2018, 8, 31)
+    )
+    results_2019 = cal2.holidays(
+        start=datetime(2019, 8, 1), end=datetime(2019, 8, 31)
+    )
     expected_results = DatetimeIndex([], dtype="datetime64[ns]", freq=None)
 
     # Check against expected results to ensure both date

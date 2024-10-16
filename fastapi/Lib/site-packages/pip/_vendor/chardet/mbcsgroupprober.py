@@ -41,7 +41,9 @@ from .utf8prober import UTF8Prober
 
 
 class MBCSGroupProber(CharSetGroupProber):
-    def __init__(self, lang_filter: LanguageFilter = LanguageFilter.NONE) -> None:
+    def __init__(
+        self, lang_filter: LanguageFilter = LanguageFilter.NONE
+    ) -> None:
         super().__init__(lang_filter=lang_filter)
         self.probers = [
             UTF8Prober(),

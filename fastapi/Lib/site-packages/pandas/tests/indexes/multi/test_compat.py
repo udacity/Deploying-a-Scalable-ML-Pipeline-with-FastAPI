@@ -103,7 +103,9 @@ def test_boxable_categorical_values():
         ]
     ).values
     tm.assert_numpy_array_equal(result, expected)
-    result = pd.DataFrame({"a": ["a", "b", "c"], "b": cat, "c": np.array(cat)}).values
+    result = pd.DataFrame(
+        {"a": ["a", "b", "c"], "b": cat, "c": np.array(cat)}
+    ).values
     expected = pd.DataFrame(
         {
             "a": ["a", "b", "c"],

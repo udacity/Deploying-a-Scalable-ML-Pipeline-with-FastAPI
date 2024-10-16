@@ -7,7 +7,9 @@ from pandas import (
 )
 
 
-def test_is_monotonic_increasing_lexsorted(lexsorted_two_level_string_multiindex):
+def test_is_monotonic_increasing_lexsorted(
+    lexsorted_two_level_string_multiindex,
+):
     # string ordering
     mi = lexsorted_two_level_string_multiindex
     assert mi.is_monotonic_increasing is False
@@ -17,7 +19,9 @@ def test_is_monotonic_increasing_lexsorted(lexsorted_two_level_string_multiindex
 
 
 def test_is_monotonic_increasing():
-    i = MultiIndex.from_product([np.arange(10), np.arange(10)], names=["one", "two"])
+    i = MultiIndex.from_product(
+        [np.arange(10), np.arange(10)], names=["one", "two"]
+    )
     assert i.is_monotonic_increasing is True
     assert i._is_strictly_monotonic_increasing is True
     assert Index(i.values).is_monotonic_increasing is True
@@ -163,7 +167,8 @@ def test_is_monotonic_decreasing():
 
 def test_is_strictly_monotonic_increasing():
     idx = MultiIndex(
-        levels=[["bar", "baz"], ["mom", "next"]], codes=[[0, 0, 1, 1], [0, 0, 0, 1]]
+        levels=[["bar", "baz"], ["mom", "next"]],
+        codes=[[0, 0, 1, 1], [0, 0, 0, 1]],
     )
     assert idx.is_monotonic_increasing is True
     assert idx._is_strictly_monotonic_increasing is False
@@ -171,16 +176,23 @@ def test_is_strictly_monotonic_increasing():
 
 def test_is_strictly_monotonic_decreasing():
     idx = MultiIndex(
-        levels=[["baz", "bar"], ["next", "mom"]], codes=[[0, 0, 1, 1], [0, 0, 0, 1]]
+        levels=[["baz", "bar"], ["next", "mom"]],
+        codes=[[0, 0, 1, 1], [0, 0, 0, 1]],
     )
     assert idx.is_monotonic_decreasing is True
     assert idx._is_strictly_monotonic_decreasing is False
 
 
-@pytest.mark.parametrize("attr", ["is_monotonic_increasing", "is_monotonic_decreasing"])
+@pytest.mark.parametrize(
+    "attr", ["is_monotonic_increasing", "is_monotonic_decreasing"]
+)
 @pytest.mark.parametrize(
     "values",
-    [[(np.nan,), (1,), (2,)], [(1,), (np.nan,), (2,)], [(1,), (2,), (np.nan,)]],
+    [
+        [(np.nan,), (1,), (2,)],
+        [(1,), (np.nan,), (2,)],
+        [(1,), (2,), (np.nan,)],
+    ],
 )
 def test_is_monotonic_with_nans(values, attr):
     # GH: 37220

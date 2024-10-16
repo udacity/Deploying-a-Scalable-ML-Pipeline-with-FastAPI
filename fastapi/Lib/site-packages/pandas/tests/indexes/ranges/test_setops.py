@@ -134,7 +134,9 @@ class TestRangeIndexSetOps:
     def test_union_noncomparable(self, sort):
         # corner case, Index with non-int64 dtype
         index = RangeIndex(start=0, stop=20, step=2)
-        other = Index([datetime.now() + timedelta(i) for i in range(4)], dtype=object)
+        other = Index(
+            [datetime.now() + timedelta(i) for i in range(4)], dtype=object
+        )
         result = index.union(other, sort=sort)
         expected = Index(np.concatenate((index, other)))
         tm.assert_index_equal(result, expected)
@@ -283,7 +285,9 @@ class TestRangeIndexSetOps:
         ],
         ids=lambda x: repr(x) if isinstance(x, RangeIndex) else x,
     )
-    def test_union_sorted(self, idx1, idx2, expected_sorted, expected_notsorted):
+    def test_union_sorted(
+        self, idx1, idx2, expected_sorted, expected_notsorted
+    ):
         res1 = idx1.union(idx2, sort=None)
         tm.assert_index_equal(res1, expected_sorted, exact=True)
 

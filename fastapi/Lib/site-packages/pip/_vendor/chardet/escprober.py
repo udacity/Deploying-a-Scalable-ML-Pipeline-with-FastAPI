@@ -45,7 +45,9 @@ class EscCharSetProber(CharSetProber):
     identify these encodings.
     """
 
-    def __init__(self, lang_filter: LanguageFilter = LanguageFilter.NONE) -> None:
+    def __init__(
+        self, lang_filter: LanguageFilter = LanguageFilter.NONE
+    ) -> None:
         super().__init__(lang_filter=lang_filter)
         self.coding_sm = []
         if self.lang_filter & LanguageFilter.CHINESE_SIMPLIFIED:
@@ -95,7 +97,9 @@ class EscCharSetProber(CharSetProber):
                         return self.state
                 elif coding_state == MachineState.ITS_ME:
                     self._state = ProbingState.FOUND_IT
-                    self._detected_charset = coding_sm.get_coding_state_machine()
+                    self._detected_charset = (
+                        coding_sm.get_coding_state_machine()
+                    )
                     self._detected_language = coding_sm.language
                     return self.state
 

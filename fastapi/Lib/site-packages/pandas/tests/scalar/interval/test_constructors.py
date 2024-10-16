@@ -34,7 +34,8 @@ class TestIntervalConstructors:
             Interval(1, 0)
 
     @pytest.mark.parametrize(
-        "tz_left, tz_right", [(None, "UTC"), ("UTC", None), ("UTC", "US/Eastern")]
+        "tz_left, tz_right",
+        [(None, "UTC"), ("UTC", None), ("UTC", "US/Eastern")],
     )
     def test_constructor_errors_tz(self, tz_left, tz_right):
         # GH#18538

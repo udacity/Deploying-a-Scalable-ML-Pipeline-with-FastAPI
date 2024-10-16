@@ -60,7 +60,10 @@ class LogRender:
                 log_time_display = time_format(log_time)
             else:
                 log_time_display = Text(log_time.strftime(time_format))
-            if log_time_display == self._last_time and self.omit_repeated_times:
+            if (
+                log_time_display == self._last_time
+                and self.omit_repeated_times
+            ):
                 row.append(Text(" " * len(log_time_display)))
             else:
                 row.append(log_time_display)
@@ -78,7 +81,11 @@ class LogRender:
                 path_text.append(":")
                 path_text.append(
                     f"{line_no}",
-                    style=f"link file://{link_path}#{line_no}" if link_path else "",
+                    style=(
+                        f"link file://{link_path}#{line_no}"
+                        if link_path
+                        else ""
+                    ),
                 )
             row.append(path_text)
 

@@ -34,7 +34,9 @@ def test_insert(idx):
     with pytest.raises(ValueError, match=msg):
         idx.insert(0, ("foo2",))
 
-    left = pd.DataFrame([["a", "b", 0], ["b", "d", 1]], columns=["1st", "2nd", "3rd"])
+    left = pd.DataFrame(
+        [["a", "b", 0], ["b", "d", 1]], columns=["1st", "2nd", "3rd"]
+    )
     left.set_index(["1st", "2nd"], inplace=True)
     ts = left["3rd"].copy(deep=True)
 
@@ -197,7 +199,9 @@ def test_repeat():
     names = np.array(["foo", "bar"])
 
     m = MultiIndex.from_product([numbers, names], names=names)
-    expected = MultiIndex.from_product([numbers, names.repeat(reps)], names=names)
+    expected = MultiIndex.from_product(
+        [numbers, names.repeat(reps)], names=names
+    )
     tm.assert_index_equal(m.repeat(reps), expected)
 
 

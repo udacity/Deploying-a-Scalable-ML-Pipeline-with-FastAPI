@@ -70,7 +70,9 @@ class CalamineReader(BaseExcelReader["CalamineWorkbook"]):
         return CalamineWorkbook
 
     def load_workbook(
-        self, filepath_or_buffer: FilePath | ReadBuffer[bytes], engine_kwargs: Any
+        self,
+        filepath_or_buffer: FilePath | ReadBuffer[bytes],
+        engine_kwargs: Any,
     ) -> CalamineWorkbook:
         from python_calamine import load_workbook
 

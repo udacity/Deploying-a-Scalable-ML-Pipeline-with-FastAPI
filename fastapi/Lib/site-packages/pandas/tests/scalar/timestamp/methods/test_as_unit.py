@@ -40,7 +40,9 @@ class TestTimestampAsUnit:
     def test_as_unit_overflows(self):
         # microsecond that would be just out of bounds for nano
         us = 9223372800000000
-        ts = Timestamp._from_value_and_reso(us, NpyDatetimeUnit.NPY_FR_us.value, None)
+        ts = Timestamp._from_value_and_reso(
+            us, NpyDatetimeUnit.NPY_FR_us.value, None
+        )
 
         msg = "Cannot cast 2262-04-12 00:00:00 to unit='ns' without overflow"
         with pytest.raises(OutOfBoundsDatetime, match=msg):
@@ -60,7 +62,9 @@ class TestTimestampAsUnit:
         assert res._creso == NpyDatetimeUnit.NPY_FR_ms.value
         assert res._value == 1
 
-        with pytest.raises(ValueError, match="Cannot losslessly convert units"):
+        with pytest.raises(
+            ValueError, match="Cannot losslessly convert units"
+        ):
             ts.as_unit("ms", round_ok=False)
 
     def test_as_unit_non_nano(self):
@@ -69,7 +73,14 @@ class TestTimestampAsUnit:
         assert ts.year == 1970
         assert ts.month == 1
         assert ts.day == 2
-        assert ts.hour == ts.minute == ts.second == ts.microsecond == ts.nanosecond == 0
+        assert (
+            ts.hour
+            == ts.minute
+            == ts.second
+            == ts.microsecond
+            == ts.nanosecond
+            == 0
+        )
 
         res = ts.as_unit("s")
         assert res._value == 24 * 3600

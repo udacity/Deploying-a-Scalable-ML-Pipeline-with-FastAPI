@@ -28,7 +28,9 @@ class MockEncoding:
             raise val
 
 
-@pytest.mark.parametrize("empty,filled", [["stdin", "stdout"], ["stdout", "stdin"]])
+@pytest.mark.parametrize(
+    "empty,filled", [["stdin", "stdout"], ["stdout", "stdin"]]
+)
 def test_detect_console_encoding_from_stdout_stdin(monkeypatch, empty, filled):
     # Ensures that when sys.stdout.encoding or sys.stdin.encoding is used when
     # they have values filled.
@@ -65,7 +67,8 @@ def test_detect_console_encoding_fallback_to_default(monkeypatch, std, locale):
     # GH 21552
     with monkeypatch.context() as context:
         context.setattr(
-            "locale.getpreferredencoding", lambda: MockEncoding.raise_or_return(locale)
+            "locale.getpreferredencoding",
+            lambda: MockEncoding.raise_or_return(locale),
         )
         context.setattr("sys.stdout", MockEncoding(std))
         context.setattr("sys.getdefaultencoding", lambda: "sysDefaultEncoding")

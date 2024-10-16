@@ -42,7 +42,9 @@ class BaseConstructorsTests:
 
         # GH 33559 - empty index
         result = pd.Series(index=[], dtype=dtype)
-        expected = pd.Series([], index=pd.Index([], dtype="object"), dtype=dtype)
+        expected = pd.Series(
+            [], index=pd.Index([], dtype="object"), dtype=dtype
+        )
         tm.assert_series_equal(result, expected)
 
     def test_series_constructor_scalar_na_with_index(self, dtype, na_value):
@@ -112,7 +114,9 @@ class BaseConstructorsTests:
     def test_pandas_array_dtype(self, data):
         # ... but specifying dtype will override idempotency
         result = pd.array(data, dtype=np.dtype(object))
-        expected = pd.arrays.NumpyExtensionArray(np.asarray(data, dtype=object))
+        expected = pd.arrays.NumpyExtensionArray(
+            np.asarray(data, dtype=object)
+        )
         tm.assert_equal(result, expected)
 
     def test_construct_empty_dataframe(self, dtype):

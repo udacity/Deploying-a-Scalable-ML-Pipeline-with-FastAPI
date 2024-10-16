@@ -64,7 +64,11 @@ def test_categorical_dtype_single(all_parsers, dtype, request):
 1,a,3.4
 2,b,4.5"""
     expected = DataFrame(
-        {"a": [1, 1, 2], "b": Categorical(["a", "a", "b"]), "c": [3.4, 3.4, 4.5]}
+        {
+            "a": [1, 1, 2],
+            "b": Categorical(["a", "a", "b"]),
+            "c": [3.4, 3.4, 4.5],
+        }
     )
     if parser.engine == "pyarrow":
         mark = pytest.mark.xfail(
@@ -126,7 +130,9 @@ def test_categorical_dtype_high_cardinality_numeric(all_parsers, monkeypatch):
     expected = DataFrame({"a": Categorical(data, ordered=True)})
     with monkeypatch.context() as m:
         m.setattr(libparsers, "DEFAULT_BUFFER_HEURISTIC", heuristic)
-        actual = parser.read_csv(StringIO("a\n" + "\n".join(data)), dtype="category")
+        actual = parser.read_csv(
+            StringIO("a\n" + "\n".join(data)), dtype="category"
+        )
     actual["a"] = actual["a"].cat.reorder_categories(
         np.sort(actual.a.cat.categories), ordered=True
     )
@@ -161,9 +167,13 @@ def test_categorical_dtype_chunksize_infer_categories(all_parsers):
     ]
 
     if parser.engine == "pyarrow":
-        msg = "The 'chunksize' option is not supported with the 'pyarrow' engine"
+        msg = (
+            "The 'chunksize' option is not supported with the 'pyarrow' engine"
+        )
         with pytest.raises(ValueError, match=msg):
-            parser.read_csv(StringIO(data), dtype={"b": "category"}, chunksize=2)
+            parser.read_csv(
+                StringIO(data), dtype={"b": "category"}, chunksize=2
+            )
         return
 
     with parser.read_csv(
@@ -183,7 +193,9 @@ def test_categorical_dtype_chunksize_explicit_categories(all_parsers):
 2,c"""
     cats = ["a", "b", "c"]
     expecteds = [
-        DataFrame({"a": [1, 1], "b": Categorical(["a", "b"], categories=cats)}),
+        DataFrame(
+            {"a": [1, 1], "b": Categorical(["a", "b"], categories=cats)}
+        ),
         DataFrame(
             {"a": [1, 2], "b": Categorical(["b", "c"], categories=cats)},
             index=[2, 3],
@@ -192,12 +204,16 @@ def test_categorical_dtype_chunksize_explicit_categories(all_parsers):
     dtype = CategoricalDtype(cats)
 
     if parser.engine == "pyarrow":
-        msg = "The 'chunksize' option is not supported with the 'pyarrow' engine"
+        msg = (
+            "The 'chunksize' option is not supported with the 'pyarrow' engine"
+        )
         with pytest.raises(ValueError, match=msg):
             parser.read_csv(StringIO(data), dtype={"b": dtype}, chunksize=2)
         return
 
-    with parser.read_csv(StringIO(data), dtype={"b": dtype}, chunksize=2) as actuals:
+    with parser.read_csv(
+        StringIO(data), dtype={"b": dtype}, chunksize=2
+    ) as actuals:
         for actual, expected in zip(actuals, expecteds):
             tm.assert_frame_equal(actual, expected)
 
@@ -211,7 +227,9 @@ def test_categorical_dtype_latin1(all_parsers, csv_dir_path):
     expected = parser.read_csv(pth, header=None, encoding=encoding)
     expected[1] = Categorical(expected[1])
 
-    actual = parser.read_csv(pth, header=None, encoding=encoding, dtype={1: "category"})
+    actual = parser.read_csv(
+        pth, header=None, encoding=encoding, dtype={1: "category"}
+    )
     tm.assert_frame_equal(actual, expected)
 
 
@@ -273,7 +291,9 @@ def test_categorical_coerces_numeric(all_parsers):
 
 def test_categorical_coerces_datetime(all_parsers):
     parser = all_parsers
-    dti = pd.DatetimeIndex(["2017-01-01", "2018-01-01", "2019-01-01"], freq=None)
+    dti = pd.DatetimeIndex(
+        ["2017-01-01", "2018-01-01", "2019-01-01"], freq=None
+    )
     dtype = {"b": CategoricalDtype(dti)}
 
     data = "b\n2017-01-01\n2018-01-01\n2019-01-01"

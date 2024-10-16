@@ -108,7 +108,9 @@ class Segment(NamedTuple):
 
     @classmethod
     @lru_cache(1024 * 16)
-    def _split_cells(cls, segment: "Segment", cut: int) -> Tuple["Segment", "Segment"]:
+    def _split_cells(
+        cls, segment: "Segment", cut: int
+    ) -> Tuple["Segment", "Segment"]:
 
         text, style, control = segment
         _Segment = Segment
@@ -234,7 +236,9 @@ class Segment(NamedTuple):
             return filterfalse(attrgetter("control"), segments)
 
     @classmethod
-    def split_lines(cls, segments: Iterable["Segment"]) -> Iterable[List["Segment"]]:
+    def split_lines(
+        cls, segments: Iterable["Segment"]
+    ) -> Iterable[List["Segment"]]:
         """Split a sequence of segments in to a list of lines.
 
         Args:
@@ -365,7 +369,9 @@ class Segment(NamedTuple):
             int: The length of the line.
         """
         _cell_len = cell_len
-        return sum(_cell_len(text) for text, style, control in line if not control)
+        return sum(
+            _cell_len(text) for text, style, control in line if not control
+        )
 
     @classmethod
     def get_shape(cls, lines: List[List["Segment"]]) -> Tuple[int, int]:
@@ -378,7 +384,9 @@ class Segment(NamedTuple):
             Tuple[int, int]: Width and height in characters.
         """
         get_line_length = cls.get_line_length
-        max_width = max(get_line_length(line) for line in lines) if lines else 0
+        max_width = (
+            max(get_line_length(line) for line in lines) if lines else 0
+        )
         return (max_width, len(lines))
 
     @classmethod
@@ -405,7 +413,9 @@ class Segment(NamedTuple):
         _height = height or len(lines)
 
         blank = (
-            [cls(" " * width + "\n", style)] if new_lines else [cls(" " * width, style)]
+            [cls(" " * width + "\n", style)]
+            if new_lines
+            else [cls(" " * width, style)]
         )
 
         adjust_line_length = cls.adjust_line_length
@@ -442,7 +452,11 @@ class Segment(NamedTuple):
         if not extra_lines:
             return lines[:]
         lines = lines[:height]
-        blank = cls(" " * width + "\n", style) if new_lines else cls(" " * width, style)
+        blank = (
+            cls(" " * width + "\n", style)
+            if new_lines
+            else cls(" " * width, style)
+        )
         lines = lines + [[blank]] * extra_lines
         return lines
 
@@ -471,7 +485,11 @@ class Segment(NamedTuple):
         if not extra_lines:
             return lines[:]
         lines = lines[:height]
-        blank = cls(" " * width + "\n", style) if new_lines else cls(" " * width, style)
+        blank = (
+            cls(" " * width + "\n", style)
+            if new_lines
+            else cls(" " * width, style)
+        )
         lines = [[blank]] * extra_lines + lines
         return lines
 
@@ -500,7 +518,11 @@ class Segment(NamedTuple):
         if not extra_lines:
             return lines[:]
         lines = lines[:height]
-        blank = cls(" " * width + "\n", style) if new_lines else cls(" " * width, style)
+        blank = (
+            cls(" " * width + "\n", style)
+            if new_lines
+            else cls(" " * width, style)
+        )
         top_lines = extra_lines // 2
         bottom_lines = extra_lines - top_lines
         lines = [[blank]] * top_lines + lines + [[blank]] * bottom_lines
@@ -551,7 +573,9 @@ class Segment(NamedTuple):
                 yield cls(text, style.update_link(None) if style else None)
 
     @classmethod
-    def strip_styles(cls, segments: Iterable["Segment"]) -> Iterable["Segment"]:
+    def strip_styles(
+        cls, segments: Iterable["Segment"]
+    ) -> Iterable["Segment"]:
         """Remove all styles from an iterable of segments.
 
         Args:
@@ -564,7 +588,9 @@ class Segment(NamedTuple):
             yield cls(text, None, control)
 
     @classmethod
-    def remove_color(cls, segments: Iterable["Segment"]) -> Iterable["Segment"]:
+    def remove_color(
+        cls, segments: Iterable["Segment"]
+    ) -> Iterable["Segment"]:
         """Remove all color from an iterable of segments.
 
         Args:
@@ -664,7 +690,9 @@ class Segments:
         new_lines (bool, optional): Add new lines between segments. Defaults to False.
     """
 
-    def __init__(self, segments: Iterable[Segment], new_lines: bool = False) -> None:
+    def __init__(
+        self, segments: Iterable[Segment], new_lines: bool = False
+    ) -> None:
         self.segments = list(segments)
         self.new_lines = new_lines
 
@@ -681,7 +709,9 @@ class Segments:
 
 
 class SegmentLines:
-    def __init__(self, lines: Iterable[List[Segment]], new_lines: bool = False) -> None:
+    def __init__(
+        self, lines: Iterable[List[Segment]], new_lines: bool = False
+    ) -> None:
         """A simple renderable containing a number of lines of segments. May be used as an intermediate
         in rendering process.
 
@@ -732,7 +762,9 @@ console.print(text)"""
     fragments = list(console.render(text))
     console.print(fragments)
     console.print()
-    console.print("The Segments are then processed to produce the following output:\n")
+    console.print(
+        "The Segments are then processed to produce the following output:\n"
+    )
     console.print(text)
     console.print(
         "\nYou will only need to know this if you are implementing your own Rich renderables."

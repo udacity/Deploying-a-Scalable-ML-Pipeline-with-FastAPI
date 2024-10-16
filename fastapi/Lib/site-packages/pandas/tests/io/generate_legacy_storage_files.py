@@ -138,7 +138,10 @@ def create_pickle_data():
         "E": [0.0, 1, Timestamp("20100101"), "foo", 2.0],
     }
 
-    scalars = {"timestamp": Timestamp("20130101"), "period": Period("2012", "M")}
+    scalars = {
+        "timestamp": Timestamp("20130101"),
+        "period": Period("2012", "M"),
+    }
 
     index = {
         "int": Index(np.arange(10)),
@@ -158,8 +161,26 @@ def create_pickle_data():
             tuple(
                 zip(
                     *[
-                        ["bar", "bar", "baz", "baz", "foo", "foo", "qux", "qux"],
-                        ["one", "two", "one", "two", "one", "two", "one", "two"],
+                        [
+                            "bar",
+                            "bar",
+                            "baz",
+                            "baz",
+                            "foo",
+                            "foo",
+                            "qux",
+                            "qux",
+                        ],
+                        [
+                            "one",
+                            "two",
+                            "one",
+                            "two",
+                            "one",
+                            "two",
+                            "one",
+                            "two",
+                        ],
                     ]
                 )
             ),
@@ -172,15 +193,19 @@ def create_pickle_data():
         "int": Series(data["B"]),
         "mixed": Series(data["E"]),
         "ts": Series(
-            np.arange(10).astype(np.int64), index=date_range("20130101", periods=10)
+            np.arange(10).astype(np.int64),
+            index=date_range("20130101", periods=10),
         ),
         "mi": Series(
             np.arange(5).astype(np.float64),
             index=MultiIndex.from_tuples(
-                tuple(zip(*[[1, 1, 2, 2, 2], [3, 4, 3, 4, 5]])), names=["one", "two"]
+                tuple(zip(*[[1, 1, 2, 2, 2], [3, 4, 3, 4, 5]])),
+                names=["one", "two"],
             ),
         ),
-        "dup": Series(np.arange(5).astype(np.float64), index=["A", "B", "C", "D", "A"]),
+        "dup": Series(
+            np.arange(5).astype(np.float64), index=["A", "B", "C", "D", "A"]
+        ),
         "cat": Series(Categorical(["foo", "bar", "baz"])),
         "dt": Series(date_range("20130101", periods=5)),
         "dt_tz": Series(date_range("20130101", periods=5, tz="US/Eastern")),
@@ -194,7 +219,10 @@ def create_pickle_data():
         "int": DataFrame({"A": series["int"], "B": series["int"] + 1}),
         "mixed": DataFrame({k: data[k] for k in ["A", "B", "C", "D"]}),
         "mi": DataFrame(
-            {"A": np.arange(5).astype(np.float64), "B": np.arange(5).astype(np.int64)},
+            {
+                "A": np.arange(5).astype(np.float64),
+                "B": np.arange(5).astype(np.int64),
+            },
             index=MultiIndex.from_tuples(
                 tuple(
                     zip(
@@ -208,7 +236,8 @@ def create_pickle_data():
             ),
         ),
         "dup": DataFrame(
-            np.arange(15).reshape(5, 3).astype(np.float64), columns=["A", "B", "A"]
+            np.arange(15).reshape(5, 3).astype(np.float64),
+            columns=["A", "B", "A"],
         ),
         "cat_onecol": DataFrame({"A": Categorical(["foo", "bar"])}),
         "cat_and_float": DataFrame(
@@ -278,7 +307,10 @@ def create_pickle_data():
         "index": index,
         "scalars": scalars,
         "mi": mi,
-        "sp_series": {"float": _create_sp_series(), "ts": _create_sp_tsseries()},
+        "sp_series": {
+            "float": _create_sp_series(),
+            "ts": _create_sp_tsseries(),
+        },
         "sp_frame": {"float": _create_sp_frame()},
         "cat": cat,
         "timestamp": timestamp,

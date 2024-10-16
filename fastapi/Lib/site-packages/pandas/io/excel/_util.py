@@ -47,7 +47,9 @@ def register_writer(klass: ExcelWriter_t) -> None:
     _writers[engine_name] = klass
 
 
-def get_default_engine(ext: str, mode: Literal["reader", "writer"] = "reader") -> str:
+def get_default_engine(
+    ext: str, mode: Literal["reader", "writer"] = "reader"
+) -> str:
     """
     Return the default reader/writer for the given extension.
 

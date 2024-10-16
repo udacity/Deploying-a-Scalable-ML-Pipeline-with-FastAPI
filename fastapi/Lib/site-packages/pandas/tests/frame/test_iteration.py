@@ -94,7 +94,10 @@ class TestIteration:
 
     def test_itertuples_index_false(self):
         df = DataFrame(
-            {"floats": np.random.default_rng(2).standard_normal(5), "ints": range(5)},
+            {
+                "floats": np.random.default_rng(2).standard_normal(5),
+                "ints": range(5),
+            },
             columns=["floats", "ints"],
         )
 
@@ -140,7 +143,10 @@ class TestIteration:
         # GH#7839
         # make sure can iterate
         df = DataFrame(
-            {"id": [1, 2, 3, 4, 5, 6], "raw_grade": ["a", "b", "b", "a", "a", "e"]}
+            {
+                "id": [1, 2, 3, 4, 5, 6],
+                "raw_grade": ["a", "b", "b", "a", "a", "e"],
+            }
         )
         df["grade"] = Categorical(df["raw_grade"])
 

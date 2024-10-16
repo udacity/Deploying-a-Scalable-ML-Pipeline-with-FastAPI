@@ -28,15 +28,21 @@ def simple_multiindex_dataframe():
     [
         (
             lambda df: df.iloc[0],
-            lambda arr: Series(arr[0], index=[[2, 2, 4], [6, 8, 10]], name=(4, 8)),
+            lambda arr: Series(
+                arr[0], index=[[2, 2, 4], [6, 8, 10]], name=(4, 8)
+            ),
         ),
         (
             lambda df: df.iloc[2],
-            lambda arr: Series(arr[2], index=[[2, 2, 4], [6, 8, 10]], name=(8, 12)),
+            lambda arr: Series(
+                arr[2], index=[[2, 2, 4], [6, 8, 10]], name=(8, 12)
+            ),
         ),
         (
             lambda df: df.iloc[:, 2],
-            lambda arr: Series(arr[:, 2], index=[[4, 4, 8], [8, 10, 12]], name=(4, 10)),
+            lambda arr: Series(
+                arr[:, 2], index=[[4, 4, 8], [8, 10, 12]], name=(4, 10)
+            ),
         ),
     ],
 )
@@ -67,7 +73,9 @@ def test_iloc_getitem_multiple_items():
     # GH 5528
     tup = zip(*[["a", "a", "b", "b"], ["x", "y", "x", "y"]])
     index = MultiIndex.from_tuples(tup)
-    df = DataFrame(np.random.default_rng(2).standard_normal((4, 4)), index=index)
+    df = DataFrame(
+        np.random.default_rng(2).standard_normal((4, 4)), index=index
+    )
     result = df.iloc[[2, 3]]
     expected = df.xs("b", drop_level=False)
     tm.assert_frame_equal(result, expected)
@@ -143,11 +151,21 @@ def test_iloc_integer_locations():
         # test without indexer value in first level of MultiIndex
         ([[2, 22, 5], [2, 33, 6]], [0, -1, 1], [2, 3, 1], [7, 10]),
         # test like code sample 1 in the issue
-        ([[1, 22, 555], [1, 33, 666]], [0, -1, 1], [200, 300, 100], [755, 1066]),
+        (
+            [[1, 22, 555], [1, 33, 666]],
+            [0, -1, 1],
+            [200, 300, 100],
+            [755, 1066],
+        ),
         # test like code sample 2 in the issue
         ([[1, 3, 7], [2, 4, 8]], [0, -1, 1], [10, 10, 1000], [17, 1018]),
         # test like code sample 3 in the issue
-        ([[1, 11, 4], [2, 22, 5], [3, 33, 6]], [0, -1, 1], [4, 7, 10], [8, 15, 13]),
+        (
+            [[1, 11, 4], [2, 22, 5], [3, 33, 6]],
+            [0, -1, 1],
+            [4, 7, 10],
+            [8, 15, 13],
+        ),
     ],
 )
 def test_iloc_setitem_int_multiindex_series(data, indexes, values, expected_k):

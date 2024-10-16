@@ -77,13 +77,17 @@ class RawTokenFormatter(Formatter):
             try:
                 colorize(self.error_color, "")
             except KeyError:
-                raise ValueError("Invalid color %r specified" % self.error_color)
+                raise ValueError(
+                    "Invalid color %r specified" % self.error_color
+                )
 
     def format(self, tokensource, outfile):
         try:
             outfile.write(b"")
         except TypeError:
-            raise TypeError("The raw tokens formatter needs a binary " "output file")
+            raise TypeError(
+                "The raw tokens formatter needs a binary " "output file"
+            )
         if self.compress == "gz":
             import gzip
 

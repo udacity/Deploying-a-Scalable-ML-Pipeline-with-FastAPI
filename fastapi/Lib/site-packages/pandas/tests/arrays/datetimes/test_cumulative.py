@@ -16,7 +16,9 @@ class TestAccumulator:
             dtype="M8[ns]",
         )._with_freq("infer")
         result = arr._accumulate("cummin")
-        expected = DatetimeArray._from_sequence(["2000-01-01"] * 3, dtype="M8[ns]")
+        expected = DatetimeArray._from_sequence(
+            ["2000-01-01"] * 3, dtype="M8[ns]"
+        )
         tm.assert_datetime_array_equal(result, expected)
 
         result = arr._accumulate("cummax")

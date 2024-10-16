@@ -15,7 +15,9 @@ import pandas._testing as tm
 
 class TestAstype:
     def test_astype(self):
-        ci = CategoricalIndex(list("aabbca"), categories=list("cab"), ordered=False)
+        ci = CategoricalIndex(
+            list("aabbca"), categories=list("cab"), ordered=False
+        )
 
         result = ci.astype(object)
         tm.assert_index_equal(result, Index(np.array(ci), dtype=object))
@@ -26,7 +28,9 @@ class TestAstype:
         assert not isinstance(result, CategoricalIndex)
 
         # interval
-        ii = IntervalIndex.from_arrays(left=[-0.001, 2.0], right=[2, 4], closed="right")
+        ii = IntervalIndex.from_arrays(
+            left=[-0.001, 2.0], right=[2, 4], closed="right"
+        )
 
         ci = CategoricalIndex(
             Categorical.from_codes([0, 1, -1], categories=ii, ordered=True)

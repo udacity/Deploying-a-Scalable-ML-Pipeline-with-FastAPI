@@ -114,7 +114,8 @@ class TestIntervalArithmetic:
         "interval",
         [
             Interval(
-                Timestamp("2017-01-01 00:00:00"), Timestamp("2018-01-01 00:00:00")
+                Timestamp("2017-01-01 00:00:00"),
+                Timestamp("2018-01-01 00:00:00"),
             ),
             Interval(Timedelta(days=7), Timedelta(days=14)),
         ],
@@ -122,7 +123,9 @@ class TestIntervalArithmetic:
     @pytest.mark.parametrize(
         "delta", [Timedelta(days=7), timedelta(7), np.timedelta64(7, "D")]
     )
-    def test_time_interval_add_subtract_timedelta(self, interval, delta, method):
+    def test_time_interval_add_subtract_timedelta(
+        self, interval, delta, method
+    ):
         # https://github.com/pandas-dev/pandas/issues/32023
         result = getattr(interval, method)(delta)
         left = getattr(interval.left, method)(delta)

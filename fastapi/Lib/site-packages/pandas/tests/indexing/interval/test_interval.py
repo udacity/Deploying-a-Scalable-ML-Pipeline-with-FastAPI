@@ -37,7 +37,9 @@ class TestIntervalIndex:
         tm.assert_series_equal(expected, indexer_sl(ser)[ser >= 2])
 
     @pytest.mark.parametrize("direction", ["increasing", "decreasing"])
-    def test_getitem_nonoverlapping_monotonic(self, direction, closed, indexer_sl):
+    def test_getitem_nonoverlapping_monotonic(
+        self, direction, closed, indexer_sl
+    ):
         tpls = [(0, 1), (2, 3), (4, 5)]
         if direction == "decreasing":
             tpls = tpls[::-1]
@@ -62,7 +64,9 @@ class TestIntervalIndex:
         for key, expected in zip(idx.mid, ser):
             assert indexer_sl(ser)[key] == expected
 
-    def test_getitem_non_matching(self, series_with_interval_index, indexer_sl):
+    def test_getitem_non_matching(
+        self, series_with_interval_index, indexer_sl
+    ):
         ser = series_with_interval_index.copy()
 
         # this is a departure from our current
@@ -170,13 +174,35 @@ class TestIntervalIndexInsideMultiIndex:
     def test_mi_intervalindex_slicing_with_scalar(self):
         # GH#27456
         ii = IntervalIndex.from_arrays(
-            [0, 1, 10, 11, 0, 1, 10, 11], [1, 2, 11, 12, 1, 2, 11, 12], name="MP"
+            [0, 1, 10, 11, 0, 1, 10, 11],
+            [1, 2, 11, 12, 1, 2, 11, 12],
+            name="MP",
         )
         idx = pd.MultiIndex.from_arrays(
             [
-                pd.Index(["FC", "FC", "FC", "FC", "OWNER", "OWNER", "OWNER", "OWNER"]),
                 pd.Index(
-                    ["RID1", "RID1", "RID2", "RID2", "RID1", "RID1", "RID2", "RID2"]
+                    [
+                        "FC",
+                        "FC",
+                        "FC",
+                        "FC",
+                        "OWNER",
+                        "OWNER",
+                        "OWNER",
+                        "OWNER",
+                    ]
+                ),
+                pd.Index(
+                    [
+                        "RID1",
+                        "RID1",
+                        "RID2",
+                        "RID2",
+                        "RID1",
+                        "RID1",
+                        "RID2",
+                        "RID2",
+                    ]
                 ),
                 ii,
             ]
@@ -196,7 +222,9 @@ class TestIntervalIndexInsideMultiIndex:
 
         query_df = query_df.sort_index()
 
-        idx = pd.MultiIndex.from_arrays([query_df.Item, query_df.RID, query_df.MP])
+        idx = pd.MultiIndex.from_arrays(
+            [query_df.Item, query_df.RID, query_df.MP]
+        )
         query_df.index = idx
         result = df.value.loc[query_df.index]
 

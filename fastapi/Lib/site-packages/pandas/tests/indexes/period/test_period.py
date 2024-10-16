@@ -89,7 +89,9 @@ class TestPeriodIndex:
             period_range(freq="h", start="12/31/2001", end="1/1/2002 23:00"),
             period_range(freq="Min", start="12/31/2001", end="1/1/2002 00:20"),
             period_range(
-                freq="s", start="12/31/2001 00:00:00", end="12/31/2001 00:05:00"
+                freq="s",
+                start="12/31/2001 00:00:00",
+                end="12/31/2001 00:05:00",
             ),
             period_range(end=Period("2006-12-31", "W"), periods=10),
         ],
@@ -112,7 +114,9 @@ class TestPeriodIndex:
             assert getattr(x, field) == val
 
     def test_is_(self):
-        create_index = lambda: period_range(freq="Y", start="1/1/2001", end="12/1/2009")
+        create_index = lambda: period_range(
+            freq="Y", start="1/1/2001", end="12/1/2009"
+        )
         index = create_index()
         assert index.is_(index)
         assert not index.is_(create_index())
@@ -137,7 +141,9 @@ class TestPeriodIndex:
 
     def test_pindex_fieldaccessor_nat(self):
         idx = PeriodIndex(
-            ["2011-01", "2011-02", "NaT", "2012-03", "2012-04"], freq="D", name="name"
+            ["2011-01", "2011-02", "NaT", "2012-03", "2012-04"],
+            freq="D",
+            name="name",
         )
 
         exp = Index([2011, 2011, -1, 2012, 2012], dtype=np.int64, name="name")
@@ -161,7 +167,9 @@ class TestPeriodIndex:
         assert pi.freq == offsets.MonthEnd(2)
         assert pi.freqstr == "2M"
 
-    @pytest.mark.filterwarnings(r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning")
+    @pytest.mark.filterwarnings(
+        r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning"
+    )
     @pytest.mark.filterwarnings("ignore:Period with BDay freq:FutureWarning")
     def test_iteration(self):
         index = period_range(start="1/1/10", periods=4, freq="B")

@@ -72,7 +72,9 @@ else:
 # weak dictionaries allow the dynamically created parametrized versions of generic models to get collected
 # once they are no longer referenced by the caller.
 if sys.version_info >= (3, 9):  # Typing for weak dictionaries available at 3.9
-    GenericTypesCache = WeakValueDictionary[GenericTypesCacheKey, "type[BaseModel]"]
+    GenericTypesCache = WeakValueDictionary[
+        GenericTypesCacheKey, "type[BaseModel]"
+    ]
 else:
     GenericTypesCache = WeakValueDictionary
 
@@ -116,9 +118,13 @@ _GENERIC_TYPES_CACHE = GenericTypesCache()
 
 
 class PydanticGenericMetadata(typing_extensions.TypedDict):
-    origin: type[BaseModel] | None  # analogous to typing._GenericAlias.__origin__
+    origin: (
+        type[BaseModel] | None
+    )  # analogous to typing._GenericAlias.__origin__
     args: tuple[Any, ...]  # analogous to typing._GenericAlias.__args__
-    parameters: tuple[type[Any], ...]  # analogous to typing.Generic.__parameters__
+    parameters: tuple[
+        type[Any], ...
+    ]  # analogous to typing.Generic.__parameters__
 
 
 def create_generic_submodel(
@@ -163,7 +169,9 @@ def create_generic_submodel(
     if called_globally:  # create global reference and therefore allow pickling
         object_by_reference = None
         reference_name = model_name
-        reference_module_globals = sys.modules[created_model.__module__].__dict__
+        reference_module_globals = sys.modules[
+            created_model.__module__
+        ].__dict__
         while object_by_reference is not created_model:
             object_by_reference = reference_module_globals.setdefault(
                 reference_name, created_model
@@ -188,7 +196,9 @@ def _get_caller_frame_info(depth: int = 2) -> tuple[str | None, bool]:
     try:
         previous_caller_frame = sys._getframe(depth)
     except ValueError as e:
-        raise RuntimeError("This function must be used inside another function") from e
+        raise RuntimeError(
+            "This function must be used inside another function"
+        ) from e
     except (
         AttributeError
     ):  # sys module does not have _getframe function, so there's nothing we can do about it
@@ -257,7 +267,9 @@ def get_standard_typevars_map(cls: type[Any]) -> dict[TypeVarType, Any] | None:
     return dict(zip(parameters, args))
 
 
-def get_model_typevars_map(cls: type[BaseModel]) -> dict[TypeVarType, Any] | None:
+def get_model_typevars_map(
+    cls: type[BaseModel],
+) -> dict[TypeVarType, Any] | None:
     """Package a generic BaseModel's typevars and concrete parametrization (if present) into a dictionary compatible
     with the `replace_types` function.
 
@@ -309,7 +321,9 @@ def replace_types(type_: Any, type_map: Mapping[Any, Any] | None) -> Any:
     # Having type args is a good indicator that this is a typing module
     # class instantiation or a generic alias of some sort.
     if type_args:
-        resolved_type_args = tuple(replace_types(arg, type_map) for arg in type_args)
+        resolved_type_args = tuple(
+            replace_types(arg, type_map) for arg in type_args
+        )
         if all_identical(type_args, resolved_type_args):
             # If all arguments are the same, there is no need to modify the
             # type or create a new object at all
@@ -345,7 +359,9 @@ def replace_types(type_: Any, type_map: Mapping[Any, Any] | None) -> Any:
         parameters = type_.__pydantic_generic_metadata__["parameters"]
         if not parameters:
             return type_
-        resolved_type_args = tuple(replace_types(t, type_map) for t in parameters)
+        resolved_type_args = tuple(
+            replace_types(t, type_map) for t in parameters
+        )
         if all_identical(parameters, resolved_type_args):
             return type_
         return type_[resolved_type_args]
@@ -395,7 +411,9 @@ def has_instance_in_type(type_: Any, isinstance_target: Any) -> bool:
     return False
 
 
-def check_parameters_count(cls: type[BaseModel], parameters: tuple[Any, ...]) -> None:
+def check_parameters_count(
+    cls: type[BaseModel], parameters: tuple[Any, ...]
+) -> None:
     """Check the generic model parameters count is equal.
 
     Args:
@@ -487,7 +505,9 @@ def get_cached_generic_type_late(
     args: tuple[Any, ...],
 ) -> type[BaseModel] | None:
     """See the docstring of `get_cached_generic_type_early` for more information about the two-stage cache lookup."""
-    cached = _GENERIC_TYPES_CACHE.get(_late_cache_key(origin, args, typevar_values))
+    cached = _GENERIC_TYPES_CACHE.get(
+        _late_cache_key(origin, args, typevar_values)
+    )
     if cached is not None:
         set_cached_generic_type(parent, typevar_values, cached, origin, args)
     return cached
@@ -505,9 +525,13 @@ def set_cached_generic_type(
     """
     _GENERIC_TYPES_CACHE[_early_cache_key(parent, typevar_values)] = type_
     if len(typevar_values) == 1:
-        _GENERIC_TYPES_CACHE[_early_cache_key(parent, typevar_values[0])] = type_
+        _GENERIC_TYPES_CACHE[_early_cache_key(parent, typevar_values[0])] = (
+            type_
+        )
     if origin and args:
-        _GENERIC_TYPES_CACHE[_late_cache_key(origin, args, typevar_values)] = type_
+        _GENERIC_TYPES_CACHE[_late_cache_key(origin, args, typevar_values)] = (
+            type_
+        )
 
 
 def _union_orderings_key(typevar_values: Any) -> Any:
@@ -534,7 +558,9 @@ def _union_orderings_key(typevar_values: Any) -> Any:
         return ()
 
 
-def _early_cache_key(cls: type[BaseModel], typevar_values: Any) -> GenericTypesCacheKey:
+def _early_cache_key(
+    cls: type[BaseModel], typevar_values: Any
+) -> GenericTypesCacheKey:
     """This is intended for minimal computational overhead during lookups of cached types.
 
     Note that this is overly simplistic, and it's possible that two different cls/typevar_values

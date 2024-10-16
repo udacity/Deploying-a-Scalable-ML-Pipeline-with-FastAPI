@@ -82,7 +82,11 @@ def test_maybe_mangle_lambdas_named():
         ),
         (
             [("col", "<lambda>"), ("col", "<lambda>"), ("col", "<lambda>")],
-            [("col", "<lambda>_0"), ("col", "<lambda>_1"), ("col", "<lambda>_2")],
+            [
+                ("col", "<lambda>_0"),
+                ("col", "<lambda>_1"),
+                ("col", "<lambda>_2"),
+            ],
         ),
     ],
 )

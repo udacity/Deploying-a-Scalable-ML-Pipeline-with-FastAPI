@@ -99,7 +99,9 @@ class TestDataFrameIsIn:
     def test_isin_df_dupe_values(self):
         df1 = DataFrame({"A": [1, 2, 3, 4], "B": [2, np.nan, 4, 4]})
         # just cols duped
-        df2 = DataFrame([[0, 2], [12, 4], [2, np.nan], [4, 5]], columns=["B", "B"])
+        df2 = DataFrame(
+            [[0, 2], [12, 4], [2, np.nan], [4, 5]], columns=["B", "B"]
+        )
         msg = r"cannot compute isin with a duplicate axis\."
         with pytest.raises(ValueError, match=msg):
             df1.isin(df2)
@@ -129,7 +131,8 @@ class TestDataFrameIsIn:
 
     def test_isin_against_series(self):
         df = DataFrame(
-            {"A": [1, 2, 3, 4], "B": [2, np.nan, 4, 4]}, index=["a", "b", "c", "d"]
+            {"A": [1, 2, 3, 4], "B": [2, np.nan, 4, 4]},
+            index=["a", "b", "c", "d"],
         )
         s = Series([1, 3, 11, 4], index=["a", "b", "c", "d"])
         expected = DataFrame(False, index=df.index, columns=df.columns)
@@ -177,8 +180,12 @@ class TestDataFrameIsIn:
 
     def test_isin_empty_datetimelike(self):
         # GH#15473
-        df1_ts = DataFrame({"date": pd.to_datetime(["2014-01-01", "2014-01-02"])})
-        df1_td = DataFrame({"date": [pd.Timedelta(1, "s"), pd.Timedelta(2, "s")]})
+        df1_ts = DataFrame(
+            {"date": pd.to_datetime(["2014-01-01", "2014-01-02"])}
+        )
+        df1_td = DataFrame(
+            {"date": [pd.Timedelta(1, "s"), pd.Timedelta(2, "s")]}
+        )
         df2 = DataFrame({"date": []})
         df3 = DataFrame()
 
@@ -204,7 +211,9 @@ class TestDataFrameIsIn:
     def test_isin_category_frame(self, values):
         # GH#34256
         df = DataFrame({"a": [1, 2, 3], "b": [4, 5, 6]})
-        expected = DataFrame({"a": [True, True, True], "b": [False, False, False]})
+        expected = DataFrame(
+            {"a": [True, True, True], "b": [False, False, False]}
+        )
 
         result = df.isin(values)
         tm.assert_frame_equal(result, expected)

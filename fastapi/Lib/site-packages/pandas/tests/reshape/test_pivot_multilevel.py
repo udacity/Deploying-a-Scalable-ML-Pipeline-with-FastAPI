@@ -103,7 +103,9 @@ def test_pivot_list_like_index(
         }
     )
 
-    result = df.pivot(index=input_index, columns=input_columns, values=input_values)
+    result = df.pivot(
+        index=input_index, columns=input_columns, values=input_values
+    )
     expected = pd.DataFrame(
         expected_values, columns=expected_columns, index=expected_index
     )
@@ -162,7 +164,16 @@ def test_pivot_list_like_index(
                 [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, 6.0, 7.0],
             ],
             MultiIndex.from_tuples(
-                [(1, 1), (2, 2), (1, 3), (2, 4), (1, 5), (2, 6), (1, 7), (2, 8)],
+                [
+                    (1, 1),
+                    (2, 2),
+                    (1, 3),
+                    (2, 4),
+                    (1, 5),
+                    (2, 6),
+                    (1, 7),
+                    (2, 8),
+                ],
                 names=["lev3", "lev4"],
             ),
             MultiIndex.from_tuples(
@@ -190,7 +201,9 @@ def test_pivot_list_like_columns(
         }
     )
 
-    result = df.pivot(index=input_index, columns=input_columns, values=input_values)
+    result = df.pivot(
+        index=input_index, columns=input_columns, values=input_values
+    )
     expected = pd.DataFrame(
         expected_values, columns=expected_columns, index=expected_index
     )

@@ -27,7 +27,9 @@ class TestRangeIndexConstructors:
     )
     def test_constructor(self, args, kwargs, start, stop, step, name):
         result = RangeIndex(*args, name=name, **kwargs)
-        expected = Index(np.arange(start, stop, step, dtype=np.int64), name=name)
+        expected = Index(
+            np.arange(start, stop, step, dtype=np.int64), name=name
+        )
         assert isinstance(result, RangeIndex)
         assert result.name is name
         assert result._range == range(start, stop, step)
@@ -62,7 +64,9 @@ class TestRangeIndexConstructors:
         ],
     )
     def test_constructor_additional_invalid_args(self, args):
-        msg = f"Value needs to be a scalar value, was type {type(args).__name__}"
+        msg = (
+            f"Value needs to be a scalar value, was type {type(args).__name__}"
+        )
         with pytest.raises(TypeError, match=msg):
             RangeIndex(args)
 
@@ -117,9 +121,7 @@ class TestRangeIndexConstructors:
         expected = RangeIndex(1, 5, 2)
         tm.assert_index_equal(result, expected, exact=True)
 
-        msg = (
-            r"(RangeIndex.)?from_range\(\) got an unexpected keyword argument( 'copy')?"
-        )
+        msg = r"(RangeIndex.)?from_range\(\) got an unexpected keyword argument( 'copy')?"
         with pytest.raises(TypeError, match=msg):
             RangeIndex.from_range(range(10), copy=True)
 

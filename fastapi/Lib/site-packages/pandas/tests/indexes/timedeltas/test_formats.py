@@ -13,7 +13,9 @@ class TestTimedeltaIndexRendering:
         # we should get "1 days", not "1 days 00:00:00" with non-nano
         tdi = TimedeltaIndex(["1 days"], freq="D").as_unit("s")
         result = repr(tdi)
-        expected = "TimedeltaIndex(['1 days'], dtype='timedelta64[s]', freq='D')"
+        expected = (
+            "TimedeltaIndex(['1 days'], dtype='timedelta64[s]', freq='D')"
+        )
         assert result == expected
 
         result2 = repr(Series(tdi))

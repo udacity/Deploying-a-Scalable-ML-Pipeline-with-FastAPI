@@ -112,7 +112,9 @@ class TestPeriodArithmetic:
         p1 = Period(p1_d, freq=offset(n, normalize, **kwds))
         p2 = Period(p2_d, freq=offset(n, normalize, **kwds))
 
-        expected = Period(p2_d, freq=p2.freq.base) - Period(p1_d, freq=p1.freq.base)
+        expected = Period(p2_d, freq=p2.freq.base) - Period(
+            p1_d, freq=p1.freq.base
+        )
 
         assert (p2 - p1) == expected
 
@@ -303,7 +305,9 @@ class TestPeriodArithmetic:
             per = Period("2011-04-01", freq=freq)
             assert per - offsets.Day(5) == Period("2011-03-27", freq=freq)
             assert per - offsets.Hour(24) == Period("2011-03-31", freq=freq)
-            assert per - np.timedelta64(2, "D") == Period("2011-03-30", freq=freq)
+            assert per - np.timedelta64(2, "D") == Period(
+                "2011-03-30", freq=freq
+            )
             assert per - np.timedelta64(3600 * 24, "s") == Period(
                 "2011-03-31", freq=freq
             )
@@ -322,13 +326,21 @@ class TestPeriodArithmetic:
 
         for freq in ["h", "2h", "3h"]:
             per = Period("2011-04-01 09:00", freq=freq)
-            assert per - offsets.Day(2) == Period("2011-03-30 09:00", freq=freq)
-            assert per - offsets.Hour(3) == Period("2011-04-01 06:00", freq=freq)
-            assert per - np.timedelta64(3, "h") == Period("2011-04-01 06:00", freq=freq)
+            assert per - offsets.Day(2) == Period(
+                "2011-03-30 09:00", freq=freq
+            )
+            assert per - offsets.Hour(3) == Period(
+                "2011-04-01 06:00", freq=freq
+            )
+            assert per - np.timedelta64(3, "h") == Period(
+                "2011-04-01 06:00", freq=freq
+            )
             assert per - np.timedelta64(3600, "s") == Period(
                 "2011-04-01 08:00", freq=freq
             )
-            assert per - timedelta(minutes=120) == Period("2011-04-01 07:00", freq=freq)
+            assert per - timedelta(minutes=120) == Period(
+                "2011-04-01 07:00", freq=freq
+            )
             assert per - timedelta(days=4, minutes=180) == Period(
                 "2011-03-28 06:00", freq=freq
             )
@@ -446,7 +458,9 @@ class TestPeriodComparisons:
         assert jan != 1
 
         int_or_per = "'(Period|int)'"
-        msg = f"not supported between instances of {int_or_per} and {int_or_per}"
+        msg = (
+            f"not supported between instances of {int_or_per} and {int_or_per}"
+        )
         for left, right in [(jan, 1), (1, jan)]:
             with pytest.raises(TypeError, match=msg):
                 left > right

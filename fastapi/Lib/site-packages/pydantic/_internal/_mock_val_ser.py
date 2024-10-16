@@ -23,7 +23,8 @@ if TYPE_CHECKING:
 
 
 ValSer = TypeVar(
-    "ValSer", bound=Union[SchemaValidator, PluggableSchemaValidator, SchemaSerializer]
+    "ValSer",
+    bound=Union[SchemaValidator, PluggableSchemaValidator, SchemaSerializer],
 )
 T = TypeVar("T")
 
@@ -122,7 +123,9 @@ class MockValSer(Generic[ValSer]):
 
 
 def set_model_mocks(
-    cls: type[BaseModel], cls_name: str, undefined_name: str = "all referenced types"
+    cls: type[BaseModel],
+    cls_name: str,
+    undefined_name: str = "all referenced types",
 ) -> None:
     """Set `__pydantic_validator__` and `__pydantic_serializer__` to `MockValSer`s on a model.
 
@@ -141,7 +144,9 @@ def set_model_mocks(
     ) -> Callable[[], T | None]:
         def handler() -> T | None:
             if (
-                cls.model_rebuild(raise_errors=False, _parent_namespace_depth=5)
+                cls.model_rebuild(
+                    raise_errors=False, _parent_namespace_depth=5
+                )
                 is not False
             ):
                 return attr_fn(cls)
@@ -153,7 +158,9 @@ def set_model_mocks(
     cls.__pydantic_core_schema__ = MockCoreSchema(  # type: ignore[assignment]
         undefined_type_error_message,
         code="class-not-fully-defined",
-        attempt_rebuild=attempt_rebuild_fn(lambda c: c.__pydantic_core_schema__),
+        attempt_rebuild=attempt_rebuild_fn(
+            lambda c: c.__pydantic_core_schema__
+        ),
     )
     cls.__pydantic_validator__ = MockValSer(  # type: ignore[assignment]
         undefined_type_error_message,
@@ -165,7 +172,9 @@ def set_model_mocks(
         undefined_type_error_message,
         code="class-not-fully-defined",
         val_or_ser="serializer",
-        attempt_rebuild=attempt_rebuild_fn(lambda c: c.__pydantic_serializer__),
+        attempt_rebuild=attempt_rebuild_fn(
+            lambda c: c.__pydantic_serializer__
+        ),
     )
 
 
@@ -193,7 +202,9 @@ def set_dataclass_mocks(
     ) -> Callable[[], T | None]:
         def handler() -> T | None:
             if (
-                rebuild_dataclass(cls, raise_errors=False, _parent_namespace_depth=5)
+                rebuild_dataclass(
+                    cls, raise_errors=False, _parent_namespace_depth=5
+                )
                 is not False
             ):
                 return attr_fn(cls)
@@ -205,7 +216,9 @@ def set_dataclass_mocks(
     cls.__pydantic_core_schema__ = MockCoreSchema(  # type: ignore[assignment]
         undefined_type_error_message,
         code="class-not-fully-defined",
-        attempt_rebuild=attempt_rebuild_fn(lambda c: c.__pydantic_core_schema__),
+        attempt_rebuild=attempt_rebuild_fn(
+            lambda c: c.__pydantic_core_schema__
+        ),
     )
     cls.__pydantic_validator__ = MockValSer(  # type: ignore[assignment]
         undefined_type_error_message,
@@ -217,5 +230,7 @@ def set_dataclass_mocks(
         undefined_type_error_message,
         code="class-not-fully-defined",
         val_or_ser="validator",
-        attempt_rebuild=attempt_rebuild_fn(lambda c: c.__pydantic_serializer__),
+        attempt_rebuild=attempt_rebuild_fn(
+            lambda c: c.__pydantic_serializer__
+        ),
     )

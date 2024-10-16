@@ -16,7 +16,8 @@ from pandas.io.formats.style import Styler
 def df(request):
     # GH 45804
     return DataFrame(
-        {"A": [0, np.nan, 10], "B": [1, request.param[0], 2]}, dtype=request.param[1]
+        {"A": [0, np.nan, 10], "B": [1, request.param[0], 2]},
+        dtype=request.param[1],
     )
 
 
@@ -67,7 +68,11 @@ def test_highlight_minmax_basic(df, f):
     "kwargs",
     [
         {"axis": None, "color": "red"},  # test axis
-        {"axis": 0, "subset": ["A"], "color": "red"},  # test subset and ignores NaN
+        {
+            "axis": 0,
+            "subset": ["A"],
+            "color": "red",
+        },  # test subset and ignores NaN
         {"axis": None, "props": "background-color: red"},  # test props
     ],
 )
@@ -103,12 +108,23 @@ def test_highlight_minmax_nulls(f, axis):
     "kwargs",
     [
         {"left": 0, "right": 1},  # test basic range
-        {"left": 0, "right": 1, "props": "background-color: yellow"},  # test props
-        {"left": -100, "right": 100, "subset": IndexSlice[[0, 1], :]},  # test subset
+        {
+            "left": 0,
+            "right": 1,
+            "props": "background-color: yellow",
+        },  # test props
+        {
+            "left": -100,
+            "right": 100,
+            "subset": IndexSlice[[0, 1], :],
+        },  # test subset
         {"left": 0, "subset": IndexSlice[[0, 1], :]},  # test no right
         {"right": 1},  # test no left
         {"left": [0, 0, 11], "axis": 0},  # test left as sequence
-        {"left": DataFrame({"A": [0, 0, 11], "B": [1, 1, 11]}), "axis": None},  # axis
+        {
+            "left": DataFrame({"A": [0, 0, 11], "B": [1, 1, 11]}),
+            "axis": None,
+        },  # axis
         {"left": 0, "right": [0, 1], "axis": 1},  # test sequence right
     ],
 )
@@ -176,7 +192,11 @@ def test_highlight_between_inclusive(styler, inclusive, expected):
         {"q_left": 0, "q_right": 1, "subset": IndexSlice[2, :]},  # test subset
         {"q_left": 0.5, "axis": 0},  # test no high
         {"q_right": 1, "subset": IndexSlice[2, :], "axis": 1},  # test no low
-        {"q_left": 0.5, "axis": 0, "props": "background-color: yellow"},  # tst prop
+        {
+            "q_left": 0.5,
+            "axis": 0,
+            "props": "background-color: yellow",
+        },  # tst prop
     ],
 )
 def test_highlight_quantile(styler, kwargs):

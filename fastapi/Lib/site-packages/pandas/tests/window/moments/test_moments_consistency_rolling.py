@@ -30,7 +30,9 @@ def test_rolling_apply_consistency_sum(
             all_na(all_data) and not all_data.empty and min_periods > 0
         ):
             request.applymarker(
-                pytest.mark.xfail(reason="np.sum has different behavior with NaNs")
+                pytest.mark.xfail(
+                    reason="np.sum has different behavior with NaNs"
+                )
             )
     rolling_f_result = all_data.rolling(
         window=window, min_periods=min_periods, center=center
@@ -42,12 +44,14 @@ def test_rolling_apply_consistency_sum(
 
 
 @pytest.mark.parametrize("ddof", [0, 1])
-def test_moments_consistency_var(all_data, rolling_consistency_cases, center, ddof):
+def test_moments_consistency_var(
+    all_data, rolling_consistency_cases, center, ddof
+):
     window, min_periods = rolling_consistency_cases
 
-    var_x = all_data.rolling(window=window, min_periods=min_periods, center=center).var(
-        ddof=ddof
-    )
+    var_x = all_data.rolling(
+        window=window, min_periods=min_periods, center=center
+    ).var(ddof=ddof)
     assert not (var_x < 0).any().any()
 
     if ddof == 0:
@@ -91,14 +95,14 @@ def test_rolling_consistency_var_std_cov(
 ):
     window, min_periods = rolling_consistency_cases
 
-    var_x = all_data.rolling(window=window, min_periods=min_periods, center=center).var(
-        ddof=ddof
-    )
+    var_x = all_data.rolling(
+        window=window, min_periods=min_periods, center=center
+    ).var(ddof=ddof)
     assert not (var_x < 0).any().any()
 
-    std_x = all_data.rolling(window=window, min_periods=min_periods, center=center).std(
-        ddof=ddof
-    )
+    std_x = all_data.rolling(
+        window=window, min_periods=min_periods, center=center
+    ).std(ddof=ddof)
     assert not (std_x < 0).any().any()
 
     # check that var(x) == std(x)^2

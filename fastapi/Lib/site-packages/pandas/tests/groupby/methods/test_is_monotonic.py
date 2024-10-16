@@ -53,7 +53,19 @@ def test_is_monotonic_increasing(in_vals, out_vals):
         ([10, 9, 7, 3, 4, 5, -3, 2, 0, 1, 1], [True, False, False, True]),
         # Test with inf vals
         (
-            [np.inf, 1, -np.inf, np.inf, 2, -3, -np.inf, 5, -3, -np.inf, -np.inf],
+            [
+                np.inf,
+                1,
+                -np.inf,
+                np.inf,
+                2,
+                -3,
+                -np.inf,
+                5,
+                -3,
+                -np.inf,
+                -np.inf,
+            ],
             [True, True, False, True],
         ),
         # Test with nan vals; should always be False

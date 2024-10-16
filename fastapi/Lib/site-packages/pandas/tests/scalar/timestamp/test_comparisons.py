@@ -41,19 +41,27 @@ class TestTimestampComparison:
         tm.assert_numpy_array_equal(result, expected)
 
         result = arr < ts2
-        tm.assert_numpy_array_equal(result, np.array([[False, False]], dtype=bool))
+        tm.assert_numpy_array_equal(
+            result, np.array([[False, False]], dtype=bool)
+        )
 
         result = ts2 <= arr
-        tm.assert_numpy_array_equal(result, np.array([[True, True]], dtype=bool))
+        tm.assert_numpy_array_equal(
+            result, np.array([[True, True]], dtype=bool)
+        )
 
         result = arr <= ts2
         tm.assert_numpy_array_equal(result, ~expected)
 
         result = ts >= arr
-        tm.assert_numpy_array_equal(result, np.array([[True, True]], dtype=bool))
+        tm.assert_numpy_array_equal(
+            result, np.array([[True, True]], dtype=bool)
+        )
 
         result = arr >= ts
-        tm.assert_numpy_array_equal(result, np.array([[True, False]], dtype=bool))
+        tm.assert_numpy_array_equal(
+            result, np.array([[True, False]], dtype=bool)
+        )
 
     @pytest.mark.parametrize("reverse", [True, False])
     def test_comparison_dt64_ndarray_tzaware(self, reverse, comparison_op):
@@ -209,7 +217,14 @@ class TestTimestampComparison:
         rhs = Timestamp("now")
         nat = Timestamp("nat")
 
-        ops = {"gt": "lt", "lt": "gt", "ge": "le", "le": "ge", "eq": "eq", "ne": "ne"}
+        ops = {
+            "gt": "lt",
+            "lt": "gt",
+            "ge": "le",
+            "le": "ge",
+            "eq": "eq",
+            "ne": "ne",
+        }
 
         for left, right in ops.items():
             left_f = getattr(operator, left)

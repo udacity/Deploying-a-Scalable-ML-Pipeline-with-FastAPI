@@ -85,10 +85,14 @@ def just_fix_windows_console():
     # On newer versions of Windows, AnsiToWin32.__init__ will implicitly enable the
     # native ANSI support in the console as a side-effect. We only need to actually
     # replace sys.stdout/stderr if we're in the old-style conversion mode.
-    new_stdout = AnsiToWin32(sys.stdout, convert=None, strip=None, autoreset=False)
+    new_stdout = AnsiToWin32(
+        sys.stdout, convert=None, strip=None, autoreset=False
+    )
     if new_stdout.convert:
         sys.stdout = new_stdout
-    new_stderr = AnsiToWin32(sys.stderr, convert=None, strip=None, autoreset=False)
+    new_stderr = AnsiToWin32(
+        sys.stderr, convert=None, strip=None, autoreset=False
+    )
     if new_stderr.convert:
         sys.stderr = new_stderr
 
@@ -113,7 +117,9 @@ def reinit():
 
 def wrap_stream(stream, convert, strip, autoreset, wrap):
     if wrap:
-        wrapper = AnsiToWin32(stream, convert=convert, strip=strip, autoreset=autoreset)
+        wrapper = AnsiToWin32(
+            stream, convert=convert, strip=strip, autoreset=autoreset
+        )
         if wrapper.should_wrap():
             stream = wrapper.stream
     return stream

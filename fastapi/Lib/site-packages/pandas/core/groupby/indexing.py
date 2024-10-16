@@ -214,7 +214,9 @@ class GroupByIndexingMixin:
             limit_array = (
                 self._ascending_count + self._descending_count + (start + 1)
             ) < 0
-            offset_array = np.where(limit_array, self._ascending_count, offset_array)
+            offset_array = np.where(
+                limit_array, self._ascending_count, offset_array
+            )
 
             mask &= offset_array % step == 0
 
@@ -250,7 +252,9 @@ class GroupByPositionalSelector:
     def __init__(self, groupby_object: groupby.GroupBy) -> None:
         self.groupby_object = groupby_object
 
-    def __getitem__(self, arg: PositionalIndexer | tuple) -> DataFrame | Series:
+    def __getitem__(
+        self, arg: PositionalIndexer | tuple
+    ) -> DataFrame | Series:
         """
         Select by positional index per group.
 

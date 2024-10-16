@@ -34,7 +34,9 @@ class TestSeriesDescribe:
         ser = Series([True, True, False, False, False], name="bool_data")
         result = ser.describe()
         expected = Series(
-            [5, 2, False, 3], name="bool_data", index=["count", "unique", "top", "freq"]
+            [5, 2, False, 3],
+            name="bool_data",
+            index=["count", "unique", "top", "freq"],
         )
         tm.assert_series_equal(result, expected)
 
@@ -42,7 +44,9 @@ class TestSeriesDescribe:
         ser = Series(["a", "a", "b", "c", "d"], name="str_data")
         result = ser.describe()
         expected = Series(
-            [5, 4, "a", 2], name="str_data", index=["count", "unique", "top", "freq"]
+            [5, 4, "a", 2],
+            name="str_data",
+            index=["count", "unique", "top", "freq"],
         )
         tm.assert_series_equal(result, expected)
 
@@ -67,7 +71,11 @@ class TestSeriesDescribe:
 
     def test_describe_period(self):
         ser = Series(
-            [Period("2020-01", "M"), Period("2020-01", "M"), Period("2019-12", "M")],
+            [
+                Period("2020-01", "M"),
+                Period("2020-01", "M"),
+                Period("2019-12", "M"),
+            ],
             name="period_data",
         )
         result = ser.describe()
@@ -158,13 +166,17 @@ class TestSeriesDescribe:
         )
         tm.assert_series_equal(result, expected)
 
-    @pytest.mark.filterwarnings("ignore:Casting complex values to real discards")
+    @pytest.mark.filterwarnings(
+        "ignore:Casting complex values to real discards"
+    )
     def test_numeric_result_dtype(self, any_numeric_dtype):
         # GH#48340 - describe should always return float on non-complex numeric input
         if is_extension_array_dtype(any_numeric_dtype):
             dtype = "Float64"
         else:
-            dtype = "complex128" if is_complex_dtype(any_numeric_dtype) else None
+            dtype = (
+                "complex128" if is_complex_dtype(any_numeric_dtype) else None
+            )
 
         ser = Series([0, 1], dtype=any_numeric_dtype)
         if dtype == "complex128" and np_version_gte1p25:

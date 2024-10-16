@@ -22,7 +22,9 @@ class TestDataFrameRenameAxis:
 
         expected = float_frame.rename_axis("bar", axis=1)
         result = float_frame.copy()
-        return_value = no_return = result.rename_axis("bar", axis=1, inplace=True)
+        return_value = no_return = result.rename_axis(
+            "bar", axis=1, inplace=True
+        )
         assert return_value is None
 
         assert no_return is None
@@ -45,9 +47,12 @@ class TestDataFrameRenameAxis:
 
     def test_rename_axis_mapper(self):
         # GH#19978
-        mi = MultiIndex.from_product([["a", "b", "c"], [1, 2]], names=["ll", "nn"])
+        mi = MultiIndex.from_product(
+            [["a", "b", "c"], [1, 2]], names=["ll", "nn"]
+        )
         df = DataFrame(
-            {"x": list(range(len(mi))), "y": [i * 10 for i in range(len(mi))]}, index=mi
+            {"x": list(range(len(mi))), "y": [i * 10 for i in range(len(mi))]},
+            index=mi,
         )
 
         # Test for rename of the Index object of columns

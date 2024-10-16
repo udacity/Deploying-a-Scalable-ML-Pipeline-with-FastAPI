@@ -33,7 +33,9 @@ def test_float_parser(all_parsers):
 
 def test_scientific_no_exponent(all_parsers_all_precisions):
     # see gh-12215
-    df = DataFrame.from_dict({"w": ["2e"], "x": ["3E"], "y": ["42e"], "z": ["632E"]})
+    df = DataFrame.from_dict(
+        {"w": ["2e"], "x": ["3E"], "y": ["42e"], "z": ["632E"]}
+    )
     data = df.to_csv(index=False)
     parser, precision = all_parsers_all_precisions
 
@@ -69,7 +71,9 @@ def test_too_many_exponent_digits(all_parsers_all_precisions, exp, request):
     result = parser.read_csv(StringIO(data), float_precision=precision)
     if precision == "round_trip":
         if exp == 999999999999999999 and is_platform_linux():
-            mark = pytest.mark.xfail(reason="GH38794, on Linux gives object result")
+            mark = pytest.mark.xfail(
+                reason="GH38794, on Linux gives object result"
+            )
             request.applymarker(mark)
 
         value = np.inf if exp > 0 else 0.0

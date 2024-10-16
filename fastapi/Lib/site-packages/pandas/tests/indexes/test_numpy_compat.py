@@ -102,7 +102,9 @@ def test_numpy_ufuncs_basic(index, func):
 
 
 @pytest.mark.parametrize(
-    "func", [np.isfinite, np.isinf, np.isnan, np.signbit], ids=lambda x: x.__name__
+    "func",
+    [np.isfinite, np.isinf, np.isnan, np.signbit],
+    ids=lambda x: x.__name__,
 )
 def test_numpy_ufuncs_other(index, func):
     # test ufuncs of numpy, see:
@@ -176,7 +178,9 @@ def test_numpy_ufuncs_reductions(index, func, request):
         assert result == expected
 
 
-@pytest.mark.parametrize("func", [np.bitwise_and, np.bitwise_or, np.bitwise_xor])
+@pytest.mark.parametrize(
+    "func", [np.bitwise_and, np.bitwise_or, np.bitwise_xor]
+)
 def test_numpy_ufuncs_bitwise(func):
     # https://github.com/pandas-dev/pandas/issues/46769
     idx1 = Index([1, 2, 3, 4], dtype="int64")

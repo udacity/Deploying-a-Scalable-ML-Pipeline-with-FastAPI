@@ -322,4 +322,6 @@ def test_factorize_unsigned():
 
     tm.assert_numpy_array_equal(res_codes, exp_codes)
 
-    tm.assert_extension_array_equal(res_unique, NumpyExtensionArray(exp_unique))
+    tm.assert_extension_array_equal(
+        res_unique, NumpyExtensionArray(exp_unique)
+    )

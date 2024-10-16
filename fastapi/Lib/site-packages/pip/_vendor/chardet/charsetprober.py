@@ -41,7 +41,9 @@ class CharSetProber:
 
     SHORTCUT_THRESHOLD = 0.95
 
-    def __init__(self, lang_filter: LanguageFilter = LanguageFilter.NONE) -> None:
+    def __init__(
+        self, lang_filter: LanguageFilter = LanguageFilter.NONE
+    ) -> None:
         self._state = ProbingState.DETECTING
         self.active = True
         self.lang_filter = lang_filter

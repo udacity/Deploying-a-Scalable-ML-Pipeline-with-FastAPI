@@ -112,7 +112,14 @@ ALIASES = {
 VARIABLE.setParseAction(lambda s, l, t: Variable(ALIASES.get(t[0], t[0])))
 
 VERSION_CMP = (
-    L("===") | L("==") | L(">=") | L("<=") | L("!=") | L("~=") | L(">") | L("<")
+    L("===")
+    | L("==")
+    | L(">=")
+    | L("<=")
+    | L("!=")
+    | L("~=")
+    | L(">")
+    | L("<")
 )
 
 MARKER_OP = VERSION_CMP | L("not in") | L("in")
@@ -146,7 +153,8 @@ def _coerce_parse_result(results: Union[ParseResults, List[Any]]) -> List[Any]:
 
 
 def _format_marker(
-    marker: Union[List[str], Tuple[Node, ...], str], first: Optional[bool] = True
+    marker: Union[List[str], Tuple[Node, ...], str],
+    first: Optional[bool] = True,
 ) -> str:
 
     assert isinstance(marker, (list, tuple, str))

@@ -11,7 +11,9 @@ import pandas._testing as tm
 
 
 def monotonic_index(start, end, dtype="int64", closed="right"):
-    return IntervalIndex.from_breaks(np.arange(start, end, dtype=dtype), closed=closed)
+    return IntervalIndex.from_breaks(
+        np.arange(start, end, dtype=dtype), closed=closed
+    )
 
 
 def empty_index(dtype="int64", closed="right"):
@@ -129,7 +131,9 @@ class TestIntervalIndex:
         tm.assert_index_equal(result, expected)
 
     def test_difference(self, closed, sort):
-        index = IntervalIndex.from_arrays([1, 0, 3, 2], [1, 2, 3, 4], closed=closed)
+        index = IntervalIndex.from_arrays(
+            [1, 0, 3, 2], [1, 2, 3, 4], closed=closed
+        )
         result = index.difference(index[:1], sort=sort)
         expected = index[1:]
         if sort is None:
@@ -173,9 +177,12 @@ class TestIntervalIndex:
         expected = empty_index(dtype="float64", closed=closed)
         tm.assert_index_equal(result, expected)
 
-    @pytest.mark.filterwarnings("ignore:'<' not supported between:RuntimeWarning")
+    @pytest.mark.filterwarnings(
+        "ignore:'<' not supported between:RuntimeWarning"
+    )
     @pytest.mark.parametrize(
-        "op_name", ["union", "intersection", "difference", "symmetric_difference"]
+        "op_name",
+        ["union", "intersection", "difference", "symmetric_difference"],
     )
     def test_set_incompatible_types(self, closed, op_name, sort):
         index = monotonic_index(0, 11, closed=closed)

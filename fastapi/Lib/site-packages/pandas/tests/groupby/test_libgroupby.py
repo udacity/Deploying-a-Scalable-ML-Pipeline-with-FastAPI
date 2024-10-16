@@ -26,7 +26,8 @@ class GroupVarTestMixin:
         labels = np.tile(np.arange(5), (3,)).astype("intp")
 
         expected_out = (
-            np.squeeze(values).reshape((5, 3), order="F").std(axis=1, ddof=1) ** 2
+            np.squeeze(values).reshape((5, 3), order="F").std(axis=1, ddof=1)
+            ** 2
         )[:, np.newaxis]
         expected_counts = counts + 3
 
@@ -138,7 +139,9 @@ def test_group_ohlc(dtype):
     bins = np.array([6, 12, 20])
     out = np.zeros((3, 4), dtype)
     counts = np.zeros(len(out), dtype=np.int64)
-    labels = ensure_platform_int(np.repeat(np.arange(3), np.diff(np.r_[0, bins])))
+    labels = ensure_platform_int(
+        np.repeat(np.arange(3), np.diff(np.r_[0, bins]))
+    )
 
     func = libgroupby.group_ohlc
     func(out, counts, obj[:, None], labels)
@@ -242,7 +245,11 @@ def test_cython_group_mean_datetimelike():
     counts = np.array([0], dtype="int64")
     data = (
         np.array(
-            [np.timedelta64(2, "ns"), np.timedelta64(4, "ns"), np.timedelta64("NaT")],
+            [
+                np.timedelta64(2, "ns"),
+                np.timedelta64(4, "ns"),
+                np.timedelta64("NaT"),
+            ],
             dtype="m8[ns]",
         )[:, None]
         .view("int64")
@@ -262,7 +269,9 @@ def test_cython_group_mean_wrong_min_count():
     labels = np.zeros(1, dtype=np.intp)
 
     with pytest.raises(AssertionError, match="min_count"):
-        group_mean(actual, counts, data, labels, is_datetimelike=True, min_count=0)
+        group_mean(
+            actual, counts, data, labels, is_datetimelike=True, min_count=0
+        )
 
 
 def test_cython_group_mean_not_datetimelike_but_has_NaT_values():
@@ -281,7 +290,8 @@ def test_cython_group_mean_not_datetimelike_but_has_NaT_values():
     group_mean(actual, counts, data, labels, is_datetimelike=False)
 
     tm.assert_numpy_array_equal(
-        actual[:, 0], np.array(np.divide(np.add(data[0], data[1]), 2), dtype="float64")
+        actual[:, 0],
+        np.array(np.divide(np.add(data[0], data[1]), 2), dtype="float64"),
     )
 
 
@@ -290,7 +300,14 @@ def test_cython_group_mean_Inf_at_begining_and_end():
     actual = np.array([[np.nan, np.nan], [np.nan, np.nan]], dtype="float64")
     counts = np.array([0, 0], dtype="int64")
     data = np.array(
-        [[np.inf, 1.0], [1.0, 2.0], [2.0, 3.0], [3.0, 4.0], [4.0, 5.0], [5, np.inf]],
+        [
+            [np.inf, 1.0],
+            [1.0, 2.0],
+            [2.0, 3.0],
+            [3.0, 4.0],
+            [4.0, 5.0],
+            [5, np.inf],
+        ],
         dtype="float64",
     )
     labels = np.array([0, 1, 0, 1, 0, 1], dtype=np.intp)

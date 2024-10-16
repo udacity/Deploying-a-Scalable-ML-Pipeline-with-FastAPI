@@ -59,7 +59,10 @@ def _assert_match(result_fill_value, expected_fill_value):
         #  idiosyncrasies where e.g. sometimes we get "ulonglong" as an alias
         #  for "uint64" or "intc" as an alias for "int32"
         assert result_fill_value.dtype.kind == expected_fill_value.dtype.kind
-        assert result_fill_value.dtype.itemsize == expected_fill_value.dtype.itemsize
+        assert (
+            result_fill_value.dtype.itemsize
+            == expected_fill_value.dtype.itemsize
+        )
     else:
         # On some builds, type comparison fails, e.g. np.int32 != np.int32
         assert res_type == ex_type or res_type.__name__ == ex_type.__name__
@@ -244,9 +247,17 @@ def test_maybe_promote_float_with_int(float_numpy_dtype, any_int_numpy_dtype):
         ("float64", float(np.finfo("float32").max) * (1.1 + 1j), "complex128"),
         # complex filled with complex
         ("complex64", 1 + 1j, "complex64"),
-        ("complex64", float(np.finfo("float32").max) * (1.1 + 1j), "complex128"),
+        (
+            "complex64",
+            float(np.finfo("float32").max) * (1.1 + 1j),
+            "complex128",
+        ),
         ("complex128", 1 + 1j, "complex128"),
-        ("complex128", float(np.finfo("float32").max) * (1.1 + 1j), "complex128"),
+        (
+            "complex128",
+            float(np.finfo("float32").max) * (1.1 + 1j),
+            "complex128",
+        ),
     ],
 )
 def test_maybe_promote_float_with_float(dtype, fill_value, expected_dtype):
@@ -340,7 +351,12 @@ def test_maybe_promote_datetime64_with_any(datetime64_dtype, any_numpy_dtype):
         datetime.datetime.now(),
         datetime.date.today(),
     ],
-    ids=["pd.Timestamp", "np.datetime64", "datetime.datetime", "datetime.date"],
+    ids=[
+        "pd.Timestamp",
+        "np.datetime64",
+        "datetime.datetime",
+        "datetime.date",
+    ],
 )
 def test_maybe_promote_any_with_datetime64(any_numpy_dtype, fill_value):
     dtype = np.dtype(any_numpy_dtype)
@@ -370,7 +386,12 @@ def test_maybe_promote_any_with_datetime64(any_numpy_dtype, fill_value):
         datetime.datetime(2023, 1, 1),
         datetime.date(2023, 1, 1),
     ],
-    ids=["pd.Timestamp", "np.datetime64", "datetime.datetime", "datetime.date"],
+    ids=[
+        "pd.Timestamp",
+        "np.datetime64",
+        "datetime.datetime",
+        "datetime.date",
+    ],
 )
 def test_maybe_promote_any_numpy_dtype_with_datetimetz(
     any_numpy_dtype, tz_aware_fixture, fill_value
@@ -387,7 +408,9 @@ def test_maybe_promote_any_numpy_dtype_with_datetimetz(
     _check_promote(dtype, fill_value, expected_dtype, exp_val_for_scalar)
 
 
-def test_maybe_promote_timedelta64_with_any(timedelta64_dtype, any_numpy_dtype):
+def test_maybe_promote_timedelta64_with_any(
+    timedelta64_dtype, any_numpy_dtype
+):
     dtype = np.dtype(timedelta64_dtype)
     fill_dtype = np.dtype(any_numpy_dtype)
 

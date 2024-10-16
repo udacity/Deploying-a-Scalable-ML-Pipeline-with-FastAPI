@@ -28,7 +28,9 @@ class Codec(codecs.Codec):
 
 
 class IncrementalEncoder(codecs.BufferedIncrementalEncoder):
-    def _buffer_encode(self, data: str, errors: str, final: bool) -> Tuple[bytes, int]:
+    def _buffer_encode(
+        self, data: str, errors: str, final: bool
+    ) -> Tuple[bytes, int]:
         if errors != "strict":
             raise IDNAError('Unsupported error handling "{}"'.format(errors))
 
@@ -62,7 +64,9 @@ class IncrementalEncoder(codecs.BufferedIncrementalEncoder):
 
 
 class IncrementalDecoder(codecs.BufferedIncrementalDecoder):
-    def _buffer_decode(self, data: Any, errors: str, final: bool) -> Tuple[str, int]:
+    def _buffer_decode(
+        self, data: Any, errors: str, final: bool
+    ) -> Tuple[str, int]:
         if errors != "strict":
             raise IDNAError('Unsupported error handling "{}"'.format(errors))
 

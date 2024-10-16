@@ -48,7 +48,14 @@ def add_var(
         else:
             mean_x = 0
         ssqdm_x += (val - prev_mean) * (val - mean_x)
-    return nobs, mean_x, ssqdm_x, compensation, num_consecutive_same_value, prev_value
+    return (
+        nobs,
+        mean_x,
+        ssqdm_x,
+        compensation,
+        num_consecutive_same_value,
+        prev_value,
+    )
 
 
 @numba.jit(nopython=True, nogil=True, parallel=False)

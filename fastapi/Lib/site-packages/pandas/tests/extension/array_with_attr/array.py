@@ -42,9 +42,13 @@ class FloatAttrArray(ExtensionArray):
 
     def __init__(self, values, attr=None) -> None:
         if not isinstance(values, np.ndarray):
-            raise TypeError("Need to pass a numpy array of float64 dtype as values")
+            raise TypeError(
+                "Need to pass a numpy array of float64 dtype as values"
+            )
         if not values.dtype == "float64":
-            raise TypeError("Need to pass a numpy array of float64 dtype as values")
+            raise TypeError(
+                "Need to pass a numpy array of float64 dtype as values"
+            )
         self.data = values
         self.attr = attr
 
@@ -77,7 +81,9 @@ class FloatAttrArray(ExtensionArray):
         if allow_fill and fill_value is None:
             fill_value = self.dtype.na_value
 
-        result = take(data, indexer, fill_value=fill_value, allow_fill=allow_fill)
+        result = take(
+            data, indexer, fill_value=fill_value, allow_fill=allow_fill
+        )
         return type(self)(result, self.attr)
 
     def copy(self):

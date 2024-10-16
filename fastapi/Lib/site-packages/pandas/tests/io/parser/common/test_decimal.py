@@ -41,7 +41,9 @@ def test_1000_sep_with_decimal(all_parsers, data, thousands, decimal):
     expected = DataFrame({"A": [1, 10], "B": [2334.01, 13], "C": [5, 10.0]})
 
     if parser.engine == "pyarrow":
-        msg = "The 'thousands' option is not supported with the 'pyarrow' engine"
+        msg = (
+            "The 'thousands' option is not supported with the 'pyarrow' engine"
+        )
         with pytest.raises(ValueError, match=msg):
             parser.read_csv(
                 StringIO(data), sep="|", thousands=thousands, decimal=decimal

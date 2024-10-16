@@ -51,7 +51,9 @@ def test_transform_listlike(axis, float_frame, ops, names):
     with np.errstate(all="ignore"):
         expected = zip_frames([op(float_frame) for op in ops], axis=other_axis)
     if axis in {0, "index"}:
-        expected.columns = MultiIndex.from_product([float_frame.columns, names])
+        expected.columns = MultiIndex.from_product(
+            [float_frame.columns, names]
+        )
     else:
         expected.index = MultiIndex.from_product([float_frame.index, names])
     result = float_frame.transform(ops, axis=axis)
@@ -62,7 +64,9 @@ def test_transform_listlike(axis, float_frame, ops, names):
 def test_transform_empty_listlike(float_frame, ops, frame_or_series):
     obj = unpack_obj(float_frame, frame_or_series, 0)
 
-    with pytest.raises(ValueError, match="No transform functions were provided"):
+    with pytest.raises(
+        ValueError, match="No transform functions were provided"
+    ):
         obj.transform(ops)
 
 
@@ -107,7 +111,9 @@ def test_transform_dictlike_mixed():
     result = df.transform({"b": ["sqrt", "abs"], "c": "sqrt"})
     expected = DataFrame(
         [[1.0, 1, 1.0], [2.0, 4, 2.0]],
-        columns=MultiIndex([("b", "c"), ("sqrt", "abs")], [(0, 0, 1), (0, 1, 0)]),
+        columns=MultiIndex(
+            [("b", "c"), ("sqrt", "abs")], [(0, 0, 1), (0, 1, 0)]
+        ),
     )
     tm.assert_frame_equal(result, expected)
 
@@ -126,7 +132,9 @@ def test_transform_dictlike_mixed():
 def test_transform_empty_dictlike(float_frame, ops, frame_or_series):
     obj = unpack_obj(float_frame, frame_or_series, 0)
 
-    with pytest.raises(ValueError, match="No transform functions were provided"):
+    with pytest.raises(
+        ValueError, match="No transform functions were provided"
+    ):
         obj.transform(ops)
 
 
@@ -149,7 +157,9 @@ def test_transform_udf(axis, float_frame, use_apply, frame_or_series):
 
 
 wont_fail = ["ffill", "bfill", "fillna", "pad", "backfill", "shift"]
-frame_kernels_raise = [x for x in frame_transform_kernels if x not in wont_fail]
+frame_kernels_raise = [
+    x for x in frame_transform_kernels if x not in wont_fail
+]
 
 
 @pytest.mark.parametrize("op", [*frame_kernels_raise, lambda x: x + 1])
@@ -157,10 +167,14 @@ def test_transform_bad_dtype(op, frame_or_series, request):
     # GH 35964
     if op == "ngroup":
         request.applymarker(
-            pytest.mark.xfail(raises=ValueError, reason="ngroup not valid for NDFrame")
+            pytest.mark.xfail(
+                raises=ValueError, reason="ngroup not valid for NDFrame"
+            )
         )
 
-    obj = DataFrame({"A": 3 * [object]})  # DataFrame that will fail on most transforms
+    obj = DataFrame(
+        {"A": 3 * [object]}
+    )  # DataFrame that will fail on most transforms
     obj = tm.get_obj(obj, frame_or_series)
     error = TypeError
     msg = "|".join(
@@ -186,7 +200,9 @@ def test_transform_failure_typeerror(request, op):
 
     if op == "ngroup":
         request.applymarker(
-            pytest.mark.xfail(raises=ValueError, reason="ngroup not valid for NDFrame")
+            pytest.mark.xfail(
+                raises=ValueError, reason="ngroup not valid for NDFrame"
+            )
         )
 
     # Using object makes most transform kernels fail

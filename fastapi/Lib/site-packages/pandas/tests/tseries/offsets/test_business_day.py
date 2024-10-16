@@ -98,19 +98,25 @@ class TestBusinessDay:
 
     def test_add_datetime(self, dt, offset2):
         assert offset2 + dt == datetime(2008, 1, 3)
-        assert offset2 + np.datetime64("2008-01-01 00:00:00") == datetime(2008, 1, 3)
+        assert offset2 + np.datetime64("2008-01-01 00:00:00") == datetime(
+            2008, 1, 3
+        )
 
     def testRollback1(self, dt, _offset):
         assert _offset(10).rollback(dt) == dt
 
     def testRollback2(self, _offset):
-        assert _offset(10).rollback(datetime(2008, 1, 5)) == datetime(2008, 1, 4)
+        assert _offset(10).rollback(datetime(2008, 1, 5)) == datetime(
+            2008, 1, 4
+        )
 
     def testRollforward1(self, dt, _offset):
         assert _offset(10).rollforward(dt) == dt
 
     def testRollforward2(self, _offset):
-        assert _offset(10).rollforward(datetime(2008, 1, 5)) == datetime(2008, 1, 7)
+        assert _offset(10).rollforward(datetime(2008, 1, 5)) == datetime(
+            2008, 1, 7
+        )
 
     def test_roll_date_object(self, offset):
         dt = date(2012, 9, 15)

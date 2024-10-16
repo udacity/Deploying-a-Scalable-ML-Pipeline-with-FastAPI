@@ -112,7 +112,9 @@ def _is_sup(f1: str, f2: str) -> bool:
     )
 
 
-def _upsample_others(ax: Axes, freq: BaseOffset, kwargs: dict[str, Any]) -> None:
+def _upsample_others(
+    ax: Axes, freq: BaseOffset, kwargs: dict[str, Any]
+) -> None:
     legend = ax.get_legend()
     lines, labels = _replot_ax(ax, freq)
     _replot_ax(ax, freq)
@@ -161,7 +163,9 @@ def _replot_ax(ax: Axes, freq: BaseOffset):
 
                 plotf = PLOT_CLASSES[plotf]._plot
 
-            lines.append(plotf(ax, series.index._mpl_repr(), series.values, **kwds)[0])
+            lines.append(
+                plotf(ax, series.index._mpl_repr(), series.values, **kwds)[0]
+            )
             labels.append(pprint_thing(series.name))
 
     return lines, labels

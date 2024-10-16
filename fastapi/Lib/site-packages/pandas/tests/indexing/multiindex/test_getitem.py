@@ -17,7 +17,11 @@ from pandas.core.indexing import IndexingError
 
 @pytest.mark.parametrize(
     "access_method",
-    [lambda s, x: s[:, x], lambda s, x: s.loc[:, x], lambda s, x: s.xs(x, level=1)],
+    [
+        lambda s, x: s[:, x],
+        lambda s, x: s.loc[:, x],
+        lambda s, x: s.xs(x, level=1),
+    ],
 )
 @pytest.mark.parametrize(
     "level1_value, expected",
@@ -63,7 +67,9 @@ def test_series_getitem_duplicates_multiindex(level0_value):
     tm.assert_series_equal(result, expected)
 
 
-def test_series_getitem(multiindex_year_month_day_dataframe_random_data, indexer_sl):
+def test_series_getitem(
+    multiindex_year_month_day_dataframe_random_data, indexer_sl
+):
     s = multiindex_year_month_day_dataframe_random_data["A"]
     expected = s.reindex(s.index[42:65])
     expected.index = expected.index.droplevel(0).droplevel(0)
@@ -89,7 +95,11 @@ def test_series_getitem_returns_scalar(
         (lambda s: s[(2000, 3, 4)], KeyError, r"^\(2000, 3, 4\)$"),
         (lambda s: s.loc[(2000, 3, 4)], KeyError, r"^\(2000, 3, 4\)$"),
         (lambda s: s.loc[(2000, 3, 4, 5)], IndexingError, "Too many indexers"),
-        (lambda s: s.__getitem__(len(s)), KeyError, ""),  # match should include len(s)
+        (
+            lambda s: s.__getitem__(len(s)),
+            KeyError,
+            "",
+        ),  # match should include len(s)
         (lambda s: s[len(s)], KeyError, ""),  # match should include len(s)
         (
             lambda s: s.iloc[len(s)],
@@ -147,7 +157,9 @@ def test_frame_getitem_simple_key_error(
 
 def test_tuple_string_column_names():
     # GH#50372
-    mi = MultiIndex.from_tuples([("a", "aa"), ("a", "ab"), ("b", "ba"), ("b", "bb")])
+    mi = MultiIndex.from_tuples(
+        [("a", "aa"), ("a", "ab"), ("b", "ba"), ("b", "bb")]
+    )
     df = DataFrame([range(4), range(1, 5), range(2, 6)], columns=mi)
     df["single_index"] = 0
 
@@ -157,7 +169,8 @@ def test_tuple_string_column_names():
 
     result = df_flat[[("a", "aa"), "new_single_index"]]
     expected = DataFrame(
-        [[0, 0], [1, 0], [2, 0]], columns=Index([("a", "aa"), "new_single_index"])
+        [[0, 0], [1, 0], [2, 0]],
+        columns=Index([("a", "aa"), "new_single_index"]),
     )
     tm.assert_frame_equal(result, expected)
 
@@ -204,7 +217,9 @@ def test_frame_mixed_depth_get():
 
     tuples = sorted(zip(*arrays))
     index = MultiIndex.from_tuples(tuples)
-    df = DataFrame(np.random.default_rng(2).standard_normal((4, 6)), columns=index)
+    df = DataFrame(
+        np.random.default_rng(2).standard_normal((4, 6)), columns=index
+    )
 
     result = df["a"]
     expected = df["a", "", ""].rename("a")
@@ -229,7 +244,9 @@ def test_frame_getitem_nan_multiindex(nulls_fixture):
 
     idx = (21, n)
     result = df.loc[:idx]
-    expected = DataFrame([[11, n, 13], [21, n, 23]], columns=cols).set_index(["a", "b"])
+    expected = DataFrame([[11, n, 13], [21, n, 23]], columns=cols).set_index(
+        ["a", "b"]
+    )
     expected["c"] = expected["c"].astype("int64")
     tm.assert_frame_equal(result, expected)
 
@@ -242,7 +259,9 @@ def test_frame_getitem_nan_multiindex(nulls_fixture):
 
     idx1, idx2 = (21, n), (31, n)
     result = df.loc[idx1:idx2]
-    expected = DataFrame([[21, n, 23], [31, n, 33]], columns=cols).set_index(["a", "b"])
+    expected = DataFrame([[21, n, 23], [31, n, 33]], columns=cols).set_index(
+        ["a", "b"]
+    )
     expected["c"] = expected["c"].astype("int64")
     tm.assert_frame_equal(result, expected)
 
@@ -255,7 +274,9 @@ def test_frame_getitem_nan_multiindex(nulls_fixture):
             (
                 DataFrame(
                     [[2, 3], [5, 6]],
-                    columns=MultiIndex.from_tuples([("b", "bar"), ("b", np.nan)]),
+                    columns=MultiIndex.from_tuples(
+                        [("b", "bar"), ("b", np.nan)]
+                    ),
                     dtype="int64",
                 )
             ),
@@ -277,7 +298,9 @@ def test_frame_getitem_nan_multiindex(nulls_fixture):
             (
                 DataFrame(
                     [[2, 3], [5, 6]],
-                    columns=MultiIndex.from_tuples([("b", "bar"), ("b", np.nan)]),
+                    columns=MultiIndex.from_tuples(
+                        [("b", "bar"), ("b", np.nan)]
+                    ),
                     dtype="int64",
                 )
             ),
@@ -334,7 +357,11 @@ def test_frame_getitem_nan_cols_multiindex(
 @pytest.fixture
 def dataframe_with_duplicate_index():
     """Fixture for DataFrame used in tests for gh-4145 and gh-4146"""
-    data = [["a", "d", "e", "c", "f", "b"], [1, 4, 5, 3, 6, 2], [1, 4, 5, 3, 6, 2]]
+    data = [
+        ["a", "d", "e", "c", "f", "b"],
+        [1, 4, 5, 3, 6, 2],
+        [1, 4, 5, 3, 6, 2],
+    ]
     index = ["h1", "h3", "h5"]
     columns = MultiIndex(
         levels=[["A", "B"], ["A1", "A2", "B1", "B2"]],
@@ -383,7 +410,9 @@ def test_frame_mi_access_returns_frame(dataframe_with_duplicate_index):
 
 def test_frame_mi_empty_slice():
     # GH 15454
-    df = DataFrame(0, index=range(2), columns=MultiIndex.from_product([[1], [2]]))
+    df = DataFrame(
+        0, index=range(2), columns=MultiIndex.from_product([[1], [2]])
+    )
     result = df[[]]
     expected = DataFrame(
         index=[0, 1], columns=MultiIndex(levels=[[1], [2]], codes=[[], []])

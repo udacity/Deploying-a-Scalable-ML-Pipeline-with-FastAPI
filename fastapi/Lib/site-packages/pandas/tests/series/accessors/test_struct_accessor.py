@@ -127,9 +127,15 @@ def test_struct_accessor_explode():
     actual = ser.struct.explode()
     expected = DataFrame(
         {
-            "painted": Series([1, 2, 3], index=index, dtype=ArrowDtype(pa.int64())),
+            "painted": Series(
+                [1, 2, 3], index=index, dtype=ArrowDtype(pa.int64())
+            ),
             "snapping": Series(
-                [{"sea": "green"}, {"sea": "leatherback"}, {"sea": "hawksbill"}],
+                [
+                    {"sea": "green"},
+                    {"sea": "leatherback"},
+                    {"sea": "hawksbill"},
+                ],
                 index=index,
                 dtype=ArrowDtype(pa.struct([("sea", pa.string())])),
             ),
@@ -143,7 +149,8 @@ def test_struct_accessor_explode():
     [
         pytest.param(Series([1, 2, 3], dtype="int64"), id="int64"),
         pytest.param(
-            Series(["a", "b", "c"], dtype="string[pyarrow]"), id="string-pyarrow"
+            Series(["a", "b", "c"], dtype="string[pyarrow]"),
+            id="string-pyarrow",
         ),
     ],
 )

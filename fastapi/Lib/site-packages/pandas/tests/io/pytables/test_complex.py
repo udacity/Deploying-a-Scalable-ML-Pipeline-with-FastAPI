@@ -183,7 +183,9 @@ def test_complex_series_error(tmp_path, setup_path):
 def test_complex_append(setup_path):
     df = DataFrame(
         {
-            "a": np.random.default_rng(2).standard_normal(100).astype(np.complex128),
+            "a": np.random.default_rng(2)
+            .standard_normal(100)
+            .astype(np.complex128),
             "b": np.random.default_rng(2).standard_normal(100),
         }
     )

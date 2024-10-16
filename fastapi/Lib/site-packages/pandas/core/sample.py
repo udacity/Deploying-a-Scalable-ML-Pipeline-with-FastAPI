@@ -62,7 +62,9 @@ def preprocess_weights(obj: NDFrame, weights, axis: AxisInt) -> np.ndarray:
     weights = func(weights, dtype="float64")._values
 
     if len(weights) != obj.shape[axis]:
-        raise ValueError("Weights and axis to be sampled must be of same length")
+        raise ValueError(
+            "Weights and axis to be sampled must be of same length"
+        )
 
     if lib.has_infs(weights):
         raise ValueError("weight vector may not include `inf` values")
@@ -150,6 +152,6 @@ def sample(
         else:
             raise ValueError("Invalid weights: weights sum to zero")
 
-    return random_state.choice(obj_len, size=size, replace=replace, p=weights).astype(
-        np.intp, copy=False
-    )
+    return random_state.choice(
+        obj_len, size=size, replace=replace, p=weights
+    ).astype(np.intp, copy=False)

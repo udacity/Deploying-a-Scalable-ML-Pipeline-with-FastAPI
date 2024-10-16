@@ -82,7 +82,9 @@ def test_zip_error_invalid_zip(parser_and_data):
 
     with tm.ensure_clean() as path:
         with open(path, "rb") as f:
-            with pytest.raises(zipfile.BadZipFile, match="File is not a zip file"):
+            with pytest.raises(
+                zipfile.BadZipFile, match="File is not a zip file"
+            ):
                 parser.read_csv(f, compression="zip")
 
 
@@ -140,13 +142,17 @@ def test_infer_compression(all_parsers, csv1, buffer, ext):
     tm.assert_frame_equal(result, expected)
 
 
-def test_compression_utf_encoding(all_parsers, csv_dir_path, utf_value, encoding_fmt):
+def test_compression_utf_encoding(
+    all_parsers, csv_dir_path, utf_value, encoding_fmt
+):
     # see gh-18071, gh-24130
     parser = all_parsers
     encoding = encoding_fmt.format(utf_value)
     path = os.path.join(csv_dir_path, f"utf{utf_value}_ex_small.zip")
 
-    result = parser.read_csv(path, encoding=encoding, compression="zip", sep="\t")
+    result = parser.read_csv(
+        path, encoding=encoding, compression="zip", sep="\t"
+    )
     expected = DataFrame(
         {
             "Country": ["Venezuela", "Venezuela"],
@@ -186,7 +192,9 @@ def test_ignore_compression_extension(all_parsers):
                 Path(path_csv).read_text(encoding="utf-8"), encoding="utf-8"
             )
 
-            tm.assert_frame_equal(parser.read_csv(path_zip, compression=None), df)
+            tm.assert_frame_equal(
+                parser.read_csv(path_zip, compression=None), df
+            )
 
 
 def test_writes_tar_gz(all_parsers):

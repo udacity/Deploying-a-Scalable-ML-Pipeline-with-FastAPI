@@ -124,7 +124,9 @@ class BuildBackendHookCaller:
         self.source_dir = abspath(source_dir)
         self.build_backend = build_backend
         if backend_path:
-            backend_path = [norm_and_check(self.source_dir, p) for p in backend_path]
+            backend_path = [
+                norm_and_check(self.source_dir, p) for p in backend_path
+            ]
         self.backend_path = backend_path
         self._subprocess_runner = runner
         if not python_executable:
@@ -165,7 +167,8 @@ class BuildBackendHookCaller:
             empty list will be returned.
         """
         return self._call_hook(
-            "get_requires_for_build_wheel", {"config_settings": config_settings}
+            "get_requires_for_build_wheel",
+            {"config_settings": config_settings},
         )
 
     def prepare_metadata_for_build_wheel(
@@ -231,7 +234,8 @@ class BuildBackendHookCaller:
             empty list will be returned.
         """
         return self._call_hook(
-            "get_requires_for_build_editable", {"config_settings": config_settings}
+            "get_requires_for_build_editable",
+            {"config_settings": config_settings},
         )
 
     def prepare_metadata_for_build_editable(
@@ -293,7 +297,8 @@ class BuildBackendHookCaller:
         :rtype: list[str]
         """
         return self._call_hook(
-            "get_requires_for_build_sdist", {"config_settings": config_settings}
+            "get_requires_for_build_sdist",
+            {"config_settings": config_settings},
         )
 
     def build_sdist(self, sdist_directory, config_settings=None):

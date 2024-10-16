@@ -26,7 +26,9 @@ class TestJoin:
         tm.assert_index_equal(index, joined)
 
     def test_does_not_convert_mixed_integer(self):
-        df = DataFrame(np.ones((5, 5)), columns=timedelta_range("1 day", periods=5))
+        df = DataFrame(
+            np.ones((5, 5)), columns=timedelta_range("1 day", periods=5)
+        )
 
         cols = df.columns.join(df.index, how="outer")
         joined = cols.join(df.columns)

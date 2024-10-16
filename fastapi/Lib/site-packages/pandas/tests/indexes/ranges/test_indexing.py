@@ -66,7 +66,9 @@ class TestTake:
             idx.take(np.array([1, 0, -1]), fill_value=True)
 
         # allow_fill=False
-        result = idx.take(np.array([1, 0, -1]), allow_fill=False, fill_value=True)
+        result = idx.take(
+            np.array([1, 0, -1]), allow_fill=False, fill_value=True
+        )
         expected = Index([2, 1, 3], dtype=np.int64, name="xxx")
         tm.assert_index_equal(result, expected)
 

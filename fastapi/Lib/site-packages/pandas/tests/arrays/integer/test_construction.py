@@ -32,7 +32,9 @@ def test_from_dtype_from_float(data):
 
     # from float
     expected = pd.Series(data)
-    result = pd.Series(data.to_numpy(na_value=np.nan, dtype="float"), dtype=str(dtype))
+    result = pd.Series(
+        data.to_numpy(na_value=np.nan, dtype="float"), dtype=str(dtype)
+    )
     tm.assert_series_equal(result, expected)
 
     # from int / list

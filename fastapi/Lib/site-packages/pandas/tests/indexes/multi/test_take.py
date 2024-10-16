@@ -35,7 +35,10 @@ def test_take_invalid_kwargs(idx):
 
 def test_take_fill_value():
     # GH 12631
-    vals = [["A", "B"], [pd.Timestamp("2011-01-01"), pd.Timestamp("2011-01-02")]]
+    vals = [
+        ["A", "B"],
+        [pd.Timestamp("2011-01-01"), pd.Timestamp("2011-01-02")],
+    ]
     idx = pd.MultiIndex.from_product(vals, names=["str", "dt"])
 
     result = idx.take(np.array([1, 0, -1]))

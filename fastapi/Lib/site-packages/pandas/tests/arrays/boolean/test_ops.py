@@ -12,7 +12,9 @@ class TestUnaryOps:
         result = ~pd.Series(a, index=["a", "b", "c"], name="name")
         tm.assert_series_equal(result, expected)
 
-        df = pd.DataFrame({"A": a, "B": [True, False, False]}, index=["a", "b", "c"])
+        df = pd.DataFrame(
+            {"A": a, "B": [True, False, False]}, index=["a", "b", "c"]
+        )
         result = ~df
         expected = pd.DataFrame(
             {"A": expected, "B": [False, True, True]}, index=["a", "b", "c"]

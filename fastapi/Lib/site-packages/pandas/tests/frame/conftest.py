@@ -70,7 +70,9 @@ def mixed_int_frame():
     return DataFrame(
         {
             col: np.ones(30, dtype=dtype)
-            for col, dtype in zip(list("ABCD"), ["int32", "uint64", "uint8", "int64"])
+            for col, dtype in zip(
+                list("ABCD"), ["int32", "uint64", "uint8", "int64"]
+            )
         },
         index=Index([f"foo_{i}" for i in range(30)], dtype=object),
     )

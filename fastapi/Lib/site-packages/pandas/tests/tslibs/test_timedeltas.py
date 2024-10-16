@@ -28,7 +28,9 @@ import pandas._testing as tm
             111,
         ),  # GH43764
         (
-            Timedelta(days=1, seconds=1e-9, milliseconds=1e-5, microseconds=1e-1),
+            Timedelta(
+                days=1, seconds=1e-9, milliseconds=1e-5, microseconds=1e-1
+            ),
             24 * 3600e9 + 111,
         ),  # GH43764
         (offsets.Nano(125), 125),

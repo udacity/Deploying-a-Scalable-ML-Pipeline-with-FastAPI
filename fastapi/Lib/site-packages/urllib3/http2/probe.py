@@ -42,7 +42,9 @@ class _HTTP2ProbeCache:
 
         # In case an exception like KeyboardInterrupt is raised here.
         except BaseException as e:  # Defensive:
-            assert not isinstance(e, KeyError)  # KeyError shouldn't be possible.
+            assert not isinstance(
+                e, KeyError
+            )  # KeyError shouldn't be possible.
             key_lock.release()
             raise
 
@@ -53,7 +55,9 @@ class _HTTP2ProbeCache:
     ) -> None:
         key = (host, port)
         key_lock = self._cache_locks[key]
-        with key_lock:  # Uses an RLock, so can be locked again from same thread.
+        with (
+            key_lock
+        ):  # Uses an RLock, so can be locked again from same thread.
             if supports_http2 is None and self._cache_values[key] is not None:
                 raise ValueError(
                     "Cannot reset HTTP/2 support for origin after value has been set."

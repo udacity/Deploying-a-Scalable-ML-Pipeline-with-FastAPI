@@ -143,7 +143,11 @@ def test_equals_multi(idx):
 
     # different number of levels
     index = MultiIndex(
-        levels=[Index(list(range(4))), Index(list(range(4))), Index(list(range(4)))],
+        levels=[
+            Index(list(range(4))),
+            Index(list(range(4))),
+            Index(list(range(4))),
+        ],
         codes=[
             np.array([0, 0, 1, 2, 2, 2, 3, 3]),
             np.array([0, 1, 0, 0, 0, 1, 0, 1]),

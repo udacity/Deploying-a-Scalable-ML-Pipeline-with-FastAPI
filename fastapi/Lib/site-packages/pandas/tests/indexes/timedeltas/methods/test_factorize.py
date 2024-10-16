@@ -10,7 +10,9 @@ import pandas._testing as tm
 
 class TestTimedeltaIndexFactorize:
     def test_factorize(self):
-        idx1 = TimedeltaIndex(["1 day", "1 day", "2 day", "2 day", "3 day", "3 day"])
+        idx1 = TimedeltaIndex(
+            ["1 day", "1 day", "2 day", "2 day", "3 day", "3 day"]
+        )
 
         exp_arr = np.array([0, 0, 1, 1, 2, 2], dtype=np.intp)
         exp_idx = TimedeltaIndex(["1 day", "2 day", "3 day"])

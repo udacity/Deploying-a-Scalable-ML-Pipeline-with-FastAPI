@@ -20,7 +20,9 @@ class OnlyOnce:
             results = self.callable(s, l, t)
             self.called = True
             return results
-        raise ParseException(s, l, "OnlyOnce obj called multiple times w/out reset")
+        raise ParseException(
+            s, l, "OnlyOnce obj called multiple times w/out reset"
+        )
 
     def reset(self):
         """
@@ -38,7 +40,9 @@ def match_only_at_col(n):
 
     def verify_col(strg, locn, toks):
         if col(locn, strg) != n:
-            raise ParseException(strg, locn, f"matched token not at column {n}")
+            raise ParseException(
+                strg, locn, f"matched token not at column {n}"
+            )
 
     return verify_col
 
@@ -144,7 +148,10 @@ def with_attribute(*args, **attr_dict):
         for attrName, attrValue in attrs:
             if attrName not in tokens:
                 raise ParseException(s, l, "no matching attribute " + attrName)
-            if attrValue != with_attribute.ANY_VALUE and tokens[attrName] != attrValue:
+            if (
+                attrValue != with_attribute.ANY_VALUE
+                and tokens[attrName] != attrValue
+            ):
                 raise ParseException(
                     s,
                     l,

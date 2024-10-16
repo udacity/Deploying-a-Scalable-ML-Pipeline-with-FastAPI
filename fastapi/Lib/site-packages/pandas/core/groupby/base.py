@@ -23,7 +23,9 @@ plotting_methods = frozenset(["plot", "hist"])
 
 # cythonized transformations or canned "agg+broadcast", which do not
 # require postprocessing of the result by transform.
-cythonized_kernels = frozenset(["cumprod", "cumsum", "shift", "cummin", "cummax"])
+cythonized_kernels = frozenset(
+    ["cumprod", "cumsum", "shift", "cummin", "cummax"]
+)
 
 # List of aggregation/reduction functions.
 # These map each group to a single numeric value

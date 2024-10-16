@@ -58,5 +58,8 @@ pc_encoding_doc = """
 
 with cf.config_prefix("display"):
     cf.register_option(
-        "encoding", detect_console_encoding(), pc_encoding_doc, validator=cf.is_text
+        "encoding",
+        detect_console_encoding(),
+        pc_encoding_doc,
+        validator=cf.is_text,
     )

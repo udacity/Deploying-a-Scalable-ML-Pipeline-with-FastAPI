@@ -147,7 +147,12 @@ class Scope:
     temps: dict
 
     def __init__(
-        self, level: int, global_dict=None, local_dict=None, resolvers=(), target=None
+        self,
+        level: int,
+        global_dict=None,
+        local_dict=None,
+        resolvers=(),
+        target=None,
     ) -> None:
         self.level = level + 1
 
@@ -169,12 +174,18 @@ class Scope:
             # scope when we align terms (alignment accesses the underlying
             # numpy array of pandas objects)
             scope_global = self.scope.new_child(
-                (global_dict if global_dict is not None else frame.f_globals).copy()
+                (
+                    global_dict if global_dict is not None else frame.f_globals
+                ).copy()
             )
             self.scope = DeepChainMap(scope_global)
             if not isinstance(local_dict, Scope):
                 scope_local = self.scope.new_child(
-                    (local_dict if local_dict is not None else frame.f_locals).copy()
+                    (
+                        local_dict
+                        if local_dict is not None
+                        else frame.f_locals
+                    ).copy()
                 )
                 self.scope = DeepChainMap(scope_local)
         finally:
@@ -189,7 +200,9 @@ class Scope:
     def __repr__(self) -> str:
         scope_keys = _get_pretty_string(list(self.scope.keys()))
         res_keys = _get_pretty_string(list(self.resolvers.keys()))
-        return f"{type(self).__name__}(scope={scope_keys}, resolvers={res_keys})"
+        return (
+            f"{type(self).__name__}(scope={scope_keys}, resolvers={res_keys})"
+        )
 
     @property
     def has_resolvers(self) -> bool:

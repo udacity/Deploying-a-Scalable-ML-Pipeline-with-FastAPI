@@ -75,7 +75,10 @@ def _extract_source_from_frame(cls: type[Any]) -> list[str] | None:
                     ):
                         # `_dedent_source_lines` wrapped the class around the workaround function
                         stmt = stmt.body[0]
-                    if isinstance(stmt, ast.ClassDef) and stmt.name == cls.__name__:
+                    if (
+                        isinstance(stmt, ast.ClassDef)
+                        and stmt.name == cls.__name__
+                    ):
                         return block_lines
 
         frame = frame.f_back

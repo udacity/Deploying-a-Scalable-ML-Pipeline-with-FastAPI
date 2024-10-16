@@ -29,7 +29,9 @@ class TestContains:
         assert interval1 in interval1
         assert interval2 in interval2
         assert interval2 in interval1
-        assert interval1 not in interval2 or inclusive_endpoints_fixture == "both"
+        assert (
+            interval1 not in interval2 or inclusive_endpoints_fixture == "both"
+        )
 
     def test_contains_infinite_length(self):
         interval1 = Interval(0, 1, "both")

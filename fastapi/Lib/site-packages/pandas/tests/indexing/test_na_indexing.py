@@ -17,13 +17,18 @@ import pandas._testing as tm
         ([1, 2, 3], "timedelta64[ns]"),
         (["2000", "2001", "2002"], "Period[D]"),
         ([1, 0, 3], "Sparse"),
-        ([pd.Interval(0, 1), pd.Interval(1, 2), pd.Interval(3, 4)], "interval"),
+        (
+            [pd.Interval(0, 1), pd.Interval(1, 2), pd.Interval(3, 4)],
+            "interval",
+        ),
     ],
 )
 @pytest.mark.parametrize(
     "mask", [[True, False, False], [True, True, True], [False, False, False]]
 )
-@pytest.mark.parametrize("indexer_class", [list, pd.array, pd.Index, pd.Series])
+@pytest.mark.parametrize(
+    "indexer_class", [list, pd.array, pd.Index, pd.Series]
+)
 @pytest.mark.parametrize("frame", [True, False])
 def test_series_mask_boolean(values, dtype, mask, indexer_class, frame):
     # In case len(values) < 3

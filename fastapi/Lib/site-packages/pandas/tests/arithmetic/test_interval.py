@@ -40,8 +40,12 @@ from pandas.tests.arithmetic.common import get_upcast_box
             date_range("20170102", periods=3).insert(3, pd.NaT),
         ),
         (
-            date_range("20170101", periods=3, tz="US/Eastern").insert(3, pd.NaT),
-            date_range("20170102", periods=3, tz="US/Eastern").insert(3, pd.NaT),
+            date_range("20170101", periods=3, tz="US/Eastern").insert(
+                3, pd.NaT
+            ),
+            date_range("20170102", periods=3, tz="US/Eastern").insert(
+                3, pd.NaT
+            ),
         ),
     ],
     ids=lambda x: str(x[0].dtype),
@@ -125,15 +129,21 @@ class TestComparison:
         expected = self.elementwise_comparison(op, interval_array, other)
         tm.assert_numpy_array_equal(result, expected)
 
-    def test_compare_scalar_interval_mixed_closed(self, op, closed, other_closed):
-        interval_array = IntervalArray.from_arrays(range(2), range(1, 3), closed=closed)
+    def test_compare_scalar_interval_mixed_closed(
+        self, op, closed, other_closed
+    ):
+        interval_array = IntervalArray.from_arrays(
+            range(2), range(1, 3), closed=closed
+        )
         other = Interval(0, 1, closed=other_closed)
 
         result = op(interval_array, other)
         expected = self.elementwise_comparison(op, interval_array, other)
         tm.assert_numpy_array_equal(result, expected)
 
-    def test_compare_scalar_na(self, op, interval_array, nulls_fixture, box_with_array):
+    def test_compare_scalar_na(
+        self, op, interval_array, nulls_fixture, box_with_array
+    ):
         box = box_with_array
         obj = tm.box_expected(interval_array, box)
         result = op(obj, nulls_fixture)
@@ -143,7 +153,9 @@ class TestComparison:
             exp = np.ones(interval_array.shape, dtype=bool)
             expected = BooleanArray(exp, exp)
         else:
-            expected = self.elementwise_comparison(op, interval_array, nulls_fixture)
+            expected = self.elementwise_comparison(
+                op, interval_array, nulls_fixture
+            )
 
         if not (box is Index and nulls_fixture is pd.NA):
             # don't cast expected from BooleanArray to ndarray[object]
@@ -173,7 +185,9 @@ class TestComparison:
         expected = self.elementwise_comparison(op, interval_array, other)
         tm.assert_numpy_array_equal(result, expected)
 
-    def test_compare_list_like_interval(self, op, interval_array, interval_constructor):
+    def test_compare_list_like_interval(
+        self, op, interval_array, interval_constructor
+    ):
         # same endpoints
         other = interval_constructor(interval_array.left, interval_array.right)
         result = op(interval_array, other)
@@ -197,8 +211,12 @@ class TestComparison:
     def test_compare_list_like_interval_mixed_closed(
         self, op, interval_constructor, closed, other_closed
     ):
-        interval_array = IntervalArray.from_arrays(range(2), range(1, 3), closed=closed)
-        other = interval_constructor(range(2), range(1, 3), closed=other_closed)
+        interval_array = IntervalArray.from_arrays(
+            range(2), range(1, 3), closed=closed
+        )
+        other = interval_constructor(
+            range(2), range(1, 3), closed=other_closed
+        )
 
         result = op(interval_array, other)
         expected = self.elementwise_comparison(op, interval_array, other)
@@ -257,7 +275,9 @@ class TestComparison:
 
     @pytest.mark.parametrize("length", [1, 3, 5])
     @pytest.mark.parametrize("other_constructor", [IntervalArray, list])
-    def test_compare_length_mismatch_errors(self, op, other_constructor, length):
+    def test_compare_length_mismatch_errors(
+        self, op, other_constructor, length
+    ):
         interval_array = IntervalArray.from_arrays(range(4), range(1, 5))
         other = other_constructor([Interval(0, 1)] * length)
         with pytest.raises(ValueError, match="Lengths must match to compare"):
@@ -270,7 +290,9 @@ class TestComparison:
             (Series, Series, tm.assert_series_equal),
         ],
     )
-    def test_index_series_compat(self, op, constructor, expected_type, assert_func):
+    def test_index_series_compat(
+        self, op, constructor, expected_type, assert_func
+    ):
         # IntervalIndex/Series that rely on IntervalArray for comparisons
         breaks = range(4)
         index = constructor(IntervalIndex.from_breaks(breaks))

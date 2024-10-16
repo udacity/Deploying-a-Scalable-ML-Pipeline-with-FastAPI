@@ -14,7 +14,11 @@ class TestConcatSort:
 
         # for sort=True/None
         expected = DataFrame(
-            {"a": [1, 2, 3, 4], "b": [1, 2, None, None], "c": [None, None, 5, 6]},
+            {
+                "a": [1, 2, 3, 4],
+                "b": [1, 2, None, None],
+                "c": [None, None, 5, 6],
+            },
             columns=["a", "b", "c"],
         )
 
@@ -54,16 +58,22 @@ class TestConcatSort:
         with tm.assert_produces_warning(None):
             # unset sort should *not* warn for inner join
             # since that never sorted
-            result = pd.concat([df1, df2], sort=sort, join="inner", ignore_index=True)
+            result = pd.concat(
+                [df1, df2], sort=sort, join="inner", ignore_index=True
+            )
 
-        expected = DataFrame({"b": [1, 2, 3, 4], "a": [1, 2, 1, 2]}, columns=["b", "a"])
+        expected = DataFrame(
+            {"b": [1, 2, 3, 4], "a": [1, 2, 1, 2]}, columns=["b", "a"]
+        )
         if sort is True:
             expected = expected[["a", "b"]]
         tm.assert_frame_equal(result, expected)
 
     def test_concat_aligned_sort(self):
         # GH-4588
-        df = DataFrame({"c": [1, 2], "b": [3, 4], "a": [5, 6]}, columns=["c", "b", "a"])
+        df = DataFrame(
+            {"c": [1, 2], "b": [3, 4], "a": [5, 6]}, columns=["c", "b", "a"]
+        )
         result = pd.concat([df, df], sort=True, ignore_index=True)
         expected = DataFrame(
             {"a": [5, 6, 5, 6], "b": [3, 4, 3, 4], "c": [1, 2, 1, 2]},
@@ -81,7 +91,9 @@ class TestConcatSort:
         # GH-4588
         # We catch TypeErrors from sorting internally and do not re-raise.
         df = DataFrame({1: [1, 2], "a": [3, 4]}, columns=[1, "a"])
-        expected = DataFrame({1: [1, 2, 1, 2], "a": [3, 4, 3, 4]}, columns=[1, "a"])
+        expected = DataFrame(
+            {1: [1, 2, 1, 2], "a": [3, 4, 3, 4]}, columns=[1, "a"]
+        )
         result = pd.concat([df, df], ignore_index=True, sort=True)
         tm.assert_frame_equal(result, expected)
 
@@ -90,7 +102,9 @@ class TestConcatSort:
         result = pd.concat(
             [DataFrame({i: i}, index=[i]) for i in range(2, 0, -1)], sort=False
         )
-        expected = DataFrame([[2, np.nan], [np.nan, 1]], index=[2, 1], columns=[2, 1])
+        expected = DataFrame(
+            [[2, np.nan], [np.nan, 1]], index=[2, 1], columns=[2, 1]
+        )
 
         tm.assert_frame_equal(result, expected)
 
@@ -113,6 +127,8 @@ class TestConcatSort:
     def test_concat_sort_none_raises(self):
         # GH#41518
         df = DataFrame({1: [1, 2], "a": [3, 4]})
-        msg = "The 'sort' keyword only accepts boolean values; None was passed."
+        msg = (
+            "The 'sort' keyword only accepts boolean values; None was passed."
+        )
         with pytest.raises(ValueError, match=msg):
             pd.concat([df, df], sort=None)

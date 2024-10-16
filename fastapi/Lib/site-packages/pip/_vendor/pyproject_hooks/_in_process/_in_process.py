@@ -83,7 +83,9 @@ def _build_backend():
         raise BackendUnavailable(traceback.format_exc())
 
     if backend_path:
-        if not any(contained_in(obj.__file__, path) for path in extra_pathitems):
+        if not any(
+            contained_in(obj.__file__, path) for path in extra_pathitems
+        ):
             raise BackendInvalid("Backend was not loaded from backend-path")
 
     if obj_path:
@@ -200,7 +202,9 @@ def _dist_info_files(whl_zip):
     raise Exception("No .dist-info folder found in wheel")
 
 
-def _get_wheel_metadata_from_wheel(whl_basename, metadata_directory, config_settings):
+def _get_wheel_metadata_from_wheel(
+    whl_basename, metadata_directory, config_settings
+):
     """Extract the metadata from a wheel.
 
     Fallback for when the build backend does not

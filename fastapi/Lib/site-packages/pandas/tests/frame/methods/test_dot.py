@@ -84,7 +84,8 @@ class TestSeriesDot(DotSharedTests):
     @pytest.fixture
     def obj(self):
         return Series(
-            np.random.default_rng(2).standard_normal(4), index=["p", "q", "r", "s"]
+            np.random.default_rng(2).standard_normal(4),
+            index=["p", "q", "r", "s"],
         )
 
     @pytest.fixture
@@ -127,7 +128,9 @@ class TestDataFrameDot(DotSharedTests):
     @pytest.fixture
     def expected(self, obj, other):
         return DataFrame(
-            np.dot(obj.values, other.values), index=obj.index, columns=other.columns
+            np.dot(obj.values, other.values),
+            index=obj.index,
+            columns=other.columns,
         )
 
     @classmethod
@@ -141,7 +144,11 @@ class TestDataFrameDot(DotSharedTests):
 
 @pytest.mark.parametrize(
     "dtype,exp_dtype",
-    [("Float32", "Float64"), ("Int16", "Int32"), ("float[pyarrow]", "double[pyarrow]")],
+    [
+        ("Float32", "Float64"),
+        ("Int16", "Int32"),
+        ("float[pyarrow]", "double[pyarrow]"),
+    ],
 )
 def test_arrow_dtype(dtype, exp_dtype):
     pytest.importorskip("pyarrow")

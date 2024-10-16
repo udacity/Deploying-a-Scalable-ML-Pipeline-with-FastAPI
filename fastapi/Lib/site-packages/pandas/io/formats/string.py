@@ -20,7 +20,9 @@ if TYPE_CHECKING:
 class StringFormatter:
     """Formatter for string representation of a dataframe."""
 
-    def __init__(self, fmt: DataFrameFormatter, line_width: int | None = None) -> None:
+    def __init__(
+        self, fmt: DataFrameFormatter, line_width: int | None = None
+    ) -> None:
         self.fmt = fmt
         self.adj = fmt.adj
         self.frame = fmt.frame
@@ -65,21 +67,29 @@ class StringFormatter:
     def _need_to_wrap_around(self) -> bool:
         return bool(self.fmt.max_cols is None or self.fmt.max_cols > 0)
 
-    def _insert_dot_separators(self, strcols: list[list[str]]) -> list[list[str]]:
+    def _insert_dot_separators(
+        self, strcols: list[list[str]]
+    ) -> list[list[str]]:
         str_index = self.fmt._get_formatted_index(self.fmt.tr_frame)
         index_length = len(str_index)
 
         if self.fmt.is_truncated_horizontally:
-            strcols = self._insert_dot_separator_horizontal(strcols, index_length)
+            strcols = self._insert_dot_separator_horizontal(
+                strcols, index_length
+            )
 
         if self.fmt.is_truncated_vertically:
-            strcols = self._insert_dot_separator_vertical(strcols, index_length)
+            strcols = self._insert_dot_separator_vertical(
+                strcols, index_length
+            )
 
         return strcols
 
     @property
     def _adjusted_tr_col_num(self) -> int:
-        return self.fmt.tr_col_num + 1 if self.fmt.index else self.fmt.tr_col_num
+        return (
+            self.fmt.tr_col_num + 1 if self.fmt.index else self.fmt.tr_col_num
+        )
 
     def _insert_dot_separator_horizontal(
         self, strcols: list[list[str]], index_length: int
@@ -124,10 +134,16 @@ class StringFormatter:
 
         if self.fmt.index:
             idx = strcols.pop(0)
-            lwidth -= np.array([self.adj.len(x) for x in idx]).max() + adjoin_width
+            lwidth -= (
+                np.array([self.adj.len(x) for x in idx]).max() + adjoin_width
+            )
 
         col_widths = [
-            np.array([self.adj.len(x) for x in col]).max() if len(col) > 0 else 0
+            (
+                np.array([self.adj.len(x) for x in col]).max()
+                if len(col) > 0
+                else 0
+            )
             for col in strcols
         ]
 

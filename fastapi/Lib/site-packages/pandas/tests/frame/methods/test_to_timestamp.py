@@ -124,7 +124,8 @@ class TestToTimestamp:
     def test_to_timestamp_invalid_axis(self):
         index = period_range(freq="Y", start="1/1/2001", end="12/1/2009")
         obj = DataFrame(
-            np.random.default_rng(2).standard_normal((len(index), 5)), index=index
+            np.random.default_rng(2).standard_normal((len(index), 5)),
+            index=index,
         )
 
         # invalid axis
@@ -137,7 +138,9 @@ class TestToTimestamp:
         if frame_or_series is not Series:
             obj = obj.to_frame()
 
-        exp_index = date_range("1/1/2001 00:59:59", end="1/2/2001 00:59:59", freq="h")
+        exp_index = date_range(
+            "1/1/2001 00:59:59", end="1/2/2001 00:59:59", freq="h"
+        )
         result = obj.to_timestamp(how="end")
         exp_index = exp_index + Timedelta(1, "s") - Timedelta(1, "ns")
         tm.assert_index_equal(result.index, exp_index)

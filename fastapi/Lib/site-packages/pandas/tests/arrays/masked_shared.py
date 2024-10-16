@@ -49,7 +49,9 @@ class ComparisonOps(BaseOpsUtil):
 
         # ensure we haven't mutated anything inplace
         result[0] = pd.NA
-        tm.assert_extension_array_equal(left, pd.array([1, 0, None], dtype=dtype))
+        tm.assert_extension_array_equal(
+            left, pd.array([1, 0, None], dtype=dtype)
+        )
 
 
 class NumericOps:
@@ -94,7 +96,9 @@ class NumericOps:
 
         left = pd.array([True, False, None] * 3, dtype="boolean")
         right = pd.array([0] * 3 + [1] * 3 + [None] * 3, dtype=dtype)
-        other = pd.array([False] * 3 + [True] * 3 + [None] * 3, dtype="boolean")
+        other = pd.array(
+            [False] * 3 + [True] * 3 + [None] * 3, dtype="boolean"
+        )
 
         expected = op(left, other)
         result = op(left, right)

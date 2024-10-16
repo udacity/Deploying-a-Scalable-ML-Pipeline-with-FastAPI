@@ -39,7 +39,9 @@ class PydanticDeprecationWarning(DeprecationWarning):
         self.message = message.rstrip(".")
         self.since = since
         self.expected_removal = (
-            expected_removal if expected_removal is not None else (since[0] + 1, 0)
+            expected_removal
+            if expected_removal is not None
+            else (since[0] + 1, 0)
         )
 
     def __str__(self) -> str:

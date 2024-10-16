@@ -44,13 +44,16 @@ class TestTableSchemaRepr:
         # GH#15996
         midx = MultiIndex.from_product([["A", "B"], ["a", "b", "c"]])
         df = DataFrame(
-            np.random.default_rng(2).standard_normal((5, len(midx))), columns=midx
+            np.random.default_rng(2).standard_normal((5, len(midx))),
+            columns=midx,
         )
 
         opt = cf.option_context("display.html.table_schema", True)
 
         with opt:
-            formatted = ip.instance(config=ip.config).display_formatter.format(df)
+            formatted = ip.instance(config=ip.config).display_formatter.format(
+                df
+            )
 
         expected = {"text/plain", "text/html"}
         assert set(formatted[0].keys()) == expected

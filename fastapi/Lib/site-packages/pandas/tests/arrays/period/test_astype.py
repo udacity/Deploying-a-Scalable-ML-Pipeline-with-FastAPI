@@ -8,7 +8,9 @@ import pandas._testing as tm
 from pandas.core.arrays import period_array
 
 
-@pytest.mark.parametrize("dtype", [int, np.int32, np.int64, "uint32", "uint64"])
+@pytest.mark.parametrize(
+    "dtype", [int, np.int32, np.int64, "uint32", "uint64"]
+)
 def test_astype_int(dtype):
     # We choose to ignore the sign and size of integers for
     # Period/Datetime/Timedelta astype
@@ -63,5 +65,7 @@ def test_astype_datetime(dtype):
     else:
         # GH#45038 allow period->dt64 because we allow dt64->period
         result = arr.astype(dtype)
-        expected = pd.DatetimeIndex(["2000", "2001", pd.NaT], dtype=dtype)._data
+        expected = pd.DatetimeIndex(
+            ["2000", "2001", pd.NaT], dtype=dtype
+        )._data
         tm.assert_datetime_array_equal(result, expected)

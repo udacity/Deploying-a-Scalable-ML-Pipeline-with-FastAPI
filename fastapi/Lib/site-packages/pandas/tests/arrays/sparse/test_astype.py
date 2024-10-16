@@ -22,7 +22,9 @@ class TestAstype:
         dtype = SparseDtype("float64", fill_value=0)
         result = arr.astype(dtype)
         expected = SparseArray._simple_new(
-            np.array([0.0, 2.0], dtype=dtype.subtype), IntIndex(4, [2, 3]), dtype
+            np.array([0.0, 2.0], dtype=dtype.subtype),
+            IntIndex(4, [2, 3]),
+            dtype,
         )
         tm.assert_sp_array_equal(result, expected)
 

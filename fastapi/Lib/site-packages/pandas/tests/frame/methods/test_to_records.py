@@ -42,7 +42,9 @@ class TestDataFrameToRecords:
 
     def test_to_records_dt64tz_column(self):
         # GH#32535 dont less tz in to_records
-        df = DataFrame({"A": date_range("2012-01-01", "2012-01-02", tz="US/Eastern")})
+        df = DataFrame(
+            {"A": date_range("2012-01-01", "2012-01-02", tz="US/Eastern")}
+        )
 
         result = df.to_records()
 
@@ -158,7 +160,10 @@ class TestDataFrameToRecords:
         # to be specified using dictionary instead of list of tuples.
         expected = np.rec.array(
             [(0, 1.0)],
-            dtype={"names": ["index", "accented_name_é"], "formats": ["=i8", "=f8"]},
+            dtype={
+                "names": ["index", "accented_name_é"],
+                "formats": ["=i8", "=f8"],
+            },
         )
         tm.assert_almost_equal(result, expected)
 
@@ -179,7 +184,8 @@ class TestDataFrameToRecords:
         # this coerces
         result = df.to_records()
         expected = np.rec.array(
-            [(0, "a"), (1, "b"), (2, "c")], dtype=[("index", "=i8"), ("0", "O")]
+            [(0, "a"), (1, "b"), (2, "c")],
+            dtype=[("index", "=i8"), ("0", "O")],
         )
         tm.assert_almost_equal(result, expected)
 
@@ -336,7 +342,12 @@ class TestDataFrameToRecords:
             ),
             # Names / indices not in dtype mapping default to array dtype.
             (
-                {"column_dtypes": {"A": np.dtype("int8"), "B": np.dtype("float32")}},
+                {
+                    "column_dtypes": {
+                        "A": np.dtype("int8"),
+                        "B": np.dtype("float32"),
+                    }
+                },
                 np.rec.array(
                     [("0", "1", "0.2", "a"), ("1", "2", "1.5", "bc")],
                     dtype=[
@@ -376,7 +387,10 @@ class TestDataFrameToRecords:
             (
                 {
                     "index": False,
-                    "column_dtypes": {"A": "int32", "B": CategoricalDtype(["a", "b"])},
+                    "column_dtypes": {
+                        "A": "int32",
+                        "B": CategoricalDtype(["a", "b"]),
+                    },
                 },
                 (ValueError, "Invalid dtype category specified for column B"),
             ),
@@ -406,7 +420,10 @@ class TestDataFrameToRecords:
                 DataFrame(
                     [[1, 2, 3], [4, 5, 6], [7, 8, 9]], columns=list("abc")
                 ).set_index(["a", "b"]),
-                {"column_dtypes": "float64", "index_dtypes": {0: "int32", 1: "int8"}},
+                {
+                    "column_dtypes": "float64",
+                    "index_dtypes": {0: "int32", 1: "int8"},
+                },
                 np.rec.array(
                     [(1, 2, 3.0), (4, 5, 6.0), (7, 8, 9.0)],
                     dtype=[
@@ -429,7 +446,11 @@ class TestDataFrameToRecords:
                     "index_dtypes": "float32",
                 },
                 np.rec.array(
-                    [(0.0, "1", 2, 3.0), (1.0, "4", 5, 6.0), (2.0, "7", 8, 9.0)],
+                    [
+                        (0.0, "1", 2, 3.0),
+                        (1.0, "4", 5, 6.0),
+                        (2.0, "7", 8, 9.0),
+                    ],
                     dtype=[
                         ("index", f"{tm.ENDIAN}f4"),
                         ("('a', 'd')", f"{tm.ENDIAN}U1"),

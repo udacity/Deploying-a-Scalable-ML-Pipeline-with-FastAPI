@@ -11,7 +11,9 @@ class TestAppend:
     @pytest.fixture
     def ci(self):
         categories = list("cab")
-        return CategoricalIndex(list("aabbca"), categories=categories, ordered=False)
+        return CategoricalIndex(
+            list("aabbca"), categories=categories, ordered=False
+        )
 
     def test_append(self, ci):
         # append cats with the same categories

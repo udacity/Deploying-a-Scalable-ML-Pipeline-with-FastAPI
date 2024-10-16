@@ -45,7 +45,8 @@ def test_map():
 
     # GH 12766: Return an index not an array
     tm.assert_index_equal(
-        ci.map(lambda x: 1), Index(np.array([1] * 5, dtype=np.int64), name="XXX")
+        ci.map(lambda x: 1),
+        Index(np.array([1] * 5, dtype=np.int64), name="XXX"),
     )
 
     # change categories dtype
@@ -55,7 +56,9 @@ def test_map():
         return {"A": 10, "B": 20, "C": 30}.get(x)
 
     result = ci.map(f)
-    exp = CategoricalIndex([10, 20, 10, 20, 30], categories=[20, 10, 30], ordered=False)
+    exp = CategoricalIndex(
+        [10, 20, 10, 20, 30], categories=[20, 10, 30], ordered=False
+    )
     tm.assert_index_equal(result, exp)
 
     result = ci.map(Series([10, 20, 30], index=["A", "B", "C"]))
@@ -131,7 +134,9 @@ def test_map_with_dict_or_series():
     orig_values = ["a", "B", 1, "a"]
     new_values = ["one", 2, 3.0, "one"]
     cur_index = CategoricalIndex(orig_values, name="XXX")
-    expected = CategoricalIndex(new_values, name="XXX", categories=[3.0, 2, "one"])
+    expected = CategoricalIndex(
+        new_values, name="XXX", categories=[3.0, 2, "one"]
+    )
 
     mapper = Series(new_values[:-1], index=orig_values[:-1])
     result = cur_index.map(mapper)

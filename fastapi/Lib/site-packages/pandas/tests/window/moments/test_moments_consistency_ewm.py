@@ -49,7 +49,9 @@ def create_mock_series_weights(s, com, adjust, ignore_na):
                 if prev_i == -1:
                     w.iat[i] = 1.0
                 else:
-                    w.iat[i] = alpha * sum_wts / pow(1.0 - alpha, count - prev_i)
+                    w.iat[i] = (
+                        alpha * sum_wts / pow(1.0 - alpha, count - prev_i)
+                    )
                 sum_wts += w.iat[i]
                 prev_i = count
                 count += 1
@@ -64,15 +66,22 @@ def test_ewm_consistency_mean(all_data, adjust, ignore_na, min_periods):
     result = all_data.ewm(
         com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
     ).mean()
-    weights = create_mock_weights(all_data, com=com, adjust=adjust, ignore_na=ignore_na)
-    expected = all_data.multiply(weights).cumsum().divide(weights.cumsum()).ffill()
+    weights = create_mock_weights(
+        all_data, com=com, adjust=adjust, ignore_na=ignore_na
+    )
+    expected = (
+        all_data.multiply(weights).cumsum().divide(weights.cumsum()).ffill()
+    )
     expected[
-        all_data.expanding().count() < (max(min_periods, 1) if min_periods else 1)
+        all_data.expanding().count()
+        < (max(min_periods, 1) if min_periods else 1)
     ] = np.nan
     tm.assert_equal(result, expected.astype("float64"))
 
 
-def test_ewm_consistency_consistent(consistent_data, adjust, ignore_na, min_periods):
+def test_ewm_consistency_consistent(
+    consistent_data, adjust, ignore_na, min_periods
+):
     com = 3.0
 
     count_x = consistent_data.expanding().count()
@@ -112,7 +121,9 @@ def test_ewm_consistency_var_debiasing_factors(
         com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
     ).var(bias=True)
 
-    weights = create_mock_weights(all_data, com=com, adjust=adjust, ignore_na=ignore_na)
+    weights = create_mock_weights(
+        all_data, com=com, adjust=adjust, ignore_na=ignore_na
+    )
     cum_sum = weights.cumsum().ffill()
     cum_sum_sq = (weights * weights).cumsum().ffill()
     numerator = cum_sum * cum_sum
@@ -124,7 +135,9 @@ def test_ewm_consistency_var_debiasing_factors(
 
 
 @pytest.mark.parametrize("bias", [True, False])
-def test_moments_consistency_var(all_data, adjust, ignore_na, min_periods, bias):
+def test_moments_consistency_var(
+    all_data, adjust, ignore_na, min_periods, bias
+):
     com = 3.0
 
     mean_x = all_data.ewm(
@@ -139,7 +152,12 @@ def test_moments_consistency_var(all_data, adjust, ignore_na, min_periods, bias)
         # check that biased var(x) == mean(x^2) - mean(x)^2
         mean_x2 = (
             (all_data * all_data)
-            .ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na)
+            .ewm(
+                com=com,
+                min_periods=min_periods,
+                adjust=adjust,
+                ignore_na=ignore_na,
+            )
             .mean()
         )
         tm.assert_equal(var_x, mean_x2 - (mean_x * mean_x))
@@ -197,7 +215,12 @@ def test_ewm_consistency_series_cov_corr(
 
     var_x_plus_y = (
         (series_data + series_data)
-        .ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na)
+        .ewm(
+            com=com,
+            min_periods=min_periods,
+            adjust=adjust,
+            ignore_na=ignore_na,
+        )
         .var(bias=bias)
     )
     var_x = series_data.ewm(
@@ -230,14 +253,25 @@ def test_ewm_consistency_series_cov_corr(
         # check that biased cov(x, y) == mean(x*y) -
         # mean(x)*mean(y)
         mean_x = series_data.ewm(
-            com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
+            com=com,
+            min_periods=min_periods,
+            adjust=adjust,
+            ignore_na=ignore_na,
         ).mean()
         mean_y = series_data.ewm(
-            com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na
+            com=com,
+            min_periods=min_periods,
+            adjust=adjust,
+            ignore_na=ignore_na,
         ).mean()
         mean_x_times_y = (
             (series_data * series_data)
-            .ewm(com=com, min_periods=min_periods, adjust=adjust, ignore_na=ignore_na)
+            .ewm(
+                com=com,
+                min_periods=min_periods,
+                adjust=adjust,
+                ignore_na=ignore_na,
+            )
             .mean()
         )
         tm.assert_equal(cov_x_y, mean_x_times_y - (mean_x * mean_y))

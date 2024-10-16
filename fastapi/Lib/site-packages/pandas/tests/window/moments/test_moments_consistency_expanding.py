@@ -14,18 +14,22 @@ def all_na(x):
 
 
 @pytest.mark.parametrize("f", [lambda v: Series(v).sum(), np.nansum, np.sum])
-def test_expanding_apply_consistency_sum_nans(request, all_data, min_periods, f):
+def test_expanding_apply_consistency_sum_nans(
+    request, all_data, min_periods, f
+):
     if f is np.sum:
         if not no_nans(all_data) and not (
             all_na(all_data) and not all_data.empty and min_periods > 0
         ):
             request.applymarker(
-                pytest.mark.xfail(reason="np.sum has different behavior with NaNs")
+                pytest.mark.xfail(
+                    reason="np.sum has different behavior with NaNs"
+                )
             )
     expanding_f_result = all_data.expanding(min_periods=min_periods).sum()
-    expanding_apply_f_result = all_data.expanding(min_periods=min_periods).apply(
-        func=f, raw=True
-    )
+    expanding_apply_f_result = all_data.expanding(
+        min_periods=min_periods
+    ).apply(func=f, raw=True)
     tm.assert_equal(expanding_f_result, expanding_apply_f_result)
 
 
@@ -36,7 +40,9 @@ def test_moments_consistency_var(all_data, min_periods, ddof):
 
     if ddof == 0:
         # check that biased var(x) == mean(x^2) - mean(x)^2
-        mean_x2 = (all_data * all_data).expanding(min_periods=min_periods).mean()
+        mean_x2 = (
+            (all_data * all_data).expanding(min_periods=min_periods).mean()
+        )
         mean_x = all_data.expanding(min_periods=min_periods).mean()
         tm.assert_equal(var_x, mean_x2 - (mean_x * mean_x))
 
@@ -66,7 +72,9 @@ def test_expanding_consistency_var_std_cov(all_data, min_periods, ddof):
     # check that var(x) == std(x)^2
     tm.assert_equal(var_x, std_x * std_x)
 
-    cov_x_x = all_data.expanding(min_periods=min_periods).cov(all_data, ddof=ddof)
+    cov_x_x = all_data.expanding(min_periods=min_periods).cov(
+        all_data, ddof=ddof
+    )
     assert not (cov_x_x < 0).any().any()
 
     # check that var(x) == cov(x, x)
@@ -76,11 +84,15 @@ def test_expanding_consistency_var_std_cov(all_data, min_periods, ddof):
 @pytest.mark.parametrize("ddof", [0, 1])
 def test_expanding_consistency_series_cov_corr(series_data, min_periods, ddof):
     var_x_plus_y = (
-        (series_data + series_data).expanding(min_periods=min_periods).var(ddof=ddof)
+        (series_data + series_data)
+        .expanding(min_periods=min_periods)
+        .var(ddof=ddof)
     )
     var_x = series_data.expanding(min_periods=min_periods).var(ddof=ddof)
     var_y = series_data.expanding(min_periods=min_periods).var(ddof=ddof)
-    cov_x_y = series_data.expanding(min_periods=min_periods).cov(series_data, ddof=ddof)
+    cov_x_y = series_data.expanding(min_periods=min_periods).cov(
+        series_data, ddof=ddof
+    )
     # check that cov(x, y) == (var(x+y) - var(x) -
     # var(y)) / 2
     tm.assert_equal(cov_x_y, 0.5 * (var_x_plus_y - var_x - var_y))
@@ -98,7 +110,9 @@ def test_expanding_consistency_series_cov_corr(series_data, min_periods, ddof):
         mean_x = series_data.expanding(min_periods=min_periods).mean()
         mean_y = series_data.expanding(min_periods=min_periods).mean()
         mean_x_times_y = (
-            (series_data * series_data).expanding(min_periods=min_periods).mean()
+            (series_data * series_data)
+            .expanding(min_periods=min_periods)
+            .mean()
         )
         tm.assert_equal(cov_x_y, mean_x_times_y - (mean_x * mean_y))
 
@@ -116,7 +130,9 @@ def test_expanding_consistency_constant(consistent_data, min_periods):
     count_x = consistent_data.expanding().count()
     mean_x = consistent_data.expanding(min_periods=min_periods).mean()
     # check that correlation of a series with itself is either 1 or NaN
-    corr_x_x = consistent_data.expanding(min_periods=min_periods).corr(consistent_data)
+    corr_x_x = consistent_data.expanding(min_periods=min_periods).corr(
+        consistent_data
+    )
 
     exp = (
         consistent_data.max()

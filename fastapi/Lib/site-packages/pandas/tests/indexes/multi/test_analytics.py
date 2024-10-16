@@ -88,7 +88,9 @@ def test_numpy_repeat():
     names = np.array(["foo", "bar"])
 
     m = MultiIndex.from_product([numbers, names], names=names)
-    expected = MultiIndex.from_product([numbers, names.repeat(reps)], names=names)
+    expected = MultiIndex.from_product(
+        [numbers, names.repeat(reps)], names=names
+    )
     tm.assert_index_equal(np.repeat(m, reps), expected)
 
     msg = "the 'axis' parameter is not supported"

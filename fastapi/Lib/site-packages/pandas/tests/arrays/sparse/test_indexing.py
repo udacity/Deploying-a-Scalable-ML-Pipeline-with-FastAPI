@@ -90,7 +90,9 @@ class TestGetitem:
 
     def test_getitem_bool_sparse_array(self, arr):
         # GH 23122
-        spar_bool = SparseArray([False, True] * 5, dtype=np.bool_, fill_value=True)
+        spar_bool = SparseArray(
+            [False, True] * 5, dtype=np.bool_, fill_value=True
+        )
         exp = SparseArray([np.nan, 2, np.nan, 5, 6])
         tm.assert_sp_array_equal(arr[spar_bool], exp)
 
@@ -212,7 +214,9 @@ class TestTake:
         tm.assert_sp_array_equal(result, expected)
 
         # allow_fill=False
-        result = sparse.take(np.array([1, 0, -1]), allow_fill=False, fill_value=True)
+        result = sparse.take(
+            np.array([1, 0, -1]), allow_fill=False, fill_value=True
+        )
         expected = SparseArray([np.nan, np.nan, 4])
         tm.assert_sp_array_equal(result, expected)
 
@@ -248,7 +252,9 @@ class TestTake:
         tm.assert_sp_array_equal(result, expected)
 
         # allow_fill=False
-        result = sparse.take(np.array([1, 0, -1]), allow_fill=False, fill_value=True)
+        result = sparse.take(
+            np.array([1, 0, -1]), allow_fill=False, fill_value=True
+        )
         expected = SparseArray([0, np.nan, 4], fill_value=0)
         tm.assert_sp_array_equal(result, expected)
 
@@ -268,7 +274,9 @@ class TestTake:
 
     @pytest.mark.parametrize("kind", ["block", "integer"])
     def test_take_filling_all_nan(self, kind):
-        sparse = SparseArray([np.nan, np.nan, np.nan, np.nan, np.nan], kind=kind)
+        sparse = SparseArray(
+            [np.nan, np.nan, np.nan, np.nan, np.nan], kind=kind
+        )
         result = sparse.take(np.array([1, 0, -1]))
         expected = SparseArray([np.nan, np.nan, np.nan], kind=kind)
         tm.assert_sp_array_equal(result, expected)

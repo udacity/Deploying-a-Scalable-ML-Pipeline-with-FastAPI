@@ -19,7 +19,9 @@ class TestCategoricalIndexConstructors:
             CategoricalIndex(categories=list("abcd"), ordered=False)
 
     def test_construction(self):
-        ci = CategoricalIndex(list("aabbca"), categories=list("abcd"), ordered=False)
+        ci = CategoricalIndex(
+            list("aabbca"), categories=list("abcd"), ordered=False
+        )
         categories = ci.categories
 
         result = Index(ci)
@@ -93,7 +95,9 @@ class TestCategoricalIndexConstructors:
 
     def test_construction_with_dtype(self):
         # specify dtype
-        ci = CategoricalIndex(list("aabbca"), categories=list("abc"), ordered=False)
+        ci = CategoricalIndex(
+            list("aabbca"), categories=list("abc"), ordered=False
+        )
 
         result = Index(np.array(ci), dtype="category")
         tm.assert_index_equal(result, ci, exact=True)
@@ -102,9 +106,13 @@ class TestCategoricalIndexConstructors:
         tm.assert_index_equal(result, ci, exact=True)
 
         # these are generally only equal when the categories are reordered
-        ci = CategoricalIndex(list("aabbca"), categories=list("cab"), ordered=False)
+        ci = CategoricalIndex(
+            list("aabbca"), categories=list("cab"), ordered=False
+        )
 
-        result = Index(np.array(ci), dtype="category").reorder_categories(ci.categories)
+        result = Index(np.array(ci), dtype="category").reorder_categories(
+            ci.categories
+        )
         tm.assert_index_equal(result, ci, exact=True)
 
         # make sure indexes are handled

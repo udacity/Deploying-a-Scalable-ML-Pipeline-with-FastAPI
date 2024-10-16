@@ -91,7 +91,9 @@ class TestFrameAsof:
 
         result = df.asof(to_datetime(["1989-12-31"]))
         expected = DataFrame(
-            index=to_datetime(["1989-12-31"]), columns=["A", "B"], dtype="float64"
+            index=to_datetime(["1989-12-31"]),
+            columns=["A", "B"],
+            dtype="float64",
         )
         tm.assert_frame_equal(result, expected)
 
@@ -122,7 +124,9 @@ class TestFrameAsof:
 
         # testing multiple columns
         dates = date_range("1/1/1990", periods=N, freq="25s")
-        result = DataFrame(np.nan, index=rng, columns=["A", "B", "C"]).asof(dates)
+        result = DataFrame(np.nan, index=rng, columns=["A", "B", "C"]).asof(
+            dates
+        )
         expected = DataFrame(np.nan, index=dates, columns=["A", "B", "C"])
         tm.assert_frame_equal(result, expected)
 

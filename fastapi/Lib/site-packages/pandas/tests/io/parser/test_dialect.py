@@ -69,7 +69,9 @@ fruit:vegetable
 apple:broccoli
 pear:tomato
 """
-    exp = DataFrame({"fruit": ["apple", "pear"], "vegetable": ["broccoli", "tomato"]})
+    exp = DataFrame(
+        {"fruit": ["apple", "pear"], "vegetable": ["broccoli", "tomato"]}
+    )
 
     with tm.with_csv_dialect(dialect_name, delimiter=":"):
         if parser.engine == "pyarrow":
@@ -96,10 +98,19 @@ def test_invalid_dialect(all_parsers):
 
 @pytest.mark.parametrize(
     "arg",
-    [None, "doublequote", "escapechar", "skipinitialspace", "quotechar", "quoting"],
+    [
+        None,
+        "doublequote",
+        "escapechar",
+        "skipinitialspace",
+        "quotechar",
+        "quoting",
+    ],
 )
 @pytest.mark.parametrize("value", ["dialect", "default", "other"])
-def test_dialect_conflict_except_delimiter(all_parsers, custom_dialect, arg, value):
+def test_dialect_conflict_except_delimiter(
+    all_parsers, custom_dialect, arg, value
+):
     # see gh-23761.
     dialect_name, dialect_kwargs = custom_dialect
     parser = all_parsers
@@ -149,7 +160,10 @@ def test_dialect_conflict_except_delimiter(all_parsers, custom_dialect, arg, val
     "kwargs,warning_klass",
     [
         ({"sep": ","}, None),  # sep is default --> sep_override=True
-        ({"sep": "."}, ParserWarning),  # sep isn't default --> sep_override=False
+        (
+            {"sep": "."},
+            ParserWarning,
+        ),  # sep isn't default --> sep_override=False
         ({"delimiter": ":"}, None),  # No conflict
         ({"delimiter": None}, None),  # Default arguments --> sep_override=True
         ({"delimiter": ","}, ParserWarning),  # Conflict
@@ -164,7 +178,9 @@ def test_dialect_conflict_except_delimiter(all_parsers, custom_dialect, arg, val
         "delimiter-conflict2",
     ],
 )
-def test_dialect_conflict_delimiter(all_parsers, custom_dialect, kwargs, warning_klass):
+def test_dialect_conflict_delimiter(
+    all_parsers, custom_dialect, kwargs, warning_klass
+):
     # see gh-23761.
     dialect_name, dialect_kwargs = custom_dialect
     parser = all_parsers

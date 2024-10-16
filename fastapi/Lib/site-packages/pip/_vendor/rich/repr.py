@@ -16,7 +16,9 @@ from typing import (
 T = TypeVar("T")
 
 
-Result = Iterable[Union[Any, Tuple[Any], Tuple[str, Any], Tuple[str, Any, Any]]]
+Result = Iterable[
+    Union[Any, Tuple[Any], Tuple[str, Any], Tuple[str, Any, Any]]
+]
 RichReprResult = Result
 
 
@@ -77,7 +79,9 @@ def auto(
                         if param.default == param.empty:
                             yield getattr(self, param.name)
                         else:
-                            yield param.name, getattr(self, param.name), param.default
+                            yield param.name, getattr(
+                                self, param.name
+                            ), param.default
             except Exception as error:
                 raise ReprError(
                     f"Failed to auto generate __rich_repr__; {error}"

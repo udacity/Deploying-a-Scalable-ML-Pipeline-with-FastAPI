@@ -62,7 +62,9 @@ class TestPadBackfill:
 
         filler = libalgos.backfill["int64_t"](old, new)
 
-        expect_filler = np.array([0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, -1], dtype=np.intp)
+        expect_filler = np.array(
+            [0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, -1], dtype=np.intp
+        )
         tm.assert_numpy_array_equal(filler, expect_filler)
 
         # corner case
@@ -79,7 +81,9 @@ class TestPadBackfill:
 
         filler = libalgos.pad["int64_t"](old, new)
 
-        expect_filler = np.array([-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2], dtype=np.intp)
+        expect_filler = np.array(
+            [-1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2], dtype=np.intp
+        )
         tm.assert_numpy_array_equal(filler, expect_filler)
 
         # corner case

@@ -127,7 +127,11 @@ def test_infer_from_scalar_tz(tz):
         (0, 1, "int64"),
         (0.0, 1.0, "float64"),
         (Timestamp(0), Timestamp(1), "datetime64[ns]"),
-        (Timestamp(0, tz="UTC"), Timestamp(1, tz="UTC"), "datetime64[ns, UTC]"),
+        (
+            Timestamp(0, tz="UTC"),
+            Timestamp(1, tz="UTC"),
+            "datetime64[ns, UTC]",
+        ),
         (Timedelta(0), Timedelta(1), "timedelta64[ns]"),
     ],
 )

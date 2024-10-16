@@ -27,7 +27,9 @@ def divide_line(text: str, width: int, fold: bool = True) -> List[int]:
         if line_position + word_length > width:
             if word_length > width:
                 if fold:
-                    chopped_words = chop_cells(word, max_size=width, position=0)
+                    chopped_words = chop_cells(
+                        word, max_size=width, position=0
+                    )
                     for last, line in loop_last(chopped_words):
                         if start:
                             append(start)
@@ -52,5 +54,7 @@ if __name__ == "__main__":  # pragma: no cover
     from .console import Console
 
     console = Console(width=10)
-    console.print("12345 abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ 12345")
+    console.print(
+        "12345 abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ 12345"
+    )
     print(chop_cells("abcdefghijklmnopqrstuvwxyz", 10, position=2))

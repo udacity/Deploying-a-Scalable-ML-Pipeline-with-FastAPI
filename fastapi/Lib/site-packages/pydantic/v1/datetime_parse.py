@@ -239,9 +239,13 @@ def parse_duration(value: StrBytesIntFloat) -> timedelta:
         value = value.decode()
 
     try:
-        match = standard_duration_re.match(value) or iso8601_duration_re.match(value)
+        match = standard_duration_re.match(value) or iso8601_duration_re.match(
+            value
+        )
     except TypeError:
-        raise TypeError("invalid type; expected timedelta, string, bytes, int or float")
+        raise TypeError(
+            "invalid type; expected timedelta, string, bytes, int or float"
+        )
 
     if not match:
         raise errors.DurationError()
@@ -251,7 +255,11 @@ def parse_duration(value: StrBytesIntFloat) -> timedelta:
     if kw.get("microseconds"):
         kw["microseconds"] = kw["microseconds"].ljust(6, "0")
 
-    if kw.get("seconds") and kw.get("microseconds") and kw["seconds"].startswith("-"):
+    if (
+        kw.get("seconds")
+        and kw.get("microseconds")
+        and kw["seconds"].startswith("-")
+    ):
         kw["microseconds"] = "-" + kw["microseconds"]
 
     kw_ = {k: float(v) for k, v in kw.items() if v is not None}

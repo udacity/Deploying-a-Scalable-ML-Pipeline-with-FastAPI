@@ -42,7 +42,10 @@ class _XlsxStyler:
             (("vertAlign",), "font_script"),
             (("vertalign",), "font_script"),
         ],
-        "number_format": [(("format_code",), "num_format"), ((), "num_format")],
+        "number_format": [
+            (("format_code",), "num_format"),
+            ((), "num_format"),
+        ],
         "protection": [(("locked",), "locked"), (("hidden",), "hidden")],
         "alignment": [
             (("horizontal",), "align"),
@@ -157,9 +160,11 @@ class _XlsxStyler:
                     props[k] = 2
 
         if isinstance(props.get("font_script"), str):
-            props["font_script"] = ["baseline", "superscript", "subscript"].index(
-                props["font_script"]
-            )
+            props["font_script"] = [
+                "baseline",
+                "superscript",
+                "subscript",
+            ].index(props["font_script"])
 
         if isinstance(props.get("underline"), str):
             props["underline"] = {
@@ -268,7 +273,9 @@ class XlsxWriter(ExcelWriter):
             if stylekey in style_dict:
                 style = style_dict[stylekey]
             else:
-                style = self.book.add_format(_XlsxStyler.convert(cell.style, fmt))
+                style = self.book.add_format(
+                    _XlsxStyler.convert(cell.style, fmt)
+                )
                 style_dict[stylekey] = style
 
             if cell.mergestart is not None and cell.mergeend is not None:

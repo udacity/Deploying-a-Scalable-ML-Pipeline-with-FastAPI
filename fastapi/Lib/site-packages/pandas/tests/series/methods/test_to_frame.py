@@ -38,7 +38,8 @@ class TestToFrame:
 
         rs = datetime_series.to_frame(name="testdifferent")
         xp = DataFrame(
-            {"testdifferent": datetime_series.values}, index=datetime_series.index
+            {"testdifferent": datetime_series.values},
+            index=datetime_series.index,
         )
         tm.assert_frame_equal(rs, xp)
 

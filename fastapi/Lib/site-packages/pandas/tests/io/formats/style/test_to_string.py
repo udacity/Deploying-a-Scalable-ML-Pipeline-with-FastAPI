@@ -14,7 +14,11 @@ from pandas.io.formats.style import Styler
 @pytest.fixture
 def df():
     return DataFrame(
-        {"A": [0, 1], "B": [-0.61, -1.22], "C": Series(["ab", "cd"], dtype=object)}
+        {
+            "A": [0, 1],
+            "B": [-0.61, -1.22],
+            "C": Series(["ab", "cd"], dtype=object),
+        }
     )
 
 

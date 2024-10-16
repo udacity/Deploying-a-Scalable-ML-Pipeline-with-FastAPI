@@ -69,7 +69,9 @@ class FunctionFilter(Filter):
 
     def __init__(self, **options):
         if not hasattr(self, "function"):
-            raise TypeError("%r used without bound function" % self.__class__.__name__)
+            raise TypeError(
+                "%r used without bound function" % self.__class__.__name__
+            )
         Filter.__init__(self, **options)
 
     def filter(self, lexer, stream):

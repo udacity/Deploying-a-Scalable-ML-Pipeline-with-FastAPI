@@ -16,7 +16,9 @@ class Styled:
         style (StyleType): A style to apply across the entire renderable.
     """
 
-    def __init__(self, renderable: "RenderableType", style: "StyleType") -> None:
+    def __init__(
+        self, renderable: "RenderableType", style: "StyleType"
+    ) -> None:
         self.renderable = renderable
         self.style = style
 

@@ -29,7 +29,9 @@ class TestRepeat:
 
     def test_repeat_range3(self, tz_naive_fixture, unit):
         tz = tz_naive_fixture
-        index = date_range("2001-01-01", periods=2, freq="2D", tz=tz, unit=unit)
+        index = date_range(
+            "2001-01-01", periods=2, freq="2D", tz=tz, unit=unit
+        )
         exp = DatetimeIndex(
             ["2001-01-01", "2001-01-01", "2001-01-03", "2001-01-03"], tz=tz
         ).as_unit(unit)
@@ -39,7 +41,9 @@ class TestRepeat:
 
     def test_repeat_range4(self, tz_naive_fixture, unit):
         tz = tz_naive_fixture
-        index = DatetimeIndex(["2001-01-01", "NaT", "2003-01-01"], tz=tz).as_unit(unit)
+        index = DatetimeIndex(
+            ["2001-01-01", "NaT", "2003-01-01"], tz=tz
+        ).as_unit(unit)
         exp = DatetimeIndex(
             [
                 "2001-01-01",
@@ -63,7 +67,9 @@ class TestRepeat:
         reps = 2
         msg = "the 'axis' parameter is not supported"
 
-        rng = date_range(start="2016-01-01", periods=2, freq="30Min", tz=tz, unit=unit)
+        rng = date_range(
+            start="2016-01-01", periods=2, freq="30Min", tz=tz, unit=unit
+        )
 
         expected_rng = DatetimeIndex(
             [

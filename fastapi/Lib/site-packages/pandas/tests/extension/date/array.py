@@ -46,7 +46,9 @@ class DateDtype(ExtensionDtype):
         if string == cls.__name__:
             return cls()
         else:
-            raise TypeError(f"Cannot construct a '{cls.__name__}' from '{string}'")
+            raise TypeError(
+                f"Cannot construct a '{cls.__name__}' from '{string}'"
+            )
 
     @classmethod
     def construct_array_type(cls):
@@ -140,11 +142,15 @@ class DateArray(ExtensionArray):
         return self._year.nbytes + self._month.nbytes + self._day.nbytes
 
     def __len__(self) -> int:
-        return len(self._year)  # all 3 arrays are enforced to have the same length
+        return len(
+            self._year
+        )  # all 3 arrays are enforced to have the same length
 
     def __getitem__(self, item: PositionalIndexer):
         if isinstance(item, int):
-            return dt.date(self._year[item], self._month[item], self._day[item])
+            return dt.date(
+                self._year[item], self._month[item], self._day[item]
+            )
         else:
             raise NotImplementedError("only ints are supported as indexes")
 
@@ -163,18 +169,23 @@ class DateArray(ExtensionArray):
         return f"DateArray{list(zip(self._year, self._month, self._day))}"
 
     def copy(self) -> DateArray:
-        return DateArray((self._year.copy(), self._month.copy(), self._day.copy()))
+        return DateArray(
+            (self._year.copy(), self._month.copy(), self._day.copy())
+        )
 
     def isna(self) -> np.ndarray:
         return np.logical_and(
             np.logical_and(
-                self._year == dt.date.min.year, self._month == dt.date.min.month
+                self._year == dt.date.min.year,
+                self._month == dt.date.min.month,
             ),
             self._day == dt.date.min.day,
         )
 
     @classmethod
-    def _from_sequence(cls, scalars, *, dtype: Dtype | None = None, copy=False):
+    def _from_sequence(
+        cls, scalars, *, dtype: Dtype | None = None, copy=False
+    ):
         if isinstance(scalars, dt.date):
             raise TypeError
         elif isinstance(scalars, DateArray):

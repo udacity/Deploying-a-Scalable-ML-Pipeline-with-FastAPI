@@ -39,7 +39,9 @@ def test_series(series, q, step):
     result = series.rolling(50, step=step).quantile(q)
     assert isinstance(result, Series)
     end = range(0, len(series), step or 1)[-1] + 1
-    tm.assert_almost_equal(result.iloc[-1], compare_func(series[end - 50 : end]))
+    tm.assert_almost_equal(
+        result.iloc[-1], compare_func(series[end - 50 : end])
+    )
 
 
 @pytest.mark.parametrize("q", [0.0, 0.1, 0.5, 0.9, 1.0])
@@ -116,8 +118,12 @@ def test_nans(q):
 @pytest.mark.parametrize("minp", [0, 99, 100])
 @pytest.mark.parametrize("q", [0.0, 0.1, 0.5, 0.9, 1.0])
 def test_min_periods(series, minp, q, step):
-    result = series.rolling(len(series) + 1, min_periods=minp, step=step).quantile(q)
-    expected = series.rolling(len(series), min_periods=minp, step=step).quantile(q)
+    result = series.rolling(
+        len(series) + 1, min_periods=minp, step=step
+    ).quantile(q)
+    expected = series.rolling(
+        len(series), min_periods=minp, step=step
+    ).quantile(q)
     nan_mask = isna(result)
     tm.assert_series_equal(nan_mask, isna(expected))
 

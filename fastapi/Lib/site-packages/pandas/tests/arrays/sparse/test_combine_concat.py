@@ -39,7 +39,10 @@ class TestSparseArrayConcat:
         (pd.Series([3, 4, 5], dtype="int64"), pd.SparseDtype("int64", 0)),
         # (pd.Series([3, 4, 5], dtype="Int64"), pd.SparseDtype("int64", 0)),
         # incompatible dtype -> Sparse[common dtype]
-        (pd.Series([1.5, 2.5, 3.5], dtype="float64"), pd.SparseDtype("float64", 0)),
+        (
+            pd.Series([1.5, 2.5, 3.5], dtype="float64"),
+            pd.SparseDtype("float64", 0),
+        ),
         # incompatible dtype -> Sparse[object] dtype
         (pd.Series(["a", "b", "c"], dtype=object), pd.SparseDtype(object, 0)),
         # categorical with compatible categories -> dtype of the categories

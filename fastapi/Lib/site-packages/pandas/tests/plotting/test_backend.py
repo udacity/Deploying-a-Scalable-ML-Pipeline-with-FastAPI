@@ -36,11 +36,14 @@ def test_backend_is_correct(monkeypatch, restore_backend, dummy_backend):
     pandas.set_option("plotting.backend", "pandas_dummy_backend")
     assert pandas.get_option("plotting.backend") == "pandas_dummy_backend"
     assert (
-        pandas.plotting._core._get_plot_backend("pandas_dummy_backend") is dummy_backend
+        pandas.plotting._core._get_plot_backend("pandas_dummy_backend")
+        is dummy_backend
     )
 
 
-def test_backend_can_be_set_in_plot_call(monkeypatch, restore_backend, dummy_backend):
+def test_backend_can_be_set_in_plot_call(
+    monkeypatch, restore_backend, dummy_backend
+):
     monkeypatch.setitem(sys.modules, "pandas_dummy_backend", dummy_backend)
     df = pandas.DataFrame([1, 2, 3])
 
@@ -48,7 +51,9 @@ def test_backend_can_be_set_in_plot_call(monkeypatch, restore_backend, dummy_bac
     assert df.plot(backend="pandas_dummy_backend") == "used_dummy"
 
 
-def test_register_entrypoint(restore_backend, tmp_path, monkeypatch, dummy_backend):
+def test_register_entrypoint(
+    restore_backend, tmp_path, monkeypatch, dummy_backend
+):
     monkeypatch.syspath_prepend(tmp_path)
     monkeypatch.setitem(sys.modules, "pandas_dummy_backend", dummy_backend)
 
@@ -60,7 +65,10 @@ def test_register_entrypoint(restore_backend, tmp_path, monkeypatch, dummy_backe
         b"[pandas_plotting_backends]\nmy_ep_backend = pandas_dummy_backend\n"
     )
 
-    assert pandas.plotting._core._get_plot_backend("my_ep_backend") is dummy_backend
+    assert (
+        pandas.plotting._core._get_plot_backend("my_ep_backend")
+        is dummy_backend
+    )
 
     with pandas.option_context("plotting.backend", "my_ep_backend"):
         assert pandas.plotting._core._get_plot_backend() is dummy_backend
@@ -73,7 +81,8 @@ def test_setting_backend_without_plot_raises(monkeypatch):
 
     assert pandas.options.plotting.backend == "matplotlib"
     with pytest.raises(
-        ValueError, match="Could not find plotting backend 'pandas_plot_backend'."
+        ValueError,
+        match="Could not find plotting backend 'pandas_plot_backend'.",
     ):
         pandas.set_option("plotting.backend", "pandas_plot_backend")
 

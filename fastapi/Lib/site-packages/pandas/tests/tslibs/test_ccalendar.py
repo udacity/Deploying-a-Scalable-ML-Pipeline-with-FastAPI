@@ -26,7 +26,9 @@ def test_get_day_of_year_numeric(date_tuple, expected):
 
 
 def test_get_day_of_year_dt():
-    dt = datetime.fromordinal(1 + np.random.default_rng(2).integers(365 * 4000))
+    dt = datetime.fromordinal(
+        1 + np.random.default_rng(2).integers(365 * 4000)
+    )
     result = ccalendar.get_day_of_year(dt.year, dt.month, dt.day)
 
     expected = (dt - dt.replace(month=1, day=1)).days + 1
@@ -49,7 +51,9 @@ def test_get_day_of_year_dt():
         [(2008, 12, 29), (2009, 1, 1)],
     ],
 )
-def test_dt_correct_iso_8601_year_week_and_day(input_date_tuple, expected_iso_tuple):
+def test_dt_correct_iso_8601_year_week_and_day(
+    input_date_tuple, expected_iso_tuple
+):
     result = ccalendar.get_iso_calendar(*input_date_tuple)
     expected_from_date_isocalendar = date(*input_date_tuple).isocalendar()
     assert result == expected_from_date_isocalendar

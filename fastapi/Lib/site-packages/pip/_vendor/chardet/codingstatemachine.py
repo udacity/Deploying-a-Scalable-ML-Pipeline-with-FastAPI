@@ -74,7 +74,9 @@ class CodingStateMachine:
             self._curr_byte_pos = 0
             self._curr_char_len = self._model["char_len_table"][byte_class]
         # from byte's class and state_table, we get its next state
-        curr_state = self._curr_state * self._model["class_factor"] + byte_class
+        curr_state = (
+            self._curr_state * self._model["class_factor"] + byte_class
+        )
         self._curr_state = self._model["state_table"][curr_state]
         self._curr_byte_pos += 1
         return self._curr_state

@@ -69,7 +69,9 @@ class TestDataFrameToXArray:
         from xarray import Dataset
 
         # MultiIndex
-        df.index = MultiIndex.from_product([["a"], range(4)], names=["one", "two"])
+        df.index = MultiIndex.from_product(
+            [["a"], range(4)], names=["one", "two"]
+        )
         result = df.to_xarray()
         assert result.sizes["one"] == 1
         assert result.sizes["two"] == 4
@@ -120,7 +122,9 @@ class TestSeriesToXArray:
     def test_to_xarray_with_multiindex(self):
         from xarray import DataArray
 
-        mi = MultiIndex.from_product([["a", "b"], range(3)], names=["one", "two"])
+        mi = MultiIndex.from_product(
+            [["a", "b"], range(3)], names=["one", "two"]
+        )
         ser = Series(range(6), dtype="int64", index=mi)
         result = ser.to_xarray()
         assert len(result) == 2

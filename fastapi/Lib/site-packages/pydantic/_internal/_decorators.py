@@ -351,14 +351,18 @@ def mro_for_bases(bases: tuple[type[Any], ...]) -> tuple[type[Any], ...]:
             candidate: type[Any] | None = None
             for seq in non_empty:  # Find merge candidates among seq heads.
                 candidate = seq[0]
-                not_head = [s for s in non_empty if candidate in islice(s, 1, None)]
+                not_head = [
+                    s for s in non_empty if candidate in islice(s, 1, None)
+                ]
                 if not_head:
                     # Reject the candidate.
                     candidate = None
                 else:
                     break
             if not candidate:
-                raise TypeError("Inconsistent hierarchy, no C3 MRO is possible")
+                raise TypeError(
+                    "Inconsistent hierarchy, no C3 MRO is possible"
+                )
             yield candidate
             for seq in non_empty:
                 # Remove candidate.
@@ -372,7 +376,9 @@ def mro_for_bases(bases: tuple[type[Any], ...]) -> tuple[type[Any], ...]:
 _sentinel = object()
 
 
-def get_attribute_from_bases(tp: type[Any] | tuple[type[Any], ...], name: str) -> Any:
+def get_attribute_from_bases(
+    tp: type[Any] | tuple[type[Any], ...], name: str
+) -> Any:
     """Get the attribute from the next class in the MRO that has it,
     aiming to simulate calling the method on the actual class.
 
@@ -439,27 +445,29 @@ class DecoratorInfos:
     validators: dict[str, Decorator[ValidatorDecoratorInfo]] = field(
         default_factory=dict
     )
-    field_validators: dict[str, Decorator[FieldValidatorDecoratorInfo]] = field(
-        default_factory=dict
+    field_validators: dict[str, Decorator[FieldValidatorDecoratorInfo]] = (
+        field(default_factory=dict)
     )
     root_validators: dict[str, Decorator[RootValidatorDecoratorInfo]] = field(
         default_factory=dict
     )
-    field_serializers: dict[str, Decorator[FieldSerializerDecoratorInfo]] = field(
-        default_factory=dict
+    field_serializers: dict[str, Decorator[FieldSerializerDecoratorInfo]] = (
+        field(default_factory=dict)
     )
-    model_serializers: dict[str, Decorator[ModelSerializerDecoratorInfo]] = field(
-        default_factory=dict
+    model_serializers: dict[str, Decorator[ModelSerializerDecoratorInfo]] = (
+        field(default_factory=dict)
     )
-    model_validators: dict[str, Decorator[ModelValidatorDecoratorInfo]] = field(
-        default_factory=dict
+    model_validators: dict[str, Decorator[ModelValidatorDecoratorInfo]] = (
+        field(default_factory=dict)
     )
     computed_fields: dict[str, Decorator[ComputedFieldInfo]] = field(
         default_factory=dict
     )
 
     @staticmethod
-    def build(model_dc: type[Any]) -> DecoratorInfos:  # noqa: C901 (ignore complexity)
+    def build(
+        model_dc: type[Any],
+    ) -> DecoratorInfos:  # noqa: C901 (ignore complexity)
         """We want to collect all DecFunc instances that exist as
         attributes in the namespace of the class (a BaseModel or dataclass)
         that called us
@@ -481,7 +489,10 @@ class DecoratorInfos:
             if existing is None:
                 existing = DecoratorInfos.build(base)
             res.validators.update(
-                {k: v.bind_to_cls(model_dc) for k, v in existing.validators.items()}
+                {
+                    k: v.bind_to_cls(model_dc)
+                    for k, v in existing.validators.items()
+                }
             )
             res.field_validators.update(
                 {
@@ -527,19 +538,30 @@ class DecoratorInfos:
                 info = var_value.decorator_info
                 if isinstance(info, ValidatorDecoratorInfo):
                     res.validators[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 elif isinstance(info, FieldValidatorDecoratorInfo):
                     res.field_validators[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 elif isinstance(info, RootValidatorDecoratorInfo):
                     res.root_validators[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 elif isinstance(info, FieldSerializerDecoratorInfo):
                     # check whether a serializer function is already registered for fields
-                    for field_serializer_decorator in res.field_serializers.values():
+                    for (
+                        field_serializer_decorator
+                    ) in res.field_serializers.values():
                         # check that each field has at most one serializer function.
                         # serializer functions for the same field in subclasses are allowed,
                         # and are treated as overrides
@@ -553,15 +575,24 @@ class DecoratorInfos:
                                     code="multiple-field-serializers",
                                 )
                     res.field_serializers[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 elif isinstance(info, ModelValidatorDecoratorInfo):
                     res.model_validators[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 elif isinstance(info, ModelSerializerDecoratorInfo):
                     res.model_serializers[var_name] = Decorator.build(
-                        model_dc, cls_var_name=var_name, shim=var_value.shim, info=info
+                        model_dc,
+                        cls_var_name=var_name,
+                        shim=var_value.shim,
+                        info=info,
                     )
                 else:
                     from ..fields import ComputedFieldInfo
@@ -582,7 +613,9 @@ class DecoratorInfos:
         return res
 
 
-def inspect_validator(validator: Callable[..., Any], mode: FieldValidatorModes) -> bool:
+def inspect_validator(
+    validator: Callable[..., Any], mode: FieldValidatorModes
+) -> bool:
     """Look at a field or model validator function and determine whether it takes an info argument.
 
     An error is raised if the function has an invalid signature.
@@ -694,7 +727,9 @@ def inspect_annotated_serializer(
         # `inspect.signature` might not be able to infer a signature, e.g. with C objects.
         # In this case, we assume no info argument is present:
         return False
-    info_arg = _serializer_info_arg(mode, count_positional_required_params(sig))
+    info_arg = _serializer_info_arg(
+        mode, count_positional_required_params(sig)
+    )
     if info_arg is None:
         raise PydanticUserError(
             f"Unrecognized field_serializer function signature for {serializer} with `mode={mode}`:{sig}",
@@ -727,7 +762,9 @@ def inspect_model_serializer(
         )
 
     sig = signature(serializer)
-    info_arg = _serializer_info_arg(mode, count_positional_required_params(sig))
+    info_arg = _serializer_info_arg(
+        mode, count_positional_required_params(sig)
+    )
     if info_arg is None:
         raise PydanticUserError(
             f"Unrecognized model_serializer function signature for {serializer} with `mode={mode}`:{sig}",
@@ -748,7 +785,9 @@ def _serializer_info_arg(
             # (model: Any, input_value: Any, /) -> Any
             return True
     else:
-        assert mode == "wrap", f"invalid mode: {mode!r}, expected 'plain' or 'wrap'"
+        assert (
+            mode == "wrap"
+        ), f"invalid mode: {mode!r}, expected 'plain' or 'wrap'"
         if n_positional == 2:
             # (input_value: Any, serializer: SerializerFunctionWrapHandler, /) -> Any
             return False
@@ -783,7 +822,9 @@ def is_instance_method_from_sig(function: AnyDecoratorCallable) -> bool:
     return False
 
 
-def ensure_classmethod_based_on_signature(function: AnyDecoratorCallable) -> Any:
+def ensure_classmethod_based_on_signature(
+    function: AnyDecoratorCallable,
+) -> Any:
     """Apply the `@classmethod` decorator on the function.
 
     Args:
@@ -793,7 +834,8 @@ def ensure_classmethod_based_on_signature(function: AnyDecoratorCallable) -> Any
         The `@classmethod` decorator applied function.
     """
     if not isinstance(
-        unwrap_wrapped_function(function, unwrap_class_static_method=False), classmethod
+        unwrap_wrapped_function(function, unwrap_class_static_method=False),
+        classmethod,
     ) and _is_classmethod_from_sig(function):
         return classmethod(function)  # type: ignore[arg-type]
     return function
@@ -833,12 +875,16 @@ def unwrap_wrapped_function(
     )
 
     while isinstance(func, unwrap_types):
-        if unwrap_class_static_method and isinstance(func, (classmethod, staticmethod)):
+        if unwrap_class_static_method and isinstance(
+            func, (classmethod, staticmethod)
+        ):
             func = func.__func__
         elif isinstance(func, (partial, partialmethod)):
             func = func.func
         elif isinstance(func, property):
-            func = func.fget  # arbitrary choice, convenient for computed fields
+            func = (
+                func.fget
+            )  # arbitrary choice, convenient for computed fields
         else:
             # Make coverage happy as it can only get here in the last possible case
             assert isinstance(func, cached_property)
@@ -848,7 +894,9 @@ def unwrap_wrapped_function(
 
 
 def get_function_return_type(
-    func: Any, explicit_return_type: Any, types_namespace: dict[str, Any] | None = None
+    func: Any,
+    explicit_return_type: Any,
+    types_namespace: dict[str, Any] | None = None,
 ) -> Any:
     """Get the function return type.
 
@@ -898,7 +946,10 @@ def count_positional_required_params(sig: Signature) -> int:
 
 
 def can_be_positional(param: Parameter) -> bool:
-    return param.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+    return param.kind in (
+        Parameter.POSITIONAL_ONLY,
+        Parameter.POSITIONAL_OR_KEYWORD,
+    )
 
 
 def ensure_property(f: Any) -> Any:

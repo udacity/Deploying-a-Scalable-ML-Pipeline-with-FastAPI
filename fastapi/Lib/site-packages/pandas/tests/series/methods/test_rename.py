@@ -34,7 +34,9 @@ class TestRename:
     def test_rename_retain_index_name(self):
         # index with name
         renamer = Series(
-            np.arange(4), index=Index(["a", "b", "c", "d"], name="name"), dtype="int64"
+            np.arange(4),
+            index=Index(["a", "b", "c", "d"], name="name"),
+            dtype="int64",
         )
         renamed = renamer.rename({})
         assert renamed.index.name == renamer.index.name
@@ -52,9 +54,13 @@ class TestRename:
             result = ser.rename(name)
             assert result.name == name
             if using_infer_string:
-                tm.assert_extension_array_equal(result.index.values, ser.index.values)
+                tm.assert_extension_array_equal(
+                    result.index.values, ser.index.values
+                )
             else:
-                tm.assert_numpy_array_equal(result.index.values, ser.index.values)
+                tm.assert_numpy_array_equal(
+                    result.index.values, ser.index.values
+                )
             assert ser.name is None
 
     def test_rename_set_name_inplace(self, using_infer_string):
@@ -129,7 +135,9 @@ class TestRename:
 
         index = MultiIndex.from_arrays(arrays, names=["first", "second"])
         ser = Series(np.ones(5), index=index)
-        result = ser.rename(index={"one": "yes"}, level="second", errors="raise")
+        result = ser.rename(
+            index={"one": "yes"}, level="second", errors="raise"
+        )
 
         arrays_expected = [
             ["bar", "baz", "baz", "foo", "qux"],

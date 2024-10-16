@@ -26,30 +26,42 @@ class TestReindex:
 
     def test_reindex_list_non_unique_unused_category(self):
         msg = "cannot reindex on an axis with duplicate labels"
-        ci = CategoricalIndex(["a", "b", "c", "a"], categories=["a", "b", "c", "d"])
+        ci = CategoricalIndex(
+            ["a", "b", "c", "a"], categories=["a", "b", "c", "d"]
+        )
         with pytest.raises(ValueError, match=msg):
             ci.reindex(["a", "c"])
 
     def test_reindex_categorical_non_unique_unused_category(self):
         msg = "cannot reindex on an axis with duplicate labels"
-        ci = CategoricalIndex(["a", "b", "c", "a"], categories=["a", "b", "c", "d"])
+        ci = CategoricalIndex(
+            ["a", "b", "c", "a"], categories=["a", "b", "c", "d"]
+        )
         with pytest.raises(ValueError, match=msg):
             ci.reindex(Categorical(["a", "c"]))
 
     def test_reindex_duplicate_target(self):
         # See GH25459
-        cat = CategoricalIndex(["a", "b", "c"], categories=["a", "b", "c", "d"])
+        cat = CategoricalIndex(
+            ["a", "b", "c"], categories=["a", "b", "c", "d"]
+        )
         res, indexer = cat.reindex(["a", "c", "c"])
         exp = Index(["a", "c", "c"])
         tm.assert_index_equal(res, exp, exact=True)
-        tm.assert_numpy_array_equal(indexer, np.array([0, 2, 2], dtype=np.intp))
+        tm.assert_numpy_array_equal(
+            indexer, np.array([0, 2, 2], dtype=np.intp)
+        )
 
         res, indexer = cat.reindex(
             CategoricalIndex(["a", "c", "c"], categories=["a", "b", "c", "d"])
         )
-        exp = CategoricalIndex(["a", "c", "c"], categories=["a", "b", "c", "d"])
+        exp = CategoricalIndex(
+            ["a", "c", "c"], categories=["a", "b", "c", "d"]
+        )
         tm.assert_index_equal(res, exp, exact=True)
-        tm.assert_numpy_array_equal(indexer, np.array([0, 2, 2], dtype=np.intp))
+        tm.assert_numpy_array_equal(
+            indexer, np.array([0, 2, 2], dtype=np.intp)
+        )
 
     def test_reindex_empty_index(self):
         # See GH16770

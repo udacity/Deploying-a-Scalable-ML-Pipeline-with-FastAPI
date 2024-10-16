@@ -9,17 +9,24 @@ import pandas as pd
 import pandas._testing as tm
 
 # integer dtypes
-arrays = [pd.array([1, 2, 3, None], dtype=dtype) for dtype in tm.ALL_INT_EA_DTYPES]
+arrays = [
+    pd.array([1, 2, 3, None], dtype=dtype) for dtype in tm.ALL_INT_EA_DTYPES
+]
 scalars: list[Any] = [2] * len(arrays)
 # floating dtypes
-arrays += [pd.array([0.1, 0.2, 0.3, None], dtype=dtype) for dtype in tm.FLOAT_EA_DTYPES]
+arrays += [
+    pd.array([0.1, 0.2, 0.3, None], dtype=dtype)
+    for dtype in tm.FLOAT_EA_DTYPES
+]
 scalars += [0.2, 0.2]
 # boolean
 arrays += [pd.array([True, False, True, None], dtype="boolean")]
 scalars += [False]
 
 
-@pytest.fixture(params=zip(arrays, scalars), ids=[a.dtype.name for a in arrays])
+@pytest.fixture(
+    params=zip(arrays, scalars), ids=[a.dtype.name for a in arrays]
+)
 def data(request):
     """Fixture returning parametrized (array, scalar) tuple.
 

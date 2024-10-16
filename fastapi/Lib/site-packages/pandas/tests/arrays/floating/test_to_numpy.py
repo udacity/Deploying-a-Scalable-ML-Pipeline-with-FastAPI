@@ -83,13 +83,17 @@ def test_to_numpy_na_value(box):
 
 def test_to_numpy_na_value_with_nan():
     # array with both NaN and NA -> only fill NA with `na_value`
-    arr = FloatingArray(np.array([0.0, np.nan, 0.0]), np.array([False, False, True]))
+    arr = FloatingArray(
+        np.array([0.0, np.nan, 0.0]), np.array([False, False, True])
+    )
     result = arr.to_numpy(dtype="float64", na_value=-1)
     expected = np.array([0.0, np.nan, -1.0], dtype="float64")
     tm.assert_numpy_array_equal(result, expected)
 
 
-@pytest.mark.parametrize("dtype", ["float64", "float32", "int32", "int64", "bool"])
+@pytest.mark.parametrize(
+    "dtype", ["float64", "float32", "int32", "int64", "bool"]
+)
 @pytest.mark.parametrize("box", [True, False], ids=["series", "array"])
 def test_to_numpy_dtype(box, dtype):
     con = pd.Series if box else pd.array
@@ -124,9 +128,13 @@ def test_to_numpy_copy():
     arr = pd.array([0.1, 0.2, 0.3], dtype="Float64")
     result = arr.to_numpy(dtype="float64")
     result[0] = 10
-    tm.assert_extension_array_equal(arr, pd.array([10, 0.2, 0.3], dtype="Float64"))
+    tm.assert_extension_array_equal(
+        arr, pd.array([10, 0.2, 0.3], dtype="Float64")
+    )
 
     arr = pd.array([0.1, 0.2, 0.3], dtype="Float64")
     result = arr.to_numpy(dtype="float64", copy=True)
     result[0] = 10
-    tm.assert_extension_array_equal(arr, pd.array([0.1, 0.2, 0.3], dtype="Float64"))
+    tm.assert_extension_array_equal(
+        arr, pd.array([0.1, 0.2, 0.3], dtype="Float64")
+    )

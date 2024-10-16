@@ -5,7 +5,12 @@ from __future__ import annotations
 import functools
 from typing import TYPE_CHECKING, Any, Callable, Iterable, TypeVar
 
-from pydantic_core import CoreConfig, CoreSchema, SchemaValidator, ValidationError
+from pydantic_core import (
+    CoreConfig,
+    CoreSchema,
+    SchemaValidator,
+    ValidationError,
+)
 from typing_extensions import Literal, ParamSpec
 
 if TYPE_CHECKING:
@@ -19,7 +24,9 @@ if TYPE_CHECKING:
 
 P = ParamSpec("P")
 R = TypeVar("R")
-Event = Literal["on_validate_python", "on_validate_json", "on_validate_strings"]
+Event = Literal[
+    "on_validate_python", "on_validate_json", "on_validate_strings"
+]
 events: list[Event] = list(Event.__args__)  # type: ignore
 
 
@@ -122,16 +129,24 @@ def build_wrapper(
         return func
     else:
         on_enters = tuple(
-            h.on_enter for h in event_handlers if filter_handlers(h, "on_enter")
+            h.on_enter
+            for h in event_handlers
+            if filter_handlers(h, "on_enter")
         )
         on_successes = tuple(
-            h.on_success for h in event_handlers if filter_handlers(h, "on_success")
+            h.on_success
+            for h in event_handlers
+            if filter_handlers(h, "on_success")
         )
         on_errors = tuple(
-            h.on_error for h in event_handlers if filter_handlers(h, "on_error")
+            h.on_error
+            for h in event_handlers
+            if filter_handlers(h, "on_error")
         )
         on_exceptions = tuple(
-            h.on_exception for h in event_handlers if filter_handlers(h, "on_exception")
+            h.on_exception
+            for h in event_handlers
+            if filter_handlers(h, "on_exception")
         )
 
         @functools.wraps(func)
@@ -157,7 +172,9 @@ def build_wrapper(
         return wrapper
 
 
-def filter_handlers(handler_cls: BaseValidateHandlerProtocol, method_name: str) -> bool:
+def filter_handlers(
+    handler_cls: BaseValidateHandlerProtocol, method_name: str
+) -> bool:
     """Filter out handler methods which are not implemented by the plugin directly - e.g. are missing
     or are inherited from the protocol.
     """

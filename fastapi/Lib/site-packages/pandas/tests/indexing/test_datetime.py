@@ -32,7 +32,9 @@ class TestDatetimeIndex:
         # GH#8260
         # support datetime64 with tz
 
-        idx = Index(date_range("20130101", periods=3, tz="US/Eastern"), name="foo")
+        idx = Index(
+            date_range("20130101", periods=3, tz="US/Eastern"), name="foo"
+        )
         dr = date_range("20130110", periods=3)
         df = DataFrame({"A": idx, "B": dr})
         df["C"] = idx
@@ -40,7 +42,11 @@ class TestDatetimeIndex:
         df.iloc[1, 2] = pd.NaT
 
         expected = Series(
-            [Timestamp("2013-01-02 00:00:00-0500", tz="US/Eastern"), pd.NaT, pd.NaT],
+            [
+                Timestamp("2013-01-02 00:00:00-0500", tz="US/Eastern"),
+                pd.NaT,
+                pd.NaT,
+            ],
             index=list("ABC"),
             dtype="object",
             name=1,
@@ -75,7 +81,9 @@ class TestDatetimeIndex:
     def test_consistency_with_tz_aware_scalar(self):
         # xef gh-12938
         # various ways of indexing the same tz-aware scalar
-        df = Series([Timestamp("2016-03-30 14:35:25", tz="Europe/Brussels")]).to_frame()
+        df = Series(
+            [Timestamp("2016-03-30 14:35:25", tz="Europe/Brussels")]
+        ).to_frame()
 
         df = pd.concat([df, df]).reset_index(drop=True)
         expected = Timestamp("2016-03-30 14:35:25+0200", tz="Europe/Brussels")

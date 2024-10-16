@@ -27,7 +27,9 @@ if TYPE_CHECKING:
     from pandas import MultiIndex
 
 
-def putmask_inplace(values: ArrayLike, mask: npt.NDArray[np.bool_], value: Any) -> None:
+def putmask_inplace(
+    values: ArrayLike, mask: npt.NDArray[np.bool_], value: Any
+) -> None:
     """
     ExtensionArray-compatible implementation of np.putmask.  The main
     difference is we do not handle repeating or truncating like numpy.
@@ -46,7 +48,8 @@ def putmask_inplace(values: ArrayLike, mask: npt.NDArray[np.bool_], value: Any) 
         # GH#43424: np.putmask raises TypeError if we cannot cast between types with
         # rule = "safe", a stricter guarantee we may not have here
         or (
-            isinstance(value, np.ndarray) and not np.can_cast(value.dtype, values.dtype)
+            isinstance(value, np.ndarray)
+            and not np.can_cast(value.dtype, values.dtype)
         )
     ):
         # GH#19266 using np.putmask gives unexpected results with listlike value

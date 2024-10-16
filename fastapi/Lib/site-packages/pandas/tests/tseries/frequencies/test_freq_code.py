@@ -9,7 +9,14 @@ from pandas._libs.tslibs import (
 
 @pytest.mark.parametrize(
     "freqstr,exp_freqstr",
-    [("D", "D"), ("W", "D"), ("ME", "D"), ("s", "s"), ("min", "s"), ("h", "s")],
+    [
+        ("D", "D"),
+        ("W", "D"),
+        ("ME", "D"),
+        ("s", "s"),
+        ("min", "s"),
+        ("h", "s"),
+    ],
 )
 def test_get_to_timestamp_base(freqstr, exp_freqstr):
     off = to_offset(freqstr)

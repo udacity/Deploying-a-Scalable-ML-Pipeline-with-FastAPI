@@ -90,7 +90,19 @@ def test_noncategorical(df_from_dict):
 
 def test_categorical(df_from_dict):
     df = df_from_dict(
-        {"weekday": ["Mon", "Tue", "Mon", "Wed", "Mon", "Thu", "Fri", "Sat", "Sun"]},
+        {
+            "weekday": [
+                "Mon",
+                "Tue",
+                "Mon",
+                "Wed",
+                "Mon",
+                "Thu",
+                "Fri",
+                "Sat",
+                "Sun",
+            ]
+        },
         is_categorical=True,
     )
 

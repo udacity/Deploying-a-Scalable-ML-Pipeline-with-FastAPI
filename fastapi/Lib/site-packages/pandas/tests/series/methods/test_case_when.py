@@ -96,7 +96,10 @@ def test_case_when_multiple_conditions_replacement_extension_dtype(df):
     result = Series([np.nan, np.nan, np.nan]).case_when(
         [
             ([True, False, False], 1),
-            (df["a"].gt(1) & df["b"].eq(5), pd_array([1, 2, 3], dtype="Int64")),
+            (
+                df["a"].gt(1) & df["b"].eq(5),
+                pd_array([1, 2, 3], dtype="Int64"),
+            ),
         ],
     )
     expected = Series([1, 2, np.nan], dtype="Float64")
@@ -124,9 +127,13 @@ def test_case_when_non_range_index():
     rng = np.random.default_rng(seed=123)
     dates = date_range("1/1/2000", periods=8)
     df = DataFrame(
-        rng.standard_normal(size=(8, 4)), index=dates, columns=["A", "B", "C", "D"]
+        rng.standard_normal(size=(8, 4)),
+        index=dates,
+        columns=["A", "B", "C", "D"],
     )
-    result = Series(5, index=df.index, name="A").case_when([(df.A.gt(0), df.B)])
+    result = Series(5, index=df.index, name="A").case_when(
+        [(df.A.gt(0), df.B)]
+    )
     expected = df.A.mask(df.A.gt(0), df.B).where(df.A.gt(0), 5)
     tm.assert_series_equal(result, expected)
 

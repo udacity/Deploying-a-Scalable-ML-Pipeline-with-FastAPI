@@ -21,7 +21,8 @@ from pandas.tseries.holiday import (
 
 
 @pytest.mark.parametrize(
-    "transform", [lambda x: x, lambda x: x.strftime("%Y-%m-%d"), lambda x: Timestamp(x)]
+    "transform",
+    [lambda x: x, lambda x: x.strftime("%Y-%m-%d"), lambda x: Timestamp(x)],
 )
 def test_calendar(transform):
     start_date = datetime(2012, 1, 1)
@@ -115,5 +116,7 @@ def test_no_holidays_calendar():
 
     cal = NoHolidaysCalendar()
     holidays = cal.holidays(Timestamp("01-Jan-2020"), Timestamp("01-Jan-2021"))
-    empty_index = DatetimeIndex([])  # Type is DatetimeIndex since return_name=False
+    empty_index = DatetimeIndex(
+        []
+    )  # Type is DatetimeIndex since return_name=False
     tm.assert_index_equal(holidays, empty_index)

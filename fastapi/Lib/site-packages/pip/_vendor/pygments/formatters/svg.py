@@ -127,7 +127,9 @@ class SvgFormatter(Formatter):
         y = self.yoffset
         if not self.nowrap:
             if self.encoding:
-                outfile.write('<?xml version="1.0" encoding="%s"?>\n' % self.encoding)
+                outfile.write(
+                    '<?xml version="1.0" encoding="%s"?>\n' % self.encoding
+                )
             else:
                 outfile.write('<?xml version="1.0"?>\n')
             outfile.write(
@@ -155,7 +157,9 @@ class SvgFormatter(Formatter):
             line_x += self.linenowidth + self.ystep
             counter += 1
 
-        outfile.write('<text x="%s" y="%s" xml:space="preserve">' % (line_x, y))
+        outfile.write(
+            '<text x="%s" y="%s" xml:space="preserve">' % (line_x, y)
+        )
         for ttype, value in tokensource:
             style = self._get_style(ttype)
             tspan = style and "<tspan" + style + ">" or ""
@@ -176,7 +180,8 @@ class SvgFormatter(Formatter):
 
                 counter += 1
                 outfile.write(
-                    '<text x="%s" y="%s" ' 'xml:space="preserve">' % (line_x, y)
+                    '<text x="%s" y="%s" '
+                    'xml:space="preserve">' % (line_x, y)
                 )
             outfile.write(tspan + parts[-1] + tspanend)
         outfile.write("</text>")

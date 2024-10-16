@@ -11,7 +11,9 @@ import typing_extensions
 from . import _typing_extra
 
 if typing.TYPE_CHECKING:
-    ReprArgs: typing_extensions.TypeAlias = "typing.Iterable[tuple[str | None, Any]]"
+    ReprArgs: typing_extensions.TypeAlias = (
+        "typing.Iterable[tuple[str | None, Any]]"
+    )
     RichReprResult: typing_extensions.TypeAlias = (
         "typing.Iterable[Any | tuple[Any] | tuple[str, Any] | tuple[str, Any, Any]]"
     )
@@ -54,7 +56,8 @@ class Representation:
 
     def __repr_str__(self, join_str: str) -> str:
         return join_str.join(
-            repr(v) if a is None else f"{a}={v!r}" for a, v in self.__repr_args__()
+            repr(v) if a is None else f"{a}={v!r}"
+            for a, v in self.__repr_args__()
         )
 
     def __pretty__(
@@ -113,7 +116,9 @@ def display_as_type(obj: Any) -> str:
         if typing_extensions.get_origin(obj) == typing_extensions.Literal:
             args = ", ".join(map(repr, typing_extensions.get_args(obj)))
         else:
-            args = ", ".join(map(display_as_type, typing_extensions.get_args(obj)))
+            args = ", ".join(
+                map(display_as_type, typing_extensions.get_args(obj))
+            )
         try:
             return f"{obj.__qualname__}[{args}]"
         except AttributeError:
@@ -121,4 +126,6 @@ def display_as_type(obj: Any) -> str:
     elif isinstance(obj, type):
         return obj.__qualname__
     else:
-        return repr(obj).replace("typing.", "").replace("typing_extensions.", "")
+        return (
+            repr(obj).replace("typing.", "").replace("typing_extensions.", "")
+        )

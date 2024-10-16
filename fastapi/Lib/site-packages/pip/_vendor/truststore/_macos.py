@@ -81,7 +81,10 @@ SecTrustResultType = c_uint32
 SecTrustOptionFlags = c_uint32
 
 try:
-    Security.SecCertificateCreateWithData.argtypes = [CFAllocatorRef, CFDataRef]
+    Security.SecCertificateCreateWithData.argtypes = [
+        CFAllocatorRef,
+        CFDataRef,
+    ]
     Security.SecCertificateCreateWithData.restype = SecCertificateRef
 
     Security.SecCertificateCopyData.argtypes = [SecCertificateRef]
@@ -93,10 +96,16 @@ try:
     Security.SecTrustSetAnchorCertificates.argtypes = [SecTrustRef, CFArrayRef]
     Security.SecTrustSetAnchorCertificates.restype = OSStatus
 
-    Security.SecTrustSetAnchorCertificatesOnly.argtypes = [SecTrustRef, Boolean]
+    Security.SecTrustSetAnchorCertificatesOnly.argtypes = [
+        SecTrustRef,
+        Boolean,
+    ]
     Security.SecTrustSetAnchorCertificatesOnly.restype = OSStatus
 
-    Security.SecTrustEvaluate.argtypes = [SecTrustRef, POINTER(SecTrustResultType)]
+    Security.SecTrustEvaluate.argtypes = [
+        SecTrustRef,
+        POINTER(SecTrustResultType),
+    ]
     Security.SecTrustEvaluate.restype = OSStatus
 
     Security.SecPolicyCreateRevocation.argtypes = [CFOptionFlags]
@@ -138,7 +147,10 @@ try:
     ]
     CoreFoundation.CFStringCreateWithCString.restype = CFStringRef
 
-    CoreFoundation.CFStringGetCStringPtr.argtypes = [CFStringRef, CFStringEncoding]
+    CoreFoundation.CFStringGetCStringPtr.argtypes = [
+        CFStringRef,
+        CFStringEncoding,
+    ]
     CoreFoundation.CFStringGetCStringPtr.restype = c_char_p
 
     CoreFoundation.CFStringGetCString.argtypes = [
@@ -204,7 +216,9 @@ except AttributeError:
     raise ImportError("Error initializing ctypes") from None
 
 
-def _handle_osstatus(result: OSStatus, _: typing.Any, args: typing.Any) -> typing.Any:
+def _handle_osstatus(
+    result: OSStatus, _: typing.Any, args: typing.Any
+) -> typing.Any:
     """
     Raises an error if the OSStatus value is non-zero.
     """
@@ -215,7 +229,9 @@ def _handle_osstatus(result: OSStatus, _: typing.Any, args: typing.Any) -> typin
     # into a UTF-8 Python string.
     error_message_cfstring = None
     try:
-        error_message_cfstring = Security.SecCopyErrorMessageString(result, None)
+        error_message_cfstring = Security.SecCopyErrorMessageString(
+            result, None
+        )
 
         # First step is convert the CFString into a C string pointer.
         # We try the fast no-copy way first.
@@ -252,7 +268,9 @@ def _handle_osstatus(result: OSStatus, _: typing.Any, args: typing.Any) -> typin
     # If no message can be found for this status we come
     # up with a generic one that forwards the status code.
     if message is None or message == "":
-        message = f"SecureTransport operation returned a non-zero OSStatus: {result}"
+        message = (
+            f"SecureTransport operation returned a non-zero OSStatus: {result}"
+        )
 
     raise ssl.SSLError(message)
 
@@ -372,7 +390,9 @@ def _verify_peercerts_impl(
         if server_hostname is not None:
             cf_str_hostname = None
             try:
-                cf_str_hostname = _bytes_to_cf_string(server_hostname.encode("ascii"))
+                cf_str_hostname = _bytes_to_cf_string(
+                    server_hostname.encode("ascii")
+                )
                 ssl_policy = Security.SecPolicyCreateSSL(True, cf_str_hostname)
             finally:
                 if cf_str_hostname:
@@ -397,7 +417,9 @@ def _verify_peercerts_impl(
             CoreFoundation.CFArrayAppendValue(policies, revocation_policy)
             CoreFoundation.CFRelease(revocation_policy)
         elif ssl_context.verify_flags & ssl.VERIFY_CRL_CHECK_LEAF:
-            raise NotImplementedError("VERIFY_CRL_CHECK_LEAF not implemented for macOS")
+            raise NotImplementedError(
+                "VERIFY_CRL_CHECK_LEAF not implemented for macOS"
+            )
 
         certs = None
         try:
@@ -471,7 +493,9 @@ def _verify_peercerts_impl(
         if not is_trusted:
             cf_error_string_ref = None
             try:
-                cf_error_string_ref = CoreFoundation.CFErrorCopyDescription(cf_error)
+                cf_error_string_ref = CoreFoundation.CFErrorCopyDescription(
+                    cf_error
+                )
 
                 # Can this ever return 'None' if there's a CFError?
                 cf_error_message = (

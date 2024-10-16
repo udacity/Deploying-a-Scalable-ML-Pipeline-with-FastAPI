@@ -22,9 +22,17 @@ from pandas.core.arrays import (
         (["2017"], "D", [17167]),
         ([pd.Period("2017", "D")], pd.tseries.offsets.Day(), [17167]),
         ([pd.Period("2017", "D"), None], None, [17167, iNaT]),
-        (pd.Series(pd.date_range("2017", periods=3)), None, [17167, 17168, 17169]),
+        (
+            pd.Series(pd.date_range("2017", periods=3)),
+            None,
+            [17167, 17168, 17169],
+        ),
         (pd.date_range("2017", periods=3), None, [17167, 17168, 17169]),
-        (pd.period_range("2017", periods=4, freq="Q"), None, [188, 189, 190, 191]),
+        (
+            pd.period_range("2017", periods=4, freq="Q"),
+            None,
+            [188, 189, 190, 191],
+        ),
     ],
 )
 def test_period_array_ok(data, freq, expected):
@@ -53,7 +61,9 @@ def test_from_datetime64_freq_changes():
     # https://github.com/pandas-dev/pandas/issues/23438
     arr = pd.date_range("2017", periods=3, freq="D")
     result = PeriodArray._from_datetime64(arr, freq="M")
-    expected = period_array(["2017-01-01", "2017-01-01", "2017-01-01"], freq="M")
+    expected = period_array(
+        ["2017-01-01", "2017-01-01", "2017-01-01"], freq="M"
+    )
     tm.assert_period_array_equal(result, expected)
 
 

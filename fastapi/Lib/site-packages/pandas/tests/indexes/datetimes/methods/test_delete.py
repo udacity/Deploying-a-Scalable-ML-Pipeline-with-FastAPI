@@ -118,7 +118,12 @@ class TestDelete:
     @pytest.mark.parametrize("tz", [None, "Asia/Tokyo", "US/Pacific"])
     def test_delete_slice2(self, tz, unit):
         dti = date_range(
-            "2000-01-01 09:00", periods=10, freq="h", name="idx", tz=tz, unit=unit
+            "2000-01-01 09:00",
+            periods=10,
+            freq="h",
+            name="idx",
+            tz=tz,
+            unit=unit,
         )
         ts = Series(
             1,

@@ -48,7 +48,9 @@ class RequestMethods:
 
     _encode_url_methods = {"DELETE", "GET", "HEAD", "OPTIONS"}
 
-    def __init__(self, headers: typing.Mapping[str, str] | None = None) -> None:
+    def __init__(
+        self, headers: typing.Mapping[str, str] | None = None
+    ) -> None:
         self.headers = headers or {}
 
     def urlopen(
@@ -124,9 +126,9 @@ class RequestMethods:
                 headers = HTTPHeaderDict(headers)
                 headers["Content-Type"] = "application/json"
 
-            body = _json.dumps(json, separators=(",", ":"), ensure_ascii=False).encode(
-                "utf-8"
-            )
+            body = _json.dumps(
+                json, separators=(",", ":"), ensure_ascii=False
+            ).encode("utf-8")
 
         if body is not None:
             urlopen_kw["body"] = body

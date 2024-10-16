@@ -40,7 +40,10 @@ def test_dropna():
     # test if missing values are dropped for multiindex constructed
     # from codes and values
     idx = MultiIndex(
-        levels=[[np.nan, None, pd.NaT, "128", 2], [np.nan, None, pd.NaT, "128", 2]],
+        levels=[
+            [np.nan, None, pd.NaT, "128", 2],
+            [np.nan, None, pd.NaT, "128", 2],
+        ],
         codes=[[0, -1, 1, 2, 3, 4], [0, -1, 3, 3, 3, 4]],
     )
     expected = MultiIndex.from_arrays([["128", 2], ["128", 2]])
@@ -86,7 +89,9 @@ def test_hasnans_isnans(idx):
 
 def test_nan_stays_float():
     # GH 7031
-    idx0 = MultiIndex(levels=[["A", "B"], []], codes=[[1, 0], [-1, -1]], names=[0, 1])
+    idx0 = MultiIndex(
+        levels=[["A", "B"], []], codes=[[1, 0], [-1, -1]], names=[0, 1]
+    )
     idx1 = MultiIndex(levels=[["C"], ["D"]], codes=[[0], [0]], names=[0, 1])
     idxm = idx0.join(idx1, how="outer")
     assert pd.isna(idx0.get_level_values(1)).all()

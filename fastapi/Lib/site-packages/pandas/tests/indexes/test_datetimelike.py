@@ -23,7 +23,13 @@ class TestDatetimeLike:
                 freq="D",
             ),
             pd.DatetimeIndex(
-                ["2013-01-01", "2013-01-02", "2013-01-03", "2013-01-04", "2013-01-05"],
+                [
+                    "2013-01-01",
+                    "2013-01-02",
+                    "2013-01-03",
+                    "2013-01-04",
+                    "2013-01-05",
+                ],
                 dtype="datetime64[ns]",
                 freq="D",
             ),
@@ -113,7 +119,9 @@ class TestDatetimeLike:
             lambda values, index: pd.Series(values, index, dtype=object),
         ],
     )
-    @pytest.mark.filterwarnings(r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning")
+    @pytest.mark.filterwarnings(
+        r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning"
+    )
     def test_map_dictlike(self, mapper, simple_index):
         index = simple_index
         expected = index + index.freq

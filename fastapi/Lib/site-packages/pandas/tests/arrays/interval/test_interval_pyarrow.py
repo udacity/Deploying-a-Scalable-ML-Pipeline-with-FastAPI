@@ -33,8 +33,12 @@ def test_arrow_array():
     assert isinstance(result.type, ArrowIntervalType)
     assert result.type.closed == intervals.closed
     assert result.type.subtype == pa.int64()
-    assert result.storage.field("left").equals(pa.array([1, 2, 3, 4], type="int64"))
-    assert result.storage.field("right").equals(pa.array([2, 3, 4, 5], type="int64"))
+    assert result.storage.field("left").equals(
+        pa.array([1, 2, 3, 4], type="int64")
+    )
+    assert result.storage.field("right").equals(
+        pa.array([2, 3, 4, 5], type="int64")
+    )
 
     expected = pa.array([{"left": i, "right": i + 1} for i in range(1, 5)])
     assert result.storage.equals(expected)
@@ -44,10 +48,14 @@ def test_arrow_array():
     assert result.equals(expected)
 
     # unsupported conversions
-    with pytest.raises(TypeError, match="Not supported to convert IntervalArray"):
+    with pytest.raises(
+        TypeError, match="Not supported to convert IntervalArray"
+    ):
         pa.array(intervals, type="float64")
 
-    with pytest.raises(TypeError, match="Not supported to convert IntervalArray"):
+    with pytest.raises(
+        TypeError, match="Not supported to convert IntervalArray"
+    ):
         pa.array(intervals, type=ArrowIntervalType(pa.float64(), "left"))
 
 
@@ -76,7 +84,9 @@ def test_arrow_array_missing():
         {"left": None, "right": None},
         {"left": 2.0, "right": 3.0},
     ]
-    expected = pa.StructArray.from_pandas(vals, mask=np.array([False, True, False]))
+    expected = pa.StructArray.from_pandas(
+        vals, mask=np.array([False, True, False])
+    )
     assert result.storage.equals(expected)
 
 

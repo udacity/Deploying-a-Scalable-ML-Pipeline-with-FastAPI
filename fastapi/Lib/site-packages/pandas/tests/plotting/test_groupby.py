@@ -63,7 +63,9 @@ class TestDataFrameGroupByPlots:
     def test_hist_single_row(self):
         # GH10214
         bins = np.arange(80, 100 + 2, 1)
-        df = DataFrame({"Name": ["AAA", "BBB"], "ByCol": [1, 2], "Mark": [85, 89]})
+        df = DataFrame(
+            {"Name": ["AAA", "BBB"], "ByCol": [1, 2], "Mark": [85, 89]}
+        )
         df["Mark"].hist(by=df["ByCol"], bins=bins)
 
     def test_hist_single_row_single_bycol(self):
@@ -73,15 +75,21 @@ class TestDataFrameGroupByPlots:
         df["Mark"].hist(by=df["ByCol"], bins=bins)
 
     def test_plot_submethod_works(self):
-        df = DataFrame({"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")})
+        df = DataFrame(
+            {"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")}
+        )
         df.groupby("z").plot.scatter("x", "y")
 
     def test_plot_submethod_works_line(self):
-        df = DataFrame({"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")})
+        df = DataFrame(
+            {"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")}
+        )
         df.groupby("z")["x"].plot.line()
 
     def test_plot_kwargs(self):
-        df = DataFrame({"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")})
+        df = DataFrame(
+            {"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")}
+        )
 
         res = df.groupby("z").plot(kind="scatter", x="x", y="y")
         # check that a scatter plot is effectively plotted: the axes should
@@ -89,11 +97,15 @@ class TestDataFrameGroupByPlots:
         assert len(res["a"].collections) == 1
 
     def test_plot_kwargs_scatter(self):
-        df = DataFrame({"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")})
+        df = DataFrame(
+            {"x": [1, 2, 3, 4, 5], "y": [1, 2, 3, 2, 1], "z": list("ababa")}
+        )
         res = df.groupby("z").plot.scatter(x="x", y="y")
         assert len(res["a"].collections) == 1
 
-    @pytest.mark.parametrize("column, expected_axes_num", [(None, 2), ("b", 1)])
+    @pytest.mark.parametrize(
+        "column, expected_axes_num", [(None, 2), ("b", 1)]
+    )
     def test_groupby_hist_frame_with_legend(self, column, expected_axes_num):
         # GH 6279 - DataFrameGroupBy histogram can have a legend
         expected_layout = (1, expected_axes_num)
@@ -108,7 +120,9 @@ class TestDataFrameGroupByPlots:
         g = df.groupby("c")
 
         for axes in g.hist(legend=True, column=column):
-            _check_axes_shape(axes, axes_num=expected_axes_num, layout=expected_layout)
+            _check_axes_shape(
+                axes, axes_num=expected_axes_num, layout=expected_layout
+            )
             for ax, expected_label in zip(axes[0], expected_labels):
                 _check_legend_labels(ax, expected_label)
 
@@ -123,7 +137,9 @@ class TestDataFrameGroupByPlots:
         )
         g = df.groupby("c")
 
-        with pytest.raises(ValueError, match="Cannot use both legend and label"):
+        with pytest.raises(
+            ValueError, match="Cannot use both legend and label"
+        ):
             g.hist(legend=True, column=column, label="d")
 
     def test_groupby_hist_series_with_legend(self):
@@ -150,5 +166,7 @@ class TestDataFrameGroupByPlots:
         )
         g = df.groupby("c")
 
-        with pytest.raises(ValueError, match="Cannot use both legend and label"):
+        with pytest.raises(
+            ValueError, match="Cannot use both legend and label"
+        ):
             g.hist(legend=True, label="d")

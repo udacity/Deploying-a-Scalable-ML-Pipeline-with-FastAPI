@@ -118,11 +118,15 @@ class CSVFormatter:
     def index(self) -> bool:
         return self.fmt.index
 
-    def _initialize_index_label(self, index_label: IndexLabel | None) -> IndexLabel:
+    def _initialize_index_label(
+        self, index_label: IndexLabel | None
+    ) -> IndexLabel:
         if index_label is not False:
             if index_label is None:
                 return self._get_index_label_from_obj()
-            elif not isinstance(index_label, (list, tuple, np.ndarray, ABCIndex)):
+            elif not isinstance(
+                index_label, (list, tuple, np.ndarray, ABCIndex)
+            ):
                 # given a string for a DF with Index
                 return [index_label]
         return index_label
@@ -195,7 +199,10 @@ class CSVFormatter:
             and self.date_format is not None
         ):
             data_index = Index(
-                [x.strftime(self.date_format) if notna(x) else "" for x in data_index]
+                [
+                    x.strftime(self.date_format) if notna(x) else ""
+                    for x in data_index
+                ]
             )
         elif isinstance(data_index, ABCMultiIndex):
             data_index = data_index.remove_unused_levels()
@@ -290,7 +297,10 @@ class CSVFormatter:
                 # name is the first column
                 col_line.append(columns.names[i])
 
-                if isinstance(self.index_label, list) and len(self.index_label) > 1:
+                if (
+                    isinstance(self.index_label, list)
+                    and len(self.index_label) > 1
+                ):
                     col_line.extend([""] * (len(self.index_label) - 1))
 
             col_line.extend(columns._get_level_values(i))

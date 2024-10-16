@@ -76,7 +76,9 @@ def test_astype_no_copy():
     assert arr is not result
 
 
-@pytest.mark.parametrize("dtype", [dtypes.CategoricalDtype(), dtypes.IntervalDtype()])
+@pytest.mark.parametrize(
+    "dtype", [dtypes.CategoricalDtype(), dtypes.IntervalDtype()]
+)
 def test_is_extension_array_dtype(dtype):
     assert isinstance(dtype, dtypes.ExtensionDtype)
     assert is_extension_array_dtype(dtype)
@@ -94,7 +96,11 @@ def test_ellipsis_index():
     # GH#42430 1D slices over extension types turn into N-dimensional slices
     #  over ExtensionArrays
     df = pd.DataFrame(
-        {"col1": CapturingStringArray(np.array(["hello", "world"], dtype=object))}
+        {
+            "col1": CapturingStringArray(
+                np.array(["hello", "world"], dtype=object)
+            )
+        }
     )
     _ = df.iloc[:1]
 

@@ -179,7 +179,12 @@ def test_to_array_integer():
     [
         ([False, True], [0, 1], Float64Dtype(), Float64Dtype()),
         ([False, True], [0, 1], "Float64", Float64Dtype()),
-        ([False, True, np.nan], [0, 1, np.nan], Float64Dtype(), Float64Dtype()),
+        (
+            [False, True, np.nan],
+            [0, 1, np.nan],
+            Float64Dtype(),
+            Float64Dtype(),
+        ),
     ],
 )
 def test_to_array_bool(bool_values, values, target_dtype, expected_dtype):
@@ -195,7 +200,9 @@ def test_series_from_float(data):
 
     # from float
     expected = pd.Series(data)
-    result = pd.Series(data.to_numpy(na_value=np.nan, dtype="float"), dtype=str(dtype))
+    result = pd.Series(
+        data.to_numpy(na_value=np.nan, dtype="float"), dtype=str(dtype)
+    )
     tm.assert_series_equal(result, expected)
 
     # from list

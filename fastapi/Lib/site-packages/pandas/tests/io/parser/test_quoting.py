@@ -116,7 +116,10 @@ def test_null_quote_char(all_parsers, quoting, quote_char):
         ({"quotechar": '"', "quoting": csv.QUOTE_NONE}, [[1, 2, '"foo"']]),
         # QUOTE_NONNUMERIC tells the reader to cast
         # all non-quoted fields to float
-        ({"quotechar": '"', "quoting": csv.QUOTE_NONNUMERIC}, [[1.0, 2.0, "foo"]]),
+        (
+            {"quotechar": '"', "quoting": csv.QUOTE_NONNUMERIC},
+            [[1.0, 2.0, "foo"]],
+        ),
     ],
 )
 @xfail_pyarrow  # ValueError: The 'quoting' option is not supported
@@ -141,7 +144,9 @@ def test_double_quote(all_parsers, doublequote, exp_data, request):
         mark = pytest.mark.xfail(reason="Mismatched result")
         request.applymarker(mark)
 
-    result = parser.read_csv(StringIO(data), quotechar='"', doublequote=doublequote)
+    result = parser.read_csv(
+        StringIO(data), quotechar='"', doublequote=doublequote
+    )
     expected = DataFrame(exp_data, columns=["a", "b"])
     tm.assert_frame_equal(result, expected)
 

@@ -140,7 +140,9 @@ class TestReductions:
             assert result == expected
 
     def test_bool_sum_min_count(self):
-        spar_bool = SparseArray([False, True] * 5, dtype=np.bool_, fill_value=True)
+        spar_bool = SparseArray(
+            [False, True] * 5, dtype=np.bool_, fill_value=True
+        )
         res = spar_bool.sum(min_count=1)
         assert res == 5
         res = spar_bool.sum(min_count=11)
@@ -248,7 +250,9 @@ class TestMinMax:
         assert arr.min(skipna=False) == fv
 
     @pytest.mark.parametrize("func", ["min", "max"])
-    @pytest.mark.parametrize("data", [np.array([]), np.array([np.nan, np.nan])])
+    @pytest.mark.parametrize(
+        "data", [np.array([]), np.array([np.nan, np.nan])]
+    )
     @pytest.mark.parametrize(
         "dtype,expected",
         [

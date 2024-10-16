@@ -143,7 +143,9 @@ class TestObjectEngine:
 
     def test_is_monotonic(self):
         num = 1000
-        arr = np.array(["a"] * num + ["a"] * num + ["c"] * num, dtype=self.dtype)
+        arr = np.array(
+            ["a"] * num + ["a"] * num + ["c"] * num, dtype=self.dtype
+        )
 
         # monotonic increasing
         engine = self.engine_type(arr)
@@ -156,7 +158,9 @@ class TestObjectEngine:
         assert engine.is_monotonic_decreasing is True
 
         # neither monotonic increasing or decreasing
-        arr = np.array(["a"] * num + ["b"] * num + ["a"] * num, dtype=self.dtype)
+        arr = np.array(
+            ["a"] * num + ["b"] * num + ["a"] * num, dtype=self.dtype
+        )
         engine = self.engine_type(arr[::-1])
         assert engine.is_monotonic_increasing is False
         assert engine.is_monotonic_decreasing is False
@@ -180,7 +184,9 @@ class TestObjectEngine:
 
         # monotonic
         num = 1000
-        arr = np.array(["a"] * num + ["b"] * num + ["c"] * num, dtype=self.dtype)
+        arr = np.array(
+            ["a"] * num + ["b"] * num + ["c"] * num, dtype=self.dtype
+        )
         engine = self.engine_type(arr)
         assert engine.get_loc("b") == slice(1000, 2000)
 

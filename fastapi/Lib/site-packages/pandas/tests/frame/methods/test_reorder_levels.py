@@ -33,7 +33,9 @@ class TestReorderLevels:
             codes=[[0, 1, 2, 0, 1, 2], [0, 1, 0, 1, 0, 1], [0, 0, 0, 0, 0, 0]],
             names=["L1", "L2", "L0"],
         )
-        expected = DataFrame({"A": np.arange(6), "B": np.arange(6)}, index=e_idx)
+        expected = DataFrame(
+            {"A": np.arange(6), "B": np.arange(6)}, index=e_idx
+        )
         expected = tm.get_obj(expected, frame_or_series)
         tm.assert_equal(result, expected)
 
@@ -43,7 +45,9 @@ class TestReorderLevels:
             codes=[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]],
             names=["L0", "L0", "L0"],
         )
-        expected = DataFrame({"A": np.arange(6), "B": np.arange(6)}, index=e_idx)
+        expected = DataFrame(
+            {"A": np.arange(6), "B": np.arange(6)}, index=e_idx
+        )
         expected = tm.get_obj(expected, frame_or_series)
         tm.assert_equal(result, expected)
 

@@ -66,7 +66,9 @@ class TestCatAccessor:
     def test_cat_accessor_no_new_attributes(self):
         # https://github.com/pandas-dev/pandas/issues/10673
         cat = Series(list("aabbcde")).astype("category")
-        with pytest.raises(AttributeError, match="You cannot add any new attribute"):
+        with pytest.raises(
+            AttributeError, match="You cannot add any new attribute"
+        ):
             cat.cat.xlabel = "a"
 
     def test_categorical_delegations(self):
@@ -113,7 +115,9 @@ class TestCatAccessor:
         tm.assert_numpy_array_equal(ser.__array__(), exp_values)
 
         # remove unused categories
-        ser = Series(Categorical(["a", "b", "b", "a"], categories=["a", "b", "c"]))
+        ser = Series(
+            Categorical(["a", "b", "b", "a"], categories=["a", "b", "c"])
+        )
         exp_categories = Index(["a", "b"])
         exp_values = np.array(["a", "b", "b", "a"], dtype=np.object_)
         ser = ser.cat.remove_unused_categories()
@@ -133,7 +137,9 @@ class TestCatAccessor:
         ser = Series(Categorical(["a", "b", "c", "a"], ordered=True))
         result = ser.cat.rename_categories(lambda x: x.upper())
         expected = Series(
-            Categorical(["A", "B", "C", "A"], categories=["A", "B", "C"], ordered=True)
+            Categorical(
+                ["A", "B", "C", "A"], categories=["A", "B", "C"], ordered=True
+            )
         )
         tm.assert_series_equal(result, expected)
 
@@ -230,7 +236,9 @@ class TestCatAccessor:
     def test_set_categories_setitem(self):
         # GH#43334
 
-        df = DataFrame({"Survived": [1, 0, 1], "Sex": [0, 1, 1]}, dtype="category")
+        df = DataFrame(
+            {"Survived": [1, 0, 1], "Sex": [0, 1, 1]}, dtype="category"
+        )
 
         df["Survived"] = df["Survived"].cat.rename_categories(["No", "Yes"])
         df["Sex"] = df["Sex"].cat.rename_categories(["female", "male"])
@@ -239,7 +247,9 @@ class TestCatAccessor:
         assert list(df["Sex"]) == ["female", "male", "male"]
         assert list(df["Survived"]) == ["Yes", "No", "Yes"]
 
-        df["Sex"] = Categorical(df["Sex"], categories=["female", "male"], ordered=False)
+        df["Sex"] = Categorical(
+            df["Sex"], categories=["female", "male"], ordered=False
+        )
         df["Survived"] = Categorical(
             df["Survived"], categories=["No", "Yes"], ordered=False
         )
@@ -251,7 +261,8 @@ class TestCatAccessor:
     def test_categorical_of_booleans_is_boolean(self):
         # https://github.com/pandas-dev/pandas/issues/46313
         df = DataFrame(
-            {"int_cat": [1, 2, 3], "bool_cat": [True, False, False]}, dtype="category"
+            {"int_cat": [1, 2, 3], "bool_cat": [True, False, False]},
+            dtype="category",
         )
         value = df["bool_cat"].cat.categories.dtype
         expected = np.dtype(np.bool_)

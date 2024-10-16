@@ -12,7 +12,8 @@ if sys.version_info < (3, 11):
 
     def is_legacy_typeddict(typeddict_cls: Type["TypedDict"]) -> bool:  # type: ignore[valid-type]
         return (
-            is_typeddict(typeddict_cls) and type(typeddict_cls).__module__ == "typing"
+            is_typeddict(typeddict_cls)
+            and type(typeddict_cls).__module__ == "typing"
         )
 
 else:
@@ -50,7 +51,10 @@ def create_model_from_typeddict(
 
     required_keys: FrozenSet[str] = typeddict_cls.__required_keys__  # type: ignore[attr-defined]
     field_definitions = {
-        field_name: (field_type, Required if field_name in required_keys else None)
+        field_name: (
+            field_type,
+            Required if field_name in required_keys else None,
+        )
         for field_name, field_type in typeddict_cls.__annotations__.items()
     }
 

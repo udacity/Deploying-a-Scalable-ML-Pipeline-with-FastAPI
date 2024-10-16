@@ -26,7 +26,9 @@ class MacOS(PlatformDirsABC):
     @property
     def site_data_dir(self) -> str:
         """:return: data directory shared by users, e.g. ``/Library/Application Support/$appname/$version``"""
-        return self._append_app_name_and_version("/Library/Application Support")
+        return self._append_app_name_and_version(
+            "/Library/Application Support"
+        )
 
     @property
     def user_config_dir(self) -> str:

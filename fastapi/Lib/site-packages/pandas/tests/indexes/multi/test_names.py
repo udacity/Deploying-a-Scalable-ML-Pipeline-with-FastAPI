@@ -10,7 +10,9 @@ def check_level_names(index, names):
 
 
 def test_slice_keep_name():
-    x = MultiIndex.from_tuples([("a", "b"), (1, 2), ("c", "d")], names=["x", "y"])
+    x = MultiIndex.from_tuples(
+        [("a", "b"), (1, 2), ("c", "d")], names=["x", "y"]
+    )
     assert x[1:].names == x.names
 
 
@@ -56,7 +58,9 @@ def test_take_preserve_name(idx):
 def test_copy_names():
     # Check that adding a "names" parameter to the copy is honored
     # GH14302
-    multi_idx = MultiIndex.from_tuples([(1, 2), (3, 4)], names=["MyName1", "MyName2"])
+    multi_idx = MultiIndex.from_tuples(
+        [(1, 2), (3, 4)], names=["MyName1", "MyName2"]
+    )
     multi_idx1 = multi_idx.copy()
 
     assert multi_idx.equals(multi_idx1)
@@ -76,10 +80,14 @@ def test_copy_names():
     assert multi_idx3.names == ["NewName1", "NewName2"]
 
     # gh-35592
-    with pytest.raises(ValueError, match="Length of new names must be 2, got 1"):
+    with pytest.raises(
+        ValueError, match="Length of new names must be 2, got 1"
+    ):
         multi_idx.copy(names=["mario"])
 
-    with pytest.raises(TypeError, match="MultiIndex.name must be a hashable type"):
+    with pytest.raises(
+        TypeError, match="MultiIndex.name must be a hashable type"
+    ):
         multi_idx.copy(names=[["mario"], ["luigi"]])
 
 
@@ -162,9 +170,13 @@ def test_setting_names_from_levels_raises():
 )
 def test_name_mi_with_dict_like_duplicate_names(func, rename_dict, exp_names):
     # GH#20421
-    mi = MultiIndex.from_arrays([[1, 2], [3, 4], [5, 6]], names=["x", "y", "x"])
+    mi = MultiIndex.from_arrays(
+        [[1, 2], [3, 4], [5, 6]], names=["x", "y", "x"]
+    )
     result = getattr(mi, func)(rename_dict)
-    expected = MultiIndex.from_arrays([[1, 2], [3, 4], [5, 6]], names=exp_names)
+    expected = MultiIndex.from_arrays(
+        [[1, 2], [3, 4], [5, 6]], names=exp_names
+    )
     tm.assert_index_equal(result, expected)
 
 
@@ -197,5 +209,7 @@ def test_index_name_with_dict_like_raising():
 def test_multiindex_name_and_level_raising():
     # GH#20421
     mi = MultiIndex.from_arrays([[1, 2], [3, 4]], names=["x", "y"])
-    with pytest.raises(TypeError, match="Can not pass level for dictlike `names`."):
+    with pytest.raises(
+        TypeError, match="Can not pass level for dictlike `names`."
+    ):
         mi.set_names(names={"x": "z"}, level={"x": "z"})

@@ -38,7 +38,9 @@ class TestValueCounts:
         exp_idx = orig[::-1]
         if not isinstance(exp_idx, PeriodIndex):
             exp_idx = exp_idx._with_freq(None)
-        expected = Series(range(10, 0, -1), index=exp_idx, dtype="int64", name="count")
+        expected = Series(
+            range(10, 0, -1), index=exp_idx, dtype="int64", name="count"
+        )
 
         for obj in [idx, Series(idx)]:
             tm.assert_series_equal(obj.value_counts(), expected)

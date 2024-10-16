@@ -57,7 +57,9 @@ class _ELFFileHeader:
         format_h = "<H" if self.e_ident_data == self.ELFDATA2LSB else ">H"
         format_i = "<I" if self.e_ident_data == self.ELFDATA2LSB else ">I"
         format_q = "<Q" if self.e_ident_data == self.ELFDATA2LSB else ">Q"
-        format_p = format_i if self.e_ident_class == self.ELFCLASS32 else format_q
+        format_p = (
+            format_i if self.e_ident_class == self.ELFCLASS32 else format_q
+        )
         self.e_type = unpack(format_h)
         self.e_machine = unpack(format_h)
         self.e_version = unpack(format_i)

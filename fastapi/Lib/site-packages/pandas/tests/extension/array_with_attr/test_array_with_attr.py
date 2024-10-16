@@ -9,7 +9,9 @@ def test_concat_with_all_na():
     # https://github.com/pandas-dev/pandas/pull/47762
     # ensure that attribute of the column array is preserved (when it gets
     # preserved in reindexing the array) during merge/concat
-    arr = FloatAttrArray(np.array([np.nan, np.nan], dtype="float64"), attr="test")
+    arr = FloatAttrArray(
+        np.array([np.nan, np.nan], dtype="float64"), attr="test"
+    )
 
     df1 = pd.DataFrame({"col": arr, "key": [0, 1]})
     df2 = pd.DataFrame({"key": [0, 1], "col2": [1, 2]})

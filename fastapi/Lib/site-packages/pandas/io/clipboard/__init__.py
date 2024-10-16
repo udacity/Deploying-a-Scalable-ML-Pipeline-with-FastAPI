@@ -172,7 +172,9 @@ def init_xclip_clipboard():
         if primary:
             selection = PRIMARY_SELECTION
         with subprocess.Popen(
-            ["xclip", "-selection", selection], stdin=subprocess.PIPE, close_fds=True
+            ["xclip", "-selection", selection],
+            stdin=subprocess.PIPE,
+            close_fds=True,
         ) as p:
             p.communicate(input=text.encode(ENCODING))
 
@@ -203,7 +205,9 @@ def init_xsel_clipboard():
         if primary:
             selection_flag = PRIMARY_SELECTION
         with subprocess.Popen(
-            ["xsel", selection_flag, "-i"], stdin=subprocess.PIPE, close_fds=True
+            ["xsel", selection_flag, "-i"],
+            stdin=subprocess.PIPE,
+            close_fds=True,
         ) as p:
             p.communicate(input=text.encode(ENCODING))
 
@@ -212,7 +216,9 @@ def init_xsel_clipboard():
         if primary:
             selection_flag = PRIMARY_SELECTION
         with subprocess.Popen(
-            ["xsel", selection_flag, "-o"], stdout=subprocess.PIPE, close_fds=True
+            ["xsel", selection_flag, "-o"],
+            stdout=subprocess.PIPE,
+            close_fds=True,
         ) as p:
             stdout = p.communicate()[0]
         return stdout.decode(ENCODING)
@@ -476,7 +482,9 @@ def init_windows_clipboard():
                     # the object must have been allocated using the
                     # function with the GMEM_MOVEABLE flag.
                     count = wcslen(text) + 1
-                    handle = safeGlobalAlloc(GMEM_MOVEABLE, count * sizeof(c_wchar))
+                    handle = safeGlobalAlloc(
+                        GMEM_MOVEABLE, count * sizeof(c_wchar)
+                    )
                     locked_handle = safeGlobalLock(handle)
 
                     ctypes.memmove(
@@ -505,7 +513,9 @@ def init_windows_clipboard():
 def init_wsl_clipboard():
     def copy_wsl(text):
         text = _stringifyText(text)  # Converts non-str values to str.
-        with subprocess.Popen(["clip.exe"], stdin=subprocess.PIPE, close_fds=True) as p:
+        with subprocess.Popen(
+            ["clip.exe"], stdin=subprocess.PIPE, close_fds=True
+        ) as p:
             p.communicate(input=text.encode(ENCODING))
 
     def paste_wsl():
@@ -729,7 +739,9 @@ def waitForNewPaste(timeout=None):
 
         if timeout is not None and time.time() > startTime + timeout:
             raise PyperclipTimeoutException(
-                "waitForNewPaste() timed out after " + str(timeout) + " seconds."
+                "waitForNewPaste() timed out after "
+                + str(timeout)
+                + " seconds."
             )
 
 

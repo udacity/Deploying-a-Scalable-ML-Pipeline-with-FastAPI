@@ -11,7 +11,9 @@ import pandas._testing as tm
 class TestSeriesRenameAxis:
     def test_rename_axis_mapper(self):
         # GH 19978
-        mi = MultiIndex.from_product([["a", "b", "c"], [1, 2]], names=["ll", "nn"])
+        mi = MultiIndex.from_product(
+            [["a", "b", "c"], [1, 2]], names=["ll", "nn"]
+        )
         ser = Series(list(range(len(mi))), index=mi)
 
         result = ser.rename_axis(index={"ll": "foo"})

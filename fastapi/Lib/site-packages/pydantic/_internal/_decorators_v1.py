@@ -39,7 +39,9 @@ class V1ValidatorWithKwargs(Protocol):
 class V1ValidatorWithValuesAndKwargs(Protocol):
     """A validator with `values` and `kwargs` arguments, supported for V1 validators and V2 validators."""
 
-    def __call__(self, __value: Any, values: dict[str, Any], **kwargs: Any) -> Any: ...
+    def __call__(
+        self, __value: Any, values: dict[str, Any], **kwargs: Any
+    ) -> Any: ...
 
 
 V1Validator = Union[
@@ -51,7 +53,10 @@ V1Validator = Union[
 
 
 def can_be_keyword(param: Parameter) -> bool:
-    return param.kind in (Parameter.POSITIONAL_OR_KEYWORD, Parameter.KEYWORD_ONLY)
+    return param.kind in (
+        Parameter.POSITIONAL_OR_KEYWORD,
+        Parameter.KEYWORD_ONLY,
+    )
 
 
 def make_generic_v1_field_validator(
@@ -73,7 +78,9 @@ def make_generic_v1_field_validator(
 
     needs_values_kw = False
 
-    for param_num, (param_name, parameter) in enumerate(sig.parameters.items()):
+    for param_num, (param_name, parameter) in enumerate(
+        sig.parameters.items()
+    ):
         if can_be_keyword(parameter) and param_name in ("field", "config"):
             raise PydanticUserError(
                 "The `field` and `config` parameters are not available in Pydantic V2, "
@@ -120,7 +127,9 @@ RootValidatorFieldsTuple = Tuple[Any, ...]
 class V1RootValidatorFunction(Protocol):
     """A simple root validator, supported for V1 validators and V2 validators."""
 
-    def __call__(self, __values: RootValidatorValues) -> RootValidatorValues: ...
+    def __call__(
+        self, __values: RootValidatorValues
+    ) -> RootValidatorValues: ...
 
 
 class V2CoreBeforeRootValidator(Protocol):

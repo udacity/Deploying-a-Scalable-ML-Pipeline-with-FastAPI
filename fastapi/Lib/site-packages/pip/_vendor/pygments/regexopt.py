@@ -20,7 +20,9 @@ FIRST_ELEMENT = itemgetter(0)
 
 
 def make_charset(letters):
-    return "[" + CS_ESCAPE.sub(lambda m: "\\" + m.group(), "".join(letters)) + "]"
+    return (
+        "[" + CS_ESCAPE.sub(lambda m: "\\" + m.group(), "".join(letters)) + "]"
+    )
 
 
 def regex_opt_inner(strings, open_paren):
@@ -36,7 +38,12 @@ def regex_opt_inner(strings, open_paren):
         return open_paren + escape(first) + close_paren
     if not first:
         # print '-> first string empty'
-        return open_paren + regex_opt_inner(strings[1:], "(?:") + "?" + close_paren
+        return (
+            open_paren
+            + regex_opt_inner(strings[1:], "(?:")
+            + "?"
+            + close_paren
+        )
     if len(first) == 1:
         # multiple one-char strings? make a charset
         oneletter = []

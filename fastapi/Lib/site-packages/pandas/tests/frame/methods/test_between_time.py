@@ -47,7 +47,9 @@ class TestBetweenTime:
         tz = timezones.maybe_get_tz(tzstr)
 
         rng = date_range("4/16/2012", "5/1/2012", freq="h")
-        ts = Series(np.random.default_rng(2).standard_normal(len(rng)), index=rng)
+        ts = Series(
+            np.random.default_rng(2).standard_normal(len(rng)), index=rng
+        )
         if frame_or_series is DataFrame:
             ts = ts.to_frame()
 
@@ -140,13 +142,17 @@ class TestBetweenTime:
         obj = tm.get_obj(obj, frame_or_series)
 
         msg = "Index must be DatetimeIndex"
-        with pytest.raises(TypeError, match=msg):  # index is not a DatetimeIndex
+        with pytest.raises(
+            TypeError, match=msg
+        ):  # index is not a DatetimeIndex
             obj.between_time(start_time="00:00", end_time="12:00")
 
     def test_between_time_axis(self, frame_or_series):
         # GH#8839
         rng = date_range("1/1/2000", periods=100, freq="10min")
-        ts = Series(np.random.default_rng(2).standard_normal(len(rng)), index=rng)
+        ts = Series(
+            np.random.default_rng(2).standard_normal(len(rng)), index=rng
+        )
         if frame_or_series is DataFrame:
             ts = ts.to_frame()
 
@@ -162,7 +168,9 @@ class TestBetweenTime:
     def test_between_time_axis_aliases(self, axis):
         # GH#8839
         rng = date_range("1/1/2000", periods=100, freq="10min")
-        ts = DataFrame(np.random.default_rng(2).standard_normal((len(rng), len(rng))))
+        ts = DataFrame(
+            np.random.default_rng(2).standard_normal((len(rng), len(rng)))
+        )
         stime, etime = ("08:00:00", "09:00:00")
         exp_len = 7
 
@@ -180,7 +188,9 @@ class TestBetweenTime:
         # issue 8839
         rng = date_range("1/1/2000", periods=100, freq="10min")
         mask = np.arange(0, len(rng))
-        rand_data = np.random.default_rng(2).standard_normal((len(rng), len(rng)))
+        rand_data = np.random.default_rng(2).standard_normal(
+            (len(rng), len(rng))
+        )
         ts = DataFrame(rand_data, index=rng, columns=rng)
         stime, etime = ("08:00:00", "09:00:00")
 
@@ -200,7 +210,8 @@ class TestBetweenTime:
     def test_between_time_datetimeindex(self):
         index = date_range("2012-01-01", "2012-01-05", freq="30min")
         df = DataFrame(
-            np.random.default_rng(2).standard_normal((len(index), 5)), index=index
+            np.random.default_rng(2).standard_normal((len(index), 5)),
+            index=index,
         )
         bkey = slice(time(13, 0, 0), time(14, 0, 0))
         binds = [26, 27, 28, 74, 75, 76, 122, 123, 124, 170, 171, 172]

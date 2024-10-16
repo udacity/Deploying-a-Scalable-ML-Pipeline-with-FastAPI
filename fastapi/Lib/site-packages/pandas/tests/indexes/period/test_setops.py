@@ -62,10 +62,12 @@ class TestPeriodIndex:
         )
 
         rng5 = PeriodIndex(
-            ["2000-01-01 09:01", "2000-01-01 09:03", "2000-01-01 09:05"], freq="min"
+            ["2000-01-01 09:01", "2000-01-01 09:03", "2000-01-01 09:05"],
+            freq="min",
         )
         other5 = PeriodIndex(
-            ["2000-01-01 09:01", "2000-01-01 09:05", "2000-01-01 09:08"], freq="min"
+            ["2000-01-01 09:01", "2000-01-01 09:05", "2000-01-01 09:08"],
+            freq="min",
         )
         expected5 = PeriodIndex(
             [
@@ -100,7 +102,8 @@ class TestPeriodIndex:
         )
 
         rng8 = PeriodIndex(
-            ["1/3/2000", "1/2/2000", "1/1/2000", "1/5/2000", "1/4/2000"], freq="D"
+            ["1/3/2000", "1/2/2000", "1/1/2000", "1/5/2000", "1/4/2000"],
+            freq="D",
         )
         other8 = period_range("1/6/2000", freq="D", periods=5)
         expected8 = PeriodIndex(
@@ -217,14 +220,18 @@ class TestPeriodIndex:
             freq="D",
             name="idx",
         )
-        expected2 = PeriodIndex(["2011-01-04", "2011-01-02"], freq="D", name="idx")
+        expected2 = PeriodIndex(
+            ["2011-01-04", "2011-01-02"], freq="D", name="idx"
+        )
 
         rng3 = PeriodIndex(
             ["2011-01-04", "2011-01-02", "2011-02-02", "2011-02-03"],
             freq="D",
             name="other",
         )
-        expected3 = PeriodIndex(["2011-01-04", "2011-01-02"], freq="D", name=None)
+        expected3 = PeriodIndex(
+            ["2011-01-04", "2011-01-02"], freq="D", name=None
+        )
 
         rng4 = period_range("7/1/2000", "7/31/2000", freq="D", name="idx")
         expected4 = PeriodIndex([], freq="D", name="idx")
@@ -251,7 +258,13 @@ class TestPeriodIndex:
 
     def test_difference(self, sort):
         # diff
-        period_rng = ["1/3/2000", "1/2/2000", "1/1/2000", "1/5/2000", "1/4/2000"]
+        period_rng = [
+            "1/3/2000",
+            "1/2/2000",
+            "1/1/2000",
+            "1/5/2000",
+            "1/4/2000",
+        ]
         rng1 = PeriodIndex(period_rng, freq="D")
         other1 = period_range("1/6/2000", freq="D", periods=5)
         expected1 = rng1
@@ -276,9 +289,12 @@ class TestPeriodIndex:
         expected4 = rng4
 
         rng5 = PeriodIndex(
-            ["2000-01-01 09:03", "2000-01-01 09:01", "2000-01-01 09:05"], freq="min"
+            ["2000-01-01 09:03", "2000-01-01 09:01", "2000-01-01 09:05"],
+            freq="min",
         )
-        other5 = PeriodIndex(["2000-01-01 09:01", "2000-01-01 09:05"], freq="min")
+        other5 = PeriodIndex(
+            ["2000-01-01 09:01", "2000-01-01 09:05"], freq="min"
+        )
         expected5 = PeriodIndex(["2000-01-01 09:03"], freq="min")
 
         period_rng = [
@@ -292,7 +308,9 @@ class TestPeriodIndex:
         ]
         rng6 = PeriodIndex(period_rng, freq="M")
         other6 = period_range("2000-04-01", freq="M", periods=7)
-        expected6 = PeriodIndex(["2000-02-01", "2000-01-01", "2000-03-01"], freq="M")
+        expected6 = PeriodIndex(
+            ["2000-02-01", "2000-01-01", "2000-03-01"], freq="M"
+        )
 
         period_rng = ["2003", "2007", "2006", "2005", "2004"]
         rng7 = PeriodIndex(period_rng, freq="Y")
@@ -339,7 +357,9 @@ class TestPeriodIndex:
         result = idx_dup.intersection(idx_dup)
         tm.assert_index_equal(result, idx)
 
-    @pytest.mark.filterwarnings(r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning")
+    @pytest.mark.filterwarnings(
+        r"ignore:PeriodDtype\[B\] is deprecated:FutureWarning"
+    )
     def test_union_duplicates(self):
         # GH#36289
         idx = period_range("2011-01-01", periods=2)

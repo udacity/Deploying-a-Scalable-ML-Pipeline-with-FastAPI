@@ -75,10 +75,14 @@ class TestArrayStrptimeResolutionInference:
 
     def test_array_strptime_resolution_todaynow(self):
         # specifically case where today/now is the *first* item
-        vals = np.array(["today", np.datetime64("2017-01-01", "us")], dtype=object)
+        vals = np.array(
+            ["today", np.datetime64("2017-01-01", "us")], dtype=object
+        )
 
         now = Timestamp("now").asm8
-        res, _ = array_strptime(vals, fmt="%Y-%m-%d", utc=False, creso=creso_infer)
+        res, _ = array_strptime(
+            vals, fmt="%Y-%m-%d", utc=False, creso=creso_infer
+        )
         res2, _ = array_strptime(
             vals[::-1], fmt="%Y-%m-%d", utc=False, creso=creso_infer
         )

@@ -73,7 +73,9 @@ def is_list_like_indexer(key) -> bool:
     bool
     """
     # allow a list_like, but exclude NamedTuples which can be indexers
-    return is_list_like(key) and not (isinstance(key, tuple) and type(key) is not tuple)
+    return is_list_like(key) and not (
+        isinstance(key, tuple) and type(key) is not tuple
+    )
 
 
 def is_scalar_indexer(indexer, ndim: int) -> bool:
@@ -114,7 +116,9 @@ def is_empty_indexer(indexer) -> bool:
         return True
     if not isinstance(indexer, tuple):
         indexer = (indexer,)
-    return any(isinstance(idx, np.ndarray) and len(idx) == 0 for idx in indexer)
+    return any(
+        isinstance(idx, np.ndarray) and len(idx) == 0 for idx in indexer
+    )
 
 
 # -----------------------------------------------------------
@@ -173,7 +177,10 @@ def check_setitem_lengths(indexer, value, values) -> bool:
 
     elif isinstance(indexer, slice):
         if is_list_like(value):
-            if len(value) != length_of_indexer(indexer, values) and values.ndim == 1:
+            if (
+                len(value) != length_of_indexer(indexer, values)
+                and values.ndim == 1
+            ):
                 # In case of two dimensional value is used row-wise and broadcasted
                 raise ValueError(
                     "cannot set using a slice indexer with a "
@@ -225,7 +232,9 @@ def validate_indices(indices: np.ndarray, n: int) -> None:
     if len(indices):
         min_idx = indices.min()
         if min_idx < -1:
-            msg = f"'indices' contains values less than allowed ({min_idx} < -1)"
+            msg = (
+                f"'indices' contains values less than allowed ({min_idx} < -1)"
+            )
             raise ValueError(msg)
 
         max_idx = indices.max()
@@ -549,6 +558,8 @@ def check_array_indexer(array: AnyArrayLike, indexer: Any) -> Any:
                 "Cannot index with an integer indexer containing NA values"
             ) from err
     else:
-        raise IndexError("arrays used as indices must be of integer or boolean type")
+        raise IndexError(
+            "arrays used as indices must be of integer or boolean type"
+        )
 
     return indexer

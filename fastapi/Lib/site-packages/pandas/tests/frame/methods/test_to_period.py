@@ -36,13 +36,17 @@ class TestToPeriod:
 
     def test_to_period_without_freq(self, frame_or_series):
         # GH#7606 without freq
-        idx = DatetimeIndex(["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"])
+        idx = DatetimeIndex(
+            ["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"]
+        )
         exp_idx = PeriodIndex(
             ["2011-01-01", "2011-01-02", "2011-01-03", "2011-01-04"], freq="D"
         )
 
         obj = DataFrame(
-            np.random.default_rng(2).standard_normal((4, 4)), index=idx, columns=idx
+            np.random.default_rng(2).standard_normal((4, 4)),
+            index=idx,
+            columns=idx,
         )
         obj = tm.get_obj(obj, frame_or_series)
         expected = obj.copy()
@@ -56,7 +60,9 @@ class TestToPeriod:
 
     def test_to_period_columns(self):
         dr = date_range("1/1/2000", "1/1/2001")
-        df = DataFrame(np.random.default_rng(2).standard_normal((len(dr), 5)), index=dr)
+        df = DataFrame(
+            np.random.default_rng(2).standard_normal((len(dr), 5)), index=dr
+        )
         df["mix"] = "a"
 
         df = df.T
@@ -70,7 +76,9 @@ class TestToPeriod:
 
     def test_to_period_invalid_axis(self):
         dr = date_range("1/1/2000", "1/1/2001")
-        df = DataFrame(np.random.default_rng(2).standard_normal((len(dr), 5)), index=dr)
+        df = DataFrame(
+            np.random.default_rng(2).standard_normal((len(dr), 5)), index=dr
+        )
         df["mix"] = "a"
 
         msg = "No axis named 2 for object type DataFrame"

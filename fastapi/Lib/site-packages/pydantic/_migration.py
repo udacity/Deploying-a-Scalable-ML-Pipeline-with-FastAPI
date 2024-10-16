@@ -271,7 +271,9 @@ def getattr_migration(module: str) -> Callable[[str], Any]:
             The object.
         """
         if name == "__path__":
-            raise AttributeError(f"module {module!r} has no attribute {name!r}")
+            raise AttributeError(
+                f"module {module!r} has no attribute {name!r}"
+            )
 
         import warnings
 
@@ -280,7 +282,9 @@ def getattr_migration(module: str) -> Callable[[str], Any]:
         import_path = f"{module}:{name}"
         if import_path in MOVED_IN_V2.keys():
             new_location = MOVED_IN_V2[import_path]
-            warnings.warn(f"`{import_path}` has been moved to `{new_location}`.")
+            warnings.warn(
+                f"`{import_path}` has been moved to `{new_location}`."
+            )
             return import_string(MOVED_IN_V2[import_path])
         if import_path in DEPRECATED_MOVED_IN_V2:
             # skip the warning here because a deprecation warning will be raised elsewhere
@@ -299,7 +303,9 @@ def getattr_migration(module: str) -> Callable[[str], Any]:
                 "for more details."
             )
         if import_path in REMOVED_IN_V2:
-            raise PydanticImportError(f"`{import_path}` has been removed in V2.")
+            raise PydanticImportError(
+                f"`{import_path}` has been removed in V2."
+            )
         globals: Dict[str, Any] = sys.modules[module].__dict__
         if name in globals:
             return globals[name]

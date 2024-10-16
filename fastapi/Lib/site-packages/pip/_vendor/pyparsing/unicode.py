@@ -108,7 +108,11 @@ class unicode_set:
                     cls.identchars
                     + "0123456789·"
                     + "".join(
-                        [c for c in cls._chars_for_ranges if ("_" + c).isidentifier()]
+                        [
+                            c
+                            for c in cls._chars_for_ranges
+                            if ("_" + c).isidentifier()
+                        ]
                     )
                 )
             )

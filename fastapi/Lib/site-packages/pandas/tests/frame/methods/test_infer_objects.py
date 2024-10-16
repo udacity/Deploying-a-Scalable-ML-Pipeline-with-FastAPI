@@ -32,7 +32,11 @@ class TestInferObjects:
             {
                 "a": [1, 2, 3],
                 "b": [2.0, 3.0, 4.1],
-                "c": [datetime(2016, 1, 1), datetime(2016, 1, 2), datetime(2016, 1, 3)],
+                "c": [
+                    datetime(2016, 1, 1),
+                    datetime(2016, 1, 2),
+                    datetime(2016, 1, 3),
+                ],
                 "d": [2, 3, "d"],
             },
             columns=["a", "b", "c", "d"],

@@ -31,7 +31,9 @@ def test_format():
     # GH-34740
     assert format(NA) == "<NA>"
     assert format(NA, ">10") == "      <NA>"
-    assert format(NA, "xxx") == "<NA>"  # NA is flexible, accept any format spec
+    assert (
+        format(NA, "xxx") == "<NA>"
+    )  # NA is flexible, accept any format spec
 
     assert f"{NA}" == "<NA>"
     assert f"{NA:>10}" == "      <NA>"
@@ -60,7 +62,9 @@ def test_hashable():
 def test_arithmetic_ops(all_arithmetic_functions, other):
     op = all_arithmetic_functions
 
-    if op.__name__ in ("pow", "rpow", "rmod") and isinstance(other, (str, bytes)):
+    if op.__name__ in ("pow", "rpow", "rmod") and isinstance(
+        other, (str, bytes)
+    ):
         pytest.skip(reason=f"{op.__name__} with NA and {other} not defined.")
     if op.__name__ in ("divmod", "rdivmod"):
         assert op(NA, other) is (NA, NA)

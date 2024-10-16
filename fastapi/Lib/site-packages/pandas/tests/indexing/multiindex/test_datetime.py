@@ -19,7 +19,9 @@ def test_multiindex_period_datetime():
 
     idx1 = Index(["a", "a", "a", "b", "b"])
     idx2 = period_range("2012-01", periods=len(idx1), freq="M")
-    s = Series(np.random.default_rng(2).standard_normal(len(idx1)), [idx1, idx2])
+    s = Series(
+        np.random.default_rng(2).standard_normal(len(idx1)), [idx1, idx2]
+    )
 
     # try Period as index
     expected = s.iloc[0]
@@ -35,7 +37,8 @@ def test_multiindex_datetime_columns():
     # GH35015, using datetime as column indices raises exception
 
     mi = MultiIndex.from_tuples(
-        [(to_datetime("02/29/2020"), to_datetime("03/01/2020"))], names=["a", "b"]
+        [(to_datetime("02/29/2020"), to_datetime("03/01/2020"))],
+        names=["a", "b"],
     )
 
     df = DataFrame([], columns=mi)
@@ -43,7 +46,8 @@ def test_multiindex_datetime_columns():
     expected_df = DataFrame(
         [],
         columns=MultiIndex.from_arrays(
-            [[to_datetime("02/29/2020")], [to_datetime("03/01/2020")]], names=["a", "b"]
+            [[to_datetime("02/29/2020")], [to_datetime("03/01/2020")]],
+            names=["a", "b"],
         ),
     )
 

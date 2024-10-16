@@ -40,7 +40,9 @@ class TestCombine:
         chunk2 = combined2.loc[combined2.index[:-5], ["A", "B", "C"]]
 
         exp = (
-            float_frame.loc[float_frame.index[:-5], ["A", "B", "C"]].reindex_like(chunk)
+            float_frame.loc[
+                float_frame.index[:-5], ["A", "B", "C"]
+            ].reindex_like(chunk)
             * 2
         )
         tm.assert_frame_equal(chunk, exp)

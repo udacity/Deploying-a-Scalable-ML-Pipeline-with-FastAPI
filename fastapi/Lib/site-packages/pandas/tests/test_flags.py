@@ -22,9 +22,13 @@ class TestFlags:
         assert a.allows_duplicate_labels is True
 
     def test_repr(self):
-        a = repr(pd.DataFrame({"A"}).set_flags(allows_duplicate_labels=True).flags)
+        a = repr(
+            pd.DataFrame({"A"}).set_flags(allows_duplicate_labels=True).flags
+        )
         assert a == "<Flags(allows_duplicate_labels=True)>"
-        a = repr(pd.DataFrame({"A"}).set_flags(allows_duplicate_labels=False).flags)
+        a = repr(
+            pd.DataFrame({"A"}).set_flags(allows_duplicate_labels=False).flags
+        )
         assert a == "<Flags(allows_duplicate_labels=False)>"
 
     def test_obj_ref(self):

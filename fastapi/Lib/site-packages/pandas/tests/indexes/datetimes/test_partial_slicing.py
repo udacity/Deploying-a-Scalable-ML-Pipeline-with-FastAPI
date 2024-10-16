@@ -128,7 +128,9 @@ class TestSlicing:
         expected = s[s.index.year == 2005]
         tm.assert_series_equal(result, expected)
 
-        df = DataFrame(np.random.default_rng(2).random((len(dti), 5)), index=dti)
+        df = DataFrame(
+            np.random.default_rng(2).random((len(dti), 5)), index=dti
+        )
         result = df.loc["2005"]
         expected = df[df.index.year == 2005]
         tm.assert_frame_equal(result, expected)
@@ -159,7 +161,9 @@ class TestSlicing:
         s = Series(np.arange(len(dti)), index=dti)
         assert len(s["2001Q1"]) == 90
 
-        df = DataFrame(np.random.default_rng(2).random((len(dti), 5)), index=dti)
+        df = DataFrame(
+            np.random.default_rng(2).random((len(dti), 5)), index=dti
+        )
         assert len(df.loc["1Q01"]) == 90
 
     def test_slice_month(self):
@@ -167,7 +171,9 @@ class TestSlicing:
         s = Series(np.arange(len(dti)), index=dti)
         assert len(s["2005-11"]) == 30
 
-        df = DataFrame(np.random.default_rng(2).random((len(dti), 5)), index=dti)
+        df = DataFrame(
+            np.random.default_rng(2).random((len(dti), 5)), index=dti
+        )
         assert len(df.loc["2005-11"]) == 30
 
         tm.assert_series_equal(s["2005-11"], s["11-2005"])
@@ -205,7 +211,9 @@ class TestSlicing:
             s["2004-12-31 00"]
 
     def test_partial_slice_hourly(self):
-        rng = date_range(freq="min", start=datetime(2005, 1, 1, 20, 0, 0), periods=500)
+        rng = date_range(
+            freq="min", start=datetime(2005, 1, 1, 20, 0, 0), periods=500
+        )
         s = Series(np.arange(len(rng)), index=rng)
 
         result = s["2005-1-1"]
@@ -219,7 +227,9 @@ class TestSlicing:
             s["2004-12-31 00:15"]
 
     def test_partial_slice_minutely(self):
-        rng = date_range(freq="s", start=datetime(2005, 1, 1, 23, 59, 0), periods=500)
+        rng = date_range(
+            freq="s", start=datetime(2005, 1, 1, 23, 59, 0), periods=500
+        )
         s = Series(np.arange(len(rng)), index=rng)
 
         result = s["2005-1-1 23:59"]
@@ -291,7 +301,10 @@ class TestSlicing:
 
             # Timestamp with resolution less precise than index
             for fmt in formats[:rnum]:
-                for element, theslice in [[0, slice(None, 1)], [1, slice(1, None)]]:
+                for element, theslice in [
+                    [0, slice(None, 1)],
+                    [1, slice(1, None)],
+                ]:
                     ts_string = index[element].strftime(fmt)
 
                     # Series should return slice
@@ -393,7 +406,9 @@ class TestSlicing:
         ):
             nonmonotonic["2014-01-10":]
 
-        with pytest.raises(KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"):
+        with pytest.raises(
+            KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"
+        ):
             nonmonotonic[timestamp:]
 
         with pytest.raises(
@@ -401,7 +416,9 @@ class TestSlicing:
         ):
             nonmonotonic.loc["2014-01-10":]
 
-        with pytest.raises(KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"):
+        with pytest.raises(
+            KeyError, match=r"Timestamp\('2014-01-10 00:00:00'\)"
+        ):
             nonmonotonic.loc[timestamp:]
 
     def test_loc_datetime_length_one(self):
@@ -460,7 +477,9 @@ class TestSlicing:
             {"A": range(24)}, index=date_range("2000", periods=24, freq="ME")
         )
         expected = Series(
-            range(12), index=date_range("2000", periods=12, freq="ME"), name="A"
+            range(12),
+            index=date_range("2000", periods=12, freq="ME"),
+            name="A",
         )
         result = df.loc["2000", "A"]
         tm.assert_series_equal(result, expected)

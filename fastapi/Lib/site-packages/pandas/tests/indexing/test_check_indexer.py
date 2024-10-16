@@ -16,7 +16,10 @@ from pandas.api.indexers import check_array_indexer
         (pd.Index([1, 2]), np.array([1, 2], dtype=np.intp)),
         # boolean
         ([True, False, True], np.array([True, False, True], dtype=np.bool_)),
-        (np.array([True, False, True]), np.array([True, False, True], dtype=np.bool_)),
+        (
+            np.array([True, False, True]),
+            np.array([True, False, True], dtype=np.bool_),
+        ),
         (
             pd.array([True, False, True], dtype="boolean"),
             np.array([True, False, True], dtype=np.bool_),
@@ -32,7 +35,8 @@ def test_valid_input(indexer, expected):
 
 
 @pytest.mark.parametrize(
-    "indexer", [[True, False, None], pd.array([True, False, None], dtype="boolean")]
+    "indexer",
+    [[True, False, None], pd.array([True, False, None], dtype="boolean")],
 )
 def test_boolean_na_returns_indexer(indexer):
     # https://github.com/pandas-dev/pandas/issues/31503

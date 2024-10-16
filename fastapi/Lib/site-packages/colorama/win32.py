@@ -113,7 +113,8 @@ else:
 
     def winapi_test():
         return any(
-            _winapi_test(h) for h in (_GetStdHandle(STDOUT), _GetStdHandle(STDERR))
+            _winapi_test(h)
+            for h in (_GetStdHandle(STDOUT), _GetStdHandle(STDERR))
         )
 
     def GetConsoleScreenBufferInfo(stream_id=STDOUT):

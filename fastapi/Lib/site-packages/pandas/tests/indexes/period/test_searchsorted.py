@@ -15,7 +15,13 @@ class TestSearchsorted:
     @pytest.mark.parametrize("freq", ["D", "2D"])
     def test_searchsorted(self, freq):
         pidx = PeriodIndex(
-            ["2014-01-01", "2014-01-02", "2014-01-03", "2014-01-04", "2014-01-05"],
+            [
+                "2014-01-01",
+                "2014-01-02",
+                "2014-01-03",
+                "2014-01-04",
+                "2014-01-05",
+            ],
             freq=freq,
         )
 
@@ -37,7 +43,13 @@ class TestSearchsorted:
 
     def test_searchsorted_different_argument_classes(self, listlike_box):
         pidx = PeriodIndex(
-            ["2014-01-01", "2014-01-02", "2014-01-03", "2014-01-04", "2014-01-05"],
+            [
+                "2014-01-01",
+                "2014-01-02",
+                "2014-01-03",
+                "2014-01-04",
+                "2014-01-05",
+            ],
             freq="D",
         )
         result = pidx.searchsorted(listlike_box(pidx))
@@ -49,7 +61,13 @@ class TestSearchsorted:
 
     def test_searchsorted_invalid(self):
         pidx = PeriodIndex(
-            ["2014-01-01", "2014-01-02", "2014-01-03", "2014-01-04", "2014-01-05"],
+            [
+                "2014-01-01",
+                "2014-01-02",
+                "2014-01-03",
+                "2014-01-04",
+                "2014-01-05",
+            ],
             freq="D",
         )
 

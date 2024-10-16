@@ -8,7 +8,11 @@ import pandas as pd
 def data():
     """Fixture returning boolean array, with valid and missing values."""
     return pd.array(
-        [True, False] * 4 + [np.nan] + [True, False] * 44 + [np.nan] + [True, False],
+        [True, False] * 4
+        + [np.nan]
+        + [True, False] * 44
+        + [np.nan]
+        + [True, False],
         dtype="boolean",
     )
 
@@ -29,8 +33,12 @@ def test_any_all(values, exp_any, exp_all, exp_any_noskip, exp_all_noskip):
     # the methods return numpy scalars
     exp_any = pd.NA if exp_any is pd.NA else np.bool_(exp_any)
     exp_all = pd.NA if exp_all is pd.NA else np.bool_(exp_all)
-    exp_any_noskip = pd.NA if exp_any_noskip is pd.NA else np.bool_(exp_any_noskip)
-    exp_all_noskip = pd.NA if exp_all_noskip is pd.NA else np.bool_(exp_all_noskip)
+    exp_any_noskip = (
+        pd.NA if exp_any_noskip is pd.NA else np.bool_(exp_any_noskip)
+    )
+    exp_all_noskip = (
+        pd.NA if exp_all_noskip is pd.NA else np.bool_(exp_all_noskip)
+    )
 
     for con in [pd.array, pd.Series]:
         a = con(values, dtype="boolean")

@@ -105,7 +105,9 @@ class TestPeriodArray(base.ExtensionTests):
     @pytest.mark.parametrize("periods", [1, -2])
     def test_diff(self, data, periods):
         if is_platform_windows() and np_version_gte1p24:
-            with tm.assert_produces_warning(RuntimeWarning, check_stacklevel=False):
+            with tm.assert_produces_warning(
+                RuntimeWarning, check_stacklevel=False
+            ):
                 super().test_diff(data, periods)
         else:
             super().test_diff(data, periods)

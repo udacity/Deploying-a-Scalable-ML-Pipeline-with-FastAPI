@@ -28,4 +28,6 @@ def should_extension_dispatch(left: ArrayLike, right: Any) -> bool:
     -------
     bool
     """
-    return isinstance(left, ABCExtensionArray) or isinstance(right, ABCExtensionArray)
+    return isinstance(left, ABCExtensionArray) or isinstance(
+        right, ABCExtensionArray
+    )

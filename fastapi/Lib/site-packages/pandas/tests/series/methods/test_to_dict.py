@@ -9,7 +9,8 @@ import pandas._testing as tm
 
 class TestSeriesToDict:
     @pytest.mark.parametrize(
-        "mapping", (dict, collections.defaultdict(list), collections.OrderedDict)
+        "mapping",
+        (dict, collections.defaultdict(list), collections.OrderedDict),
     )
     def test_to_dict(self, mapping, datetime_series):
         # GH#16122

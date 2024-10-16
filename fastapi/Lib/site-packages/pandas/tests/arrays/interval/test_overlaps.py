@@ -38,7 +38,9 @@ def start_shift(request):
 
 
 class TestOverlaps:
-    def test_overlaps_interval(self, constructor, start_shift, closed, other_closed):
+    def test_overlaps_interval(
+        self, constructor, start_shift, closed, other_closed
+    ):
         start, shift = start_shift
         interval = Interval(start, start + 3 * shift, other_closed)
 
@@ -58,7 +60,9 @@ class TestOverlaps:
         result = interval_container.overlaps(interval)
         tm.assert_numpy_array_equal(result, expected)
 
-    @pytest.mark.parametrize("other_constructor", [IntervalArray, IntervalIndex])
+    @pytest.mark.parametrize(
+        "other_constructor", [IntervalArray, IntervalIndex]
+    )
     def test_overlaps_interval_container(self, constructor, other_constructor):
         # TODO: modify this test when implemented
         interval_container = constructor.from_breaks(range(5))

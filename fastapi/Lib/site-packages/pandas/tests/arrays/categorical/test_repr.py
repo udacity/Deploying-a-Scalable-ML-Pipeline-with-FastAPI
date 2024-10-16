@@ -18,7 +18,9 @@ from pandas import (
 
 class TestCategoricalReprWithFactor:
     def test_print(self, using_infer_string):
-        factor = Categorical(["a", "b", "b", "a", "a", "c", "c", "c"], ordered=True)
+        factor = Categorical(
+            ["a", "b", "b", "a", "a", "c", "c", "c"], ordered=True
+        )
         if using_infer_string:
             expected = [
                 "['a', 'b', 'b', 'a', 'a', 'c', 'c', 'c']",
@@ -37,7 +39,9 @@ class TestCategoricalReprWithFactor:
 class TestCategoricalRepr:
     def test_big_print(self):
         codes = np.array([0, 1, 2, 0, 1, 2] * 100)
-        dtype = CategoricalDtype(categories=Index(["a", "b", "c"], dtype=object))
+        dtype = CategoricalDtype(
+            categories=Index(["a", "b", "c"], dtype=object)
+        )
         factor = Categorical.from_codes(codes, dtype=dtype)
         expected = [
             "['a', 'b', 'c', 'a', 'b', ..., 'b', 'c', 'a', 'b', 'c']",
@@ -57,7 +61,9 @@ class TestCategoricalRepr:
         assert actual == expected
 
         assert expected == actual
-        factor = Categorical([], Index(["a", "b", "c"], dtype=object), ordered=True)
+        factor = Categorical(
+            [], Index(["a", "b", "c"], dtype=object), ordered=True
+        )
         expected = "[], Categories (3, object): ['a' < 'b' < 'c']"
         actual = repr(factor)
         assert expected == actual
@@ -191,7 +197,9 @@ Categories (20, int64): [0 < 1 < 2 < 3 ... 16 < 17 < 18 < 19]"""
 
         assert repr(c) == exp
 
-        idx = date_range("2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern")
+        idx = date_range(
+            "2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern"
+        )
         c = Categorical(idx)
         exp = (
             "[2011-01-01 09:00:00-05:00, 2011-01-01 10:00:00-05:00, "
@@ -240,7 +248,9 @@ Categories (5, datetime64[ns]): [2011-01-01 09:00:00 < 2011-01-01 10:00:00 < 201
 
         assert repr(c) == exp
 
-        idx = date_range("2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern")
+        idx = date_range(
+            "2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern"
+        )
         c = Categorical(idx, ordered=True)
         exp = """[2011-01-01 09:00:00-05:00, 2011-01-01 10:00:00-05:00, 2011-01-01 11:00:00-05:00, 2011-01-01 12:00:00-05:00, 2011-01-01 13:00:00-05:00]
 Categories (5, datetime64[ns, US/Eastern]): [2011-01-01 09:00:00-05:00 < 2011-01-01 10:00:00-05:00 <
@@ -406,7 +416,9 @@ Categories (20, timedelta64[ns]): [0 days 01:00:00 < 1 days 01:00:00 < 2 days 01
         exp = """CategoricalIndex([1, 2, 3], categories=[1, 2, 3], ordered=True, dtype='category')"""  # noqa: E501
         assert repr(i) == exp
 
-        i = CategoricalIndex(Categorical(np.arange(10, dtype=np.int64), ordered=True))
+        i = CategoricalIndex(
+            Categorical(np.arange(10, dtype=np.int64), ordered=True)
+        )
         exp = """CategoricalIndex([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], categories=[0, 1, 2, 3, ..., 6, 7, 8, 9], ordered=True, dtype='category')"""  # noqa: E501
         assert repr(i) == exp
 
@@ -420,7 +432,9 @@ Categories (20, timedelta64[ns]): [0 days 01:00:00 < 1 days 01:00:00 < 2 days 01
 
         assert repr(i) == exp
 
-        idx = date_range("2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern")
+        idx = date_range(
+            "2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern"
+        )
         i = CategoricalIndex(Categorical(idx))
         exp = """CategoricalIndex(['2011-01-01 09:00:00-05:00', '2011-01-01 10:00:00-05:00',
                   '2011-01-01 11:00:00-05:00', '2011-01-01 12:00:00-05:00',
@@ -439,7 +453,9 @@ Categories (20, timedelta64[ns]): [0 days 01:00:00 < 1 days 01:00:00 < 2 days 01
 
         assert repr(i) == exp
 
-        idx = date_range("2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern")
+        idx = date_range(
+            "2011-01-01 09:00", freq="h", periods=5, tz="US/Eastern"
+        )
         i = CategoricalIndex(Categorical(idx, ordered=True))
         exp = """CategoricalIndex(['2011-01-01 09:00:00-05:00', '2011-01-01 10:00:00-05:00',
                   '2011-01-01 11:00:00-05:00', '2011-01-01 12:00:00-05:00',

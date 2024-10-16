@@ -28,13 +28,17 @@ class TestMatMul:
         # DataFrame @ DataFrame
         result = operator.matmul(a, b)
         expected = DataFrame(
-            np.dot(a.values, b.values), index=["a", "b", "c"], columns=["one", "two"]
+            np.dot(a.values, b.values),
+            index=["a", "b", "c"],
+            columns=["one", "two"],
         )
         tm.assert_frame_equal(result, expected)
 
         # DataFrame @ Series
         result = operator.matmul(a, b.one)
-        expected = Series(np.dot(a.values, b.one.values), index=["a", "b", "c"])
+        expected = Series(
+            np.dot(a.values, b.one.values), index=["a", "b", "c"]
+        )
         tm.assert_series_equal(result, expected)
 
         # np.array @ DataFrame
@@ -48,7 +52,9 @@ class TestMatMul:
         # nested list @ DataFrame (__rmatmul__)
         result = operator.matmul(a.values.tolist(), b)
         expected = DataFrame(
-            np.dot(a.values, b.values), index=["a", "b", "c"], columns=["one", "two"]
+            np.dot(a.values, b.values),
+            index=["a", "b", "c"],
+            columns=["one", "two"],
         )
         tm.assert_almost_equal(result.values, expected.values)
 
@@ -56,7 +62,9 @@ class TestMatMul:
         a["q"] = a.q.round().astype(int)
         result = operator.matmul(a, b)
         expected = DataFrame(
-            np.dot(a.values, b.values), index=["a", "b", "c"], columns=["one", "two"]
+            np.dot(a.values, b.values),
+            index=["a", "b", "c"],
+            columns=["one", "two"],
         )
         tm.assert_frame_equal(result, expected)
 
@@ -64,7 +72,9 @@ class TestMatMul:
         a = a.astype(int)
         result = operator.matmul(a, b)
         expected = DataFrame(
-            np.dot(a.values, b.values), index=["a", "b", "c"], columns=["one", "two"]
+            np.dot(a.values, b.values),
+            index=["a", "b", "c"],
+            columns=["one", "two"],
         )
         tm.assert_frame_equal(result, expected)
 

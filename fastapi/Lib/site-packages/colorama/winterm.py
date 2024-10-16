@@ -32,7 +32,9 @@ class WinStyle(object):
 class WinTerm(object):
 
     def __init__(self):
-        self._default = win32.GetConsoleScreenBufferInfo(win32.STDOUT).wAttributes
+        self._default = win32.GetConsoleScreenBufferInfo(
+            win32.STDOUT
+        ).wAttributes
         self.set_attrs(self._default)
         self._default_fore = self._fore
         self._default_back = self._back
@@ -145,7 +147,9 @@ class WinTerm(object):
             # invalid mode
             return
         # fill the entire screen with blanks
-        win32.FillConsoleOutputCharacter(handle, " ", cells_to_erase, from_coord)
+        win32.FillConsoleOutputCharacter(
+            handle, " ", cells_to_erase, from_coord
+        )
         # now set the buffer's attributes accordingly
         win32.FillConsoleOutputAttribute(
             handle, self.get_attrs(), cells_to_erase, from_coord
@@ -175,7 +179,9 @@ class WinTerm(object):
             # invalid mode
             return
         # fill the entire screen with blanks
-        win32.FillConsoleOutputCharacter(handle, " ", cells_to_erase, from_coord)
+        win32.FillConsoleOutputCharacter(
+            handle, " ", cells_to_erase, from_coord
+        )
         # now set the buffer's attributes accordingly
         win32.FillConsoleOutputAttribute(
             handle, self.get_attrs(), cells_to_erase, from_coord

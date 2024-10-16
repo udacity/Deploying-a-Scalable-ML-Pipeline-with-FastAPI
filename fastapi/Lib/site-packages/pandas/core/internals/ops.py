@@ -61,7 +61,9 @@ def operate_blockwise(
     #  assert rframe._indexed_same(lframe)
 
     res_blks: list[Block] = []
-    for lvals, rvals, locs, left_ea, right_ea, rblk in _iter_block_pairs(left, right):
+    for lvals, rvals, locs, left_ea, right_ea, rblk in _iter_block_pairs(
+        left, right
+    ):
         res_values = array_op(lvals, rvals)
         if (
             left_ea
@@ -89,7 +91,9 @@ def operate_blockwise(
     #  assert len(slocs) == nlocs, (len(slocs), nlocs)
     #  assert slocs == set(range(nlocs)), slocs
 
-    new_mgr = type(right)(tuple(res_blks), axes=right.axes, verify_integrity=False)
+    new_mgr = type(right)(
+        tuple(res_blks), axes=right.axes, verify_integrity=False
+    )
     return new_mgr
 
 

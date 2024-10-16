@@ -35,7 +35,9 @@ class Dim2CompatTests:
     def test_transpose(self, data):
         arr2d = data.repeat(2).reshape(-1, 2)
         shape = arr2d.shape
-        assert shape[0] != shape[-1]  # otherwise the rest of the test is useless
+        assert (
+            shape[0] != shape[-1]
+        )  # otherwise the rest of the test is useless
 
         assert arr2d.T.shape == shape[::-1]
 
@@ -174,7 +176,11 @@ class Dim2CompatTests:
 
         result = arr._pad_or_backfill(method=method, limit=None)
 
-        expected = data_missing._pad_or_backfill(method=method).repeat(2).reshape(2, 2)
+        expected = (
+            data_missing._pad_or_backfill(method=method)
+            .repeat(2)
+            .reshape(2, 2)
+        )
         tm.assert_extension_array_equal(result, expected)
 
         # Reverse so that backfill is not a no-op.
@@ -185,11 +191,16 @@ class Dim2CompatTests:
         result2 = arr2._pad_or_backfill(method=method, limit=None)
 
         expected2 = (
-            data_missing[::-1]._pad_or_backfill(method=method).repeat(2).reshape(2, 2)
+            data_missing[::-1]
+            ._pad_or_backfill(method=method)
+            .repeat(2)
+            .reshape(2, 2)
         )
         tm.assert_extension_array_equal(result2, expected2)
 
-    @pytest.mark.parametrize("method", ["mean", "median", "var", "std", "sum", "prod"])
+    @pytest.mark.parametrize(
+        "method", ["mean", "median", "var", "std", "sum", "prod"]
+    )
     def test_reductions_2d_axis_none(self, data, method):
         arr2d = data.reshape(1, -1)
 
@@ -214,7 +225,9 @@ class Dim2CompatTests:
 
         assert is_matching_na(result, expected) or result == expected
 
-    @pytest.mark.parametrize("method", ["mean", "median", "var", "std", "sum", "prod"])
+    @pytest.mark.parametrize(
+        "method", ["mean", "median", "var", "std", "sum", "prod"]
+    )
     @pytest.mark.parametrize("min_count", [0, 1])
     def test_reductions_2d_axis0(self, data, method, min_count):
         if min_count == 1 and method not in ["sum", "prod"]:
@@ -276,7 +289,9 @@ class Dim2CompatTests:
             else:
                 tm.assert_extension_array_equal(result, data - data)
 
-    @pytest.mark.parametrize("method", ["mean", "median", "var", "std", "sum", "prod"])
+    @pytest.mark.parametrize(
+        "method", ["mean", "median", "var", "std", "sum", "prod"]
+    )
     def test_reductions_2d_axis1(self, data, method):
         arr2d = data.reshape(1, -1)
 
