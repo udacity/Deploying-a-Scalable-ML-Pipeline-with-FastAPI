@@ -1,0 +1,42 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from your repository
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Update to v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4  # Update to v4
+        with:
+          python-version: '3.8'  # Specify the Python version you need
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Run Tests
+      - name: Run Tests
+        run: |
+          pytest test_ml.py
+
+      # Step 5: Check FastAPI Code
+      - name: FastAPI Linting and Formatting
+        run: |
+          pip install flake8 black
+          flake8 main.py local_api.py ml/
+          black --check main.py local_api.py ml/
