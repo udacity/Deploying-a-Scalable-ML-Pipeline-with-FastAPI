@@ -95,7 +95,7 @@ def load_model(path):
 
 
 def performance_on_categorical_slice(
-    data, column_name, slice_value, categorical_features, 
+    data, column_name, slice_value, categorical_features,
     label, encoder, lb, model
 ):
     """Computes the model metrics on a slice of the data
@@ -150,7 +150,7 @@ def performance_on_categorical_slice(
         encoder=encoder,
         lb=lb,
     )
-    preds = inference(model, X_slice)  # your code here to get 
+    preds = inference(model, X_slice)  # your code here to get
     # prediction on X_slice
     # using the inference function
     precision, recall, fbeta = compute_model_metrics(y_slice, preds)
