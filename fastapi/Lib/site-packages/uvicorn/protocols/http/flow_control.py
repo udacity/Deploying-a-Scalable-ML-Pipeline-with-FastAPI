@@ -39,7 +39,9 @@ class FlowControl:
             self._is_writable_event.set()
 
 
-async def service_unavailable(scope: Scope, receive: ASGIReceiveCallable, send: ASGISendCallable) -> None:
+async def service_unavailable(
+    scope: Scope, receive: ASGIReceiveCallable, send: ASGISendCallable
+) -> None:
     await send(
         {
             "type": "http.response.start",
@@ -51,4 +53,10 @@ async def service_unavailable(scope: Scope, receive: ASGIReceiveCallable, send: 
             ],
         }
     )
-    await send({"type": "http.response.body", "body": b"Service Unavailable", "more_body": False})
+    await send(
+        {
+            "type": "http.response.body",
+            "body": b"Service Unavailable",
+            "more_body": False,
+        }
+    )

@@ -1,10 +1,24 @@
 import pytest
 import numpy as np
 from scipy.special._ufuncs import (
-    _smirnovc, _smirnovci, _smirnovp,
-    _struve_asymp_large_z, _struve_bessel_series, _struve_power_series,
-    bdtr, bdtrc, bdtri, expn, kn, nbdtr, nbdtrc, nbdtri, pdtri,
-    smirnov, smirnovi, yn
+    _smirnovc,
+    _smirnovci,
+    _smirnovp,
+    _struve_asymp_large_z,
+    _struve_bessel_series,
+    _struve_power_series,
+    bdtr,
+    bdtrc,
+    bdtri,
+    expn,
+    kn,
+    nbdtr,
+    nbdtrc,
+    nbdtri,
+    pdtri,
+    smirnov,
+    smirnovi,
+    yn,
 )
 
 
@@ -15,15 +29,31 @@ from scipy.special._ufuncs import (
 # integer type among the input signatures.
 #
 @pytest.mark.parametrize(
-    'ufunc',
-    [_smirnovc, _smirnovci, _smirnovp,
-     _struve_asymp_large_z, _struve_bessel_series, _struve_power_series,
-     bdtr, bdtrc, bdtri, expn, kn, nbdtr, nbdtrc, nbdtri, pdtri,
-     smirnov, smirnovi, yn],
+    "ufunc",
+    [
+        _smirnovc,
+        _smirnovci,
+        _smirnovp,
+        _struve_asymp_large_z,
+        _struve_bessel_series,
+        _struve_power_series,
+        bdtr,
+        bdtrc,
+        bdtri,
+        expn,
+        kn,
+        nbdtr,
+        nbdtrc,
+        nbdtri,
+        pdtri,
+        smirnov,
+        smirnovi,
+        yn,
+    ],
 )
 def test_intp_safe_cast(ufunc):
-    int_chars = {'i', 'l', 'q'}
-    int_input = [set(sig.split('->')[0]) & int_chars for sig in ufunc.types]
-    int_char = ''.join(s.pop() if s else '' for s in int_input)
+    int_chars = {"i", "l", "q"}
+    int_input = [set(sig.split("->")[0]) & int_chars for sig in ufunc.types]
+    int_char = "".join(s.pop() if s else "" for s in int_input)
     assert len(int_char) == 1, "More integer types in the signatures than expected"
     assert np.can_cast(np.intp, np.dtype(int_char))

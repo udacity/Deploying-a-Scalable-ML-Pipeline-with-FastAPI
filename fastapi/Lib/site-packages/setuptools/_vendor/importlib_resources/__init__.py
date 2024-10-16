@@ -21,16 +21,16 @@ from .abc import ResourceReader
 
 
 __all__ = [
-    'Package',
-    'Resource',
-    'ResourceReader',
-    'as_file',
-    'contents',
-    'files',
-    'is_resource',
-    'open_binary',
-    'open_text',
-    'path',
-    'read_binary',
-    'read_text',
+    "Package",
+    "Resource",
+    "ResourceReader",
+    "as_file",
+    "contents",
+    "files",
+    "is_resource",
+    "open_binary",
+    "open_text",
+    "path",
+    "read_binary",
+    "read_text",
 ]

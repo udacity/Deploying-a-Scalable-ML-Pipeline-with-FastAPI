@@ -7,15 +7,13 @@ from numpy.testing import assert_array_equal
 
 def test_matrix_transpose_raises_error_for_1d():
     msg = "matrix transpose with ndim < 2 is undefined"
-    ma_arr = masked_array(data=[1, 2, 3, 4, 5, 6],
-                          mask=[1, 0, 1, 1, 1, 0])
+    ma_arr = masked_array(data=[1, 2, 3, 4, 5, 6], mask=[1, 0, 1, 1, 1, 0])
     with pytest.raises(ValueError, match=msg):
         ma_arr.mT
 
 
 def test_matrix_transpose_equals_transpose_2d():
-    ma_arr = masked_array(data=[[1, 2, 3], [4, 5, 6]],
-                          mask=[[1, 0, 1], [1, 1, 0]])
+    ma_arr = masked_array(data=[[1, 2, 3], [4, 5, 6]], mask=[[1, 0, 1], [1, 1, 0]])
     assert_array_equal(ma_arr.T, ma_arr.mT)
 
 

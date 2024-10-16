@@ -26,7 +26,9 @@ class ColourizedFormatter(logging.Formatter):
         logging.INFO: lambda level_name: click.style(str(level_name), fg="green"),
         logging.WARNING: lambda level_name: click.style(str(level_name), fg="yellow"),
         logging.ERROR: lambda level_name: click.style(str(level_name), fg="red"),
-        logging.CRITICAL: lambda level_name: click.style(str(level_name), fg="bright_red"),
+        logging.CRITICAL: lambda level_name: click.style(
+            str(level_name), fg="bright_red"
+        ),
     }
 
     def __init__(

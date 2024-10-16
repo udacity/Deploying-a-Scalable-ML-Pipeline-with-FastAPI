@@ -1,6 +1,7 @@
 """
 Ops for masked arrays.
 """
+
 from __future__ import annotations
 
 import numpy as np

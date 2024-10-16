@@ -129,12 +129,12 @@ class Extension:
         # If there are unknown keyword options, warn about them
         if len(kw) > 0:
             options = [repr(option) for option in kw]
-            options = ', '.join(sorted(options))
+            options = ", ".join(sorted(options))
             msg = "Unknown Extension options: %s" % options
             warnings.warn(msg)
 
     def __repr__(self):
-        return '<{}.{}({!r}) at {:#x}>'.format(
+        return "<{}.{}({!r}) at {:#x}>".format(
             self.__class__.__module__,
             self.__class__.__qualname__,
             self.name,

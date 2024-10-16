@@ -11,8 +11,8 @@ from typing import (
 )
 
 # Type and type variable definitions
-_T = TypeVar('_T')
-_U = TypeVar('_U')
+_T = TypeVar("_T")
+_U = TypeVar("_U")
 
 
 def unique_everseen(

@@ -24,10 +24,18 @@ Result classes
 
 """
 
-__all__ = ['BinomTestResult', 'RelativeRiskResult', 'TukeyHSDResult',
-           'PearsonRResult', 'FitResult', 'OddsRatioResult',
-           'TtestResult', 'DunnettResult', 'ECDFResult',
-           'EmpiricalDistributionFunction']
+__all__ = [
+    "BinomTestResult",
+    "RelativeRiskResult",
+    "TukeyHSDResult",
+    "PearsonRResult",
+    "FitResult",
+    "OddsRatioResult",
+    "TtestResult",
+    "DunnettResult",
+    "ECDFResult",
+    "EmpiricalDistributionFunction",
+]
 
 
 from ._binomtest import BinomTestResult

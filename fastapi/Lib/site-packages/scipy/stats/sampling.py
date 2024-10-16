@@ -56,18 +56,26 @@ in :mod:`scipy.stats`, the following functionality can be used:
    FastGeneratorInversion
 
 """
+
 from ._sampling import FastGeneratorInversion, RatioUniforms  # noqa: F401
 from ._unuran.unuran_wrapper import (  # noqa: F401
-   TransformedDensityRejection,
-   DiscreteAliasUrn,
-   DiscreteGuideTable,
-   NumericalInversePolynomial,
-   NumericalInverseHermite,
-   SimpleRatioUniforms,
-   UNURANError
+    TransformedDensityRejection,
+    DiscreteAliasUrn,
+    DiscreteGuideTable,
+    NumericalInversePolynomial,
+    NumericalInverseHermite,
+    SimpleRatioUniforms,
+    UNURANError,
 )
 
-__all__ = ["NumericalInverseHermite", "NumericalInversePolynomial",
-           "TransformedDensityRejection", "SimpleRatioUniforms",
-           "RatioUniforms", "DiscreteAliasUrn", "DiscreteGuideTable",
-           "UNURANError", "FastGeneratorInversion"]
+__all__ = [
+    "NumericalInverseHermite",
+    "NumericalInversePolynomial",
+    "TransformedDensityRejection",
+    "SimpleRatioUniforms",
+    "RatioUniforms",
+    "DiscreteAliasUrn",
+    "DiscreteGuideTable",
+    "UNURANError",
+    "FastGeneratorInversion",
+]

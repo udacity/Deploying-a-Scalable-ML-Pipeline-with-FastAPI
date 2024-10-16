@@ -6,17 +6,17 @@ from scipy._lib.deprecation import _sub_module_deprecation
 
 
 __all__ = [  # noqa: F822
-    'BPoly',
-    'BSpline',
-    'NdPPoly',
-    'PPoly',
-    'RectBivariateSpline',
-    'RegularGridInterpolator',
-    'interp1d',
-    'interp2d',
-    'interpn',
-    'lagrange',
-    'make_interp_spline',
+    "BPoly",
+    "BSpline",
+    "NdPPoly",
+    "PPoly",
+    "RectBivariateSpline",
+    "RegularGridInterpolator",
+    "interp1d",
+    "interp2d",
+    "interpn",
+    "lagrange",
+    "make_interp_spline",
 ]
 
 
@@ -25,6 +25,10 @@ def __dir__():
 
 
 def __getattr__(name):
-    return _sub_module_deprecation(sub_package="interpolate", module="interpolate",
-                                   private_modules=["_interpolate", "fitpack2", "_rgi"],
-                                   all=__all__, attribute=name)
+    return _sub_module_deprecation(
+        sub_package="interpolate",
+        module="interpolate",
+        private_modules=["_interpolate", "fitpack2", "_rgi"],
+        all=__all__,
+        attribute=name,
+    )

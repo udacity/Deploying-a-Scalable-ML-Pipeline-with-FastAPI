@@ -6,6 +6,7 @@ import pytest
 
 # There are more tests of boxcox and boxcox1p in test_mpmath.py.
 
+
 def test_boxcox_basic():
     x = np.array([0.5, 1, 2, 4])
 
@@ -19,12 +20,13 @@ def test_boxcox_basic():
 
     # lambda = 2  =>  y = 0.5*(x**2 - 1)
     y = boxcox(x, 2)
-    assert_almost_equal(y, 0.5*(x**2 - 1))
+    assert_almost_equal(y, 0.5 * (x**2 - 1))
 
     # x = 0 and lambda > 0  =>  y = -1 / lambda
     lam = np.array([0.5, 1, 2])
     y = boxcox(0, lam)
     assert_almost_equal(y, -1.0 / lam)
+
 
 def test_boxcox_underflow():
     x = 1 + 1e-15
@@ -58,7 +60,7 @@ def test_boxcox1p_basic():
 
     # lambda = 2  =>  y = 0.5*((1+x)**2 - 1) = 0.5*x*(2 + x)
     y = boxcox1p(x, 2)
-    assert_almost_equal(y, 0.5*x*(2 + x))
+    assert_almost_equal(y, 0.5 * x * (2 + x))
 
     # x = -1 and lambda > 0  =>  y = -1 / lambda
     lam = np.array([0.5, 1, 2])
@@ -86,14 +88,14 @@ def test_boxcox1p_nonfinite():
 
 
 def test_inv_boxcox():
-    x = np.array([0., 1., 2.])
-    lam = np.array([0., 1., 2.])
+    x = np.array([0.0, 1.0, 2.0])
+    lam = np.array([0.0, 1.0, 2.0])
     y = boxcox(x, lam)
     x2 = inv_boxcox(y, lam)
     assert_almost_equal(x, x2)
 
-    x = np.array([0., 1., 2.])
-    lam = np.array([0., 1., 2.])
+    x = np.array([0.0, 1.0, 2.0])
+    lam = np.array([0.0, 1.0, 2.0])
     y = boxcox1p(x, lam)
     x2 = inv_boxcox1p(y, lam)
     assert_almost_equal(x, x2)
@@ -106,11 +108,7 @@ def test_inv_boxcox1p_underflow():
     assert_allclose(y, x, rtol=1e-14)
 
 
-@pytest.mark.parametrize(
-    "x, lmb",
-    [[100, 155],
-     [0.01, -155]]
-)
+@pytest.mark.parametrize("x, lmb", [[100, 155], [0.01, -155]])
 def test_boxcox_premature_overflow(x, lmb):
     # test boxcox & inv_boxcox
     y = boxcox(x, lmb)
@@ -119,7 +117,7 @@ def test_boxcox_premature_overflow(x, lmb):
     assert_allclose(x, x_inv)
 
     # test boxcox1p & inv_boxcox1p
-    y1p = boxcox1p(x-1, lmb)
+    y1p = boxcox1p(x - 1, lmb)
     assert np.isfinite(y1p)
     x1p_inv = inv_boxcox1p(y1p, lmb)
-    assert_allclose(x-1, x1p_inv)
+    assert_allclose(x - 1, x1p_inv)

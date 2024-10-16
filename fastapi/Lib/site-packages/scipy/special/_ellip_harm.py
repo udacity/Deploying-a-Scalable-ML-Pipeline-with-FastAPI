@@ -99,7 +99,7 @@ def ellip_harm(h2, k2, n, p, s, signm=1, signn=1):
     return _ellip_harm(h2, k2, n, p, s, signm, signn)
 
 
-_ellip_harm_2_vec = np.vectorize(_ellipsoid, otypes='d')
+_ellip_harm_2_vec = np.vectorize(_ellipsoid, otypes="d")
 
 
 def ellip_harm_2(h2, k2, n, p, s):
@@ -156,7 +156,7 @@ def ellip_harm_2(h2, k2, n, p, s):
     0.00108056853382
 
     """
-    with np.errstate(all='ignore'):
+    with np.errstate(all="ignore"):
         return _ellip_harm_2_vec(h2, k2, n, p, s)
 
 
@@ -164,7 +164,7 @@ def _ellip_normal_vec(h2, k2, n, p):
     return _ellipsoid_norm(h2, k2, n, p)
 
 
-_ellip_normal_vec = np.vectorize(_ellip_normal_vec, otypes='d')
+_ellip_normal_vec = np.vectorize(_ellip_normal_vec, otypes="d")
 
 
 def ellip_normal(h2, k2, n, p):
@@ -210,5 +210,5 @@ def ellip_normal(h2, k2, n, p):
     1723.38796997
 
     """
-    with np.errstate(all='ignore'):
+    with np.errstate(all="ignore"):
         return _ellip_normal_vec(h2, k2, n, p)

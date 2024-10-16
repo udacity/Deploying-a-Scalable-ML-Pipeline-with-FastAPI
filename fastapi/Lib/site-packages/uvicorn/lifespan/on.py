@@ -69,7 +69,9 @@ class LifespanOn:
         await self.receive_queue.put(shutdown_event)
         await self.shutdown_event.wait()
 
-        if self.shutdown_failed or (self.error_occured and self.config.lifespan == "on"):
+        if self.shutdown_failed or (
+            self.error_occured and self.config.lifespan == "on"
+        ):
             self.logger.error("Application shutdown failed. Exiting.")
             self.should_exit = True
         else:

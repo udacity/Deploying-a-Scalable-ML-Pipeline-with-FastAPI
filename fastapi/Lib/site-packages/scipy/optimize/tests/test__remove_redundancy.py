@@ -7,10 +7,7 @@ Unit test for Linear Programming via Simplex Algorithm.
 # https://github.com/scipy/scipy/issues/6690
 
 import numpy as np
-from numpy.testing import (
-    assert_,
-    assert_allclose,
-    assert_equal)
+from numpy.testing import assert_, assert_allclose, assert_equal
 
 from .test_linprog import magic_square
 from scipy.optimize._remove_redundancy import _remove_redundancy_svd

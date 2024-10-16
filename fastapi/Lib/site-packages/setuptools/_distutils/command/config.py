@@ -25,16 +25,16 @@ class config(Command):
     description = "prepare to build"
 
     user_options = [
-        ('compiler=', None, "specify the compiler type"),
-        ('cc=', None, "specify the compiler executable"),
-        ('include-dirs=', 'I', "list of directories to search for header files"),
-        ('define=', 'D', "C preprocessor macros to define"),
-        ('undef=', 'U', "C preprocessor macros to undefine"),
-        ('libraries=', 'l', "external C libraries to link with"),
-        ('library-dirs=', 'L', "directories to search for external C libraries"),
-        ('noisy', None, "show every action (compile, link, run, ...) taken"),
+        ("compiler=", None, "specify the compiler type"),
+        ("cc=", None, "specify the compiler executable"),
+        ("include-dirs=", "I", "list of directories to search for header files"),
+        ("define=", "D", "C preprocessor macros to define"),
+        ("undef=", "U", "C preprocessor macros to undefine"),
+        ("libraries=", "l", "external C libraries to link with"),
+        ("library-dirs=", "L", "directories to search for external C libraries"),
+        ("noisy", None, "show every action (compile, link, run, ...) taken"),
         (
-            'dump-source',
+            "dump-source",
             None,
             "dump generated source files before attempting to compile them",
         ),
@@ -150,7 +150,7 @@ class config(Command):
         if not filenames:
             filenames = self.temp_files
             self.temp_files = []
-        log.info("removing: %s", ' '.join(filenames))
+        log.info("removing: %s", " ".join(filenames))
         for filename in filenames:
             try:
                 os.remove(filename)
@@ -204,7 +204,7 @@ class config(Command):
             match = False
             while True:
                 line = file.readline()
-                if line == '':
+                if line == "":
                     break
                 if pattern.search(line):
                     match = True
@@ -367,7 +367,7 @@ def dump_file(filename, head=None):
     If head is not None, will be dumped before the file content.
     """
     if head is None:
-        log.info('%s', filename)
+        log.info("%s", filename)
     else:
         log.info(head)
     file = open(filename)

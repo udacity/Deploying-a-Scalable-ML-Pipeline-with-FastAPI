@@ -7,7 +7,6 @@ be used instead, if available. This means that users can call
 
 """
 
-
 # Prefer an installed version of uarray, if available
 try:
     import uarray as _uarray

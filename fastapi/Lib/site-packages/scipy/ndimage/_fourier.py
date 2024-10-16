@@ -33,8 +33,7 @@ from scipy._lib._util import normalize_axis_index
 from . import _ni_support
 from . import _nd_image
 
-__all__ = ['fourier_gaussian', 'fourier_uniform', 'fourier_ellipsoid',
-           'fourier_shift']
+__all__ = ["fourier_gaussian", "fourier_uniform", "fourier_ellipsoid", "fourier_shift"]
 
 
 def _get_output_fourier(output, input):
@@ -44,8 +43,7 @@ def _get_output_fourier(output, input):
         else:
             output = np.zeros(input.shape, dtype=np.float64)
     elif type(output) is type:
-        if output not in [np.complex64, np.complex128,
-                          np.float32, np.float64]:
+        if output not in [np.complex64, np.complex128, np.float32, np.float64]:
             raise RuntimeError("output type not supported")
         output = np.zeros(input.shape, dtype=output)
     elif output.shape != input.shape:

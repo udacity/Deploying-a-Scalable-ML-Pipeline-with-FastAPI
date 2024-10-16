@@ -6,12 +6,16 @@ from scipy._lib.deprecation import _sub_module_deprecation
 
 
 __all__ = [  # noqa: F822
-    'compare_medians_ms',
-    'hdquantiles', 'hdmedian', 'hdquantiles_sd',
-    'idealfourths',
-    'median_cihs','mjci','mquantiles_cimj',
-    'rsh',
-    'trimmed_mean_ci',
+    "compare_medians_ms",
+    "hdquantiles",
+    "hdmedian",
+    "hdquantiles_sd",
+    "idealfourths",
+    "median_cihs",
+    "mjci",
+    "mquantiles_cimj",
+    "rsh",
+    "trimmed_mean_ci",
 ]
 
 
@@ -20,6 +24,11 @@ def __dir__():
 
 
 def __getattr__(name):
-    return _sub_module_deprecation(sub_package="stats", module="mstats_extras",
-                                   private_modules=["_mstats_extras"], all=__all__,
-                                   attribute=name, correct_module="mstats")
+    return _sub_module_deprecation(
+        sub_package="stats",
+        module="mstats_extras",
+        private_modules=["_mstats_extras"],
+        all=__all__,
+        attribute=name,
+        correct_module="mstats",
+    )

@@ -8,11 +8,11 @@ __all__ = ["asunicode", "asbytes"]
 
 def asunicode(s):
     if isinstance(s, bytes):
-        return s.decode('latin1')
+        return s.decode("latin1")
     return str(s)
 
 
 def asbytes(s):
     if isinstance(s, bytes):
         return s
-    return str(s).encode('latin1')
+    return str(s).encode("latin1")

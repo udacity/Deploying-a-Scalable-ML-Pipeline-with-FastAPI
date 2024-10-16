@@ -131,20 +131,19 @@ HeaderTypes = Union[
 
 
 @overload
-def normalize_and_validate(headers: Headers, _parsed: Literal[True]) -> Headers:
-    ...
+def normalize_and_validate(headers: Headers, _parsed: Literal[True]) -> Headers: ...
 
 
 @overload
-def normalize_and_validate(headers: HeaderTypes, _parsed: Literal[False]) -> Headers:
-    ...
+def normalize_and_validate(
+    headers: HeaderTypes, _parsed: Literal[False]
+) -> Headers: ...
 
 
 @overload
 def normalize_and_validate(
     headers: Union[Headers, HeaderTypes], _parsed: bool = False
-) -> Headers:
-    ...
+) -> Headers: ...
 
 
 def normalize_and_validate(

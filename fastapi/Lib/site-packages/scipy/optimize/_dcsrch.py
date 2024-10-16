@@ -241,9 +241,7 @@ class DCSRCH:
 
         task = b"START"
         for i in range(maxiter):
-            stp, phi1, derphi1, task = self._iterate(
-                alpha1, phi1, derphi1, task
-            )
+            stp, phi1, derphi1, task = self._iterate(alpha1, phi1, derphi1, task)
 
             if not np.isfinite(stp):
                 task = b"WARN"
@@ -487,10 +485,7 @@ class DCSRCH:
         if (
             self.brackt
             and (stp <= self.stmin or stp >= self.stmax)
-            or (
-                self.brackt
-                and self.stmax - self.stmin <= self.xtol * self.stmax
-            )
+            or (self.brackt and self.stmax - self.stmin <= self.xtol * self.stmax)
         ):
             stp = self.stx
 

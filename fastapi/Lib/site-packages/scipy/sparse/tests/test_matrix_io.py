@@ -5,15 +5,25 @@ import tempfile
 from pytest import raises as assert_raises
 from numpy.testing import assert_equal, assert_
 
-from scipy.sparse import (sparray, csc_matrix, csr_matrix, bsr_matrix, dia_matrix,
-                          coo_matrix, dok_matrix, csr_array, save_npz, load_npz)
+from scipy.sparse import (
+    sparray,
+    csc_matrix,
+    csr_matrix,
+    bsr_matrix,
+    dia_matrix,
+    coo_matrix,
+    dok_matrix,
+    csr_array,
+    save_npz,
+    load_npz,
+)
 
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 
 def _save_and_load(matrix):
-    fd, tmpfile = tempfile.mkstemp(suffix='.npz')
+    fd, tmpfile = tempfile.mkstemp(suffix=".npz")
     os.close(fd)
     try:
         save_npz(tmpfile, matrix)
@@ -21,6 +31,7 @@ def _save_and_load(matrix):
     finally:
         os.remove(tmpfile)
     return loaded_matrix
+
 
 def _check_save_and_load(dense_matrix):
     for matrix_class in [csc_matrix, csr_matrix, bsr_matrix, dia_matrix, coo_matrix]:
@@ -31,6 +42,7 @@ def _check_save_and_load(dense_matrix):
         assert_(loaded_matrix.dtype == dense_matrix.dtype)
         assert_equal(loaded_matrix.toarray(), dense_matrix)
 
+
 def test_save_and_load_random():
     N = 10
     np.random.seed(0)
@@ -38,18 +50,21 @@ def test_save_and_load_random():
     dense_matrix[dense_matrix > 0.7] = 0
     _check_save_and_load(dense_matrix)
 
+
 def test_save_and_load_empty():
-    dense_matrix = np.zeros((4,6))
+    dense_matrix = np.zeros((4, 6))
     _check_save_and_load(dense_matrix)
+
 
 def test_save_and_load_one_entry():
-    dense_matrix = np.zeros((4,6))
-    dense_matrix[1,2] = 1
+    dense_matrix = np.zeros((4, 6))
+    dense_matrix[1, 2] = 1
     _check_save_and_load(dense_matrix)
 
+
 def test_sparray_vs_spmatrix():
-    #save/load matrix
-    fd, tmpfile = tempfile.mkstemp(suffix='.npz')
+    # save/load matrix
+    fd, tmpfile = tempfile.mkstemp(suffix=".npz")
     os.close(fd)
     try:
         save_npz(tmpfile, csr_matrix([[1.2, 0, 0.9], [0, 0.3, 0]]))
@@ -57,8 +72,8 @@ def test_sparray_vs_spmatrix():
     finally:
         os.remove(tmpfile)
 
-    #save/load array
-    fd, tmpfile = tempfile.mkstemp(suffix='.npz')
+    # save/load array
+    fd, tmpfile = tempfile.mkstemp(suffix=".npz")
     os.close(fd)
     try:
         save_npz(tmpfile, csr_array([[1.2, 0, 0.9], [0, 0.3, 0]]))
@@ -71,12 +86,13 @@ def test_sparray_vs_spmatrix():
     assert_(loaded_matrix.dtype == loaded_array.dtype)
     assert_equal(loaded_matrix.toarray(), loaded_array.toarray())
 
+
 def test_malicious_load():
     class Executor:
         def __reduce__(self):
-            return (assert_, (False, 'unexpected code execution'))
+            return (assert_, (False, "unexpected code execution"))
 
-    fd, tmpfile = tempfile.mkstemp(suffix='.npz')
+    fd, tmpfile = tempfile.mkstemp(suffix=".npz")
     os.close(fd)
     try:
         np.savez(tmpfile, format=Executor())
@@ -92,18 +108,19 @@ def test_py23_compatibility():
     # the same, since files saved with SciPy versions < 1.0.0 may
     # contain unicode.
 
-    a = load_npz(os.path.join(DATA_DIR, 'csc_py2.npz'))
-    b = load_npz(os.path.join(DATA_DIR, 'csc_py3.npz'))
+    a = load_npz(os.path.join(DATA_DIR, "csc_py2.npz"))
+    b = load_npz(os.path.join(DATA_DIR, "csc_py3.npz"))
     c = csc_matrix([[0]])
 
     assert_equal(a.toarray(), c.toarray())
     assert_equal(b.toarray(), c.toarray())
 
+
 def test_implemented_error():
     # Attempts to save an unsupported type and checks that an
     # NotImplementedError is raised.
 
-    x = dok_matrix((2,3))
-    x[0,1] = 1
+    x = dok_matrix((2, 3))
+    x[0, 1] = 1
 
-    assert_raises(NotImplementedError, save_npz, 'x.npz', x)
+    assert_raises(NotImplementedError, save_npz, "x.npz", x)

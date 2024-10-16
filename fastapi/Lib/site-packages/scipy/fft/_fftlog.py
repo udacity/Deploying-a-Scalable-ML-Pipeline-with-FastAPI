@@ -10,7 +10,7 @@ from scipy._lib.uarray import Dispatchable
 from ._fftlog_backend import fhtoffset
 import numpy as np
 
-__all__ = ['fht', 'ifht', 'fhtoffset']
+__all__ = ["fht", "ifht", "fhtoffset"]
 
 
 @_dispatch

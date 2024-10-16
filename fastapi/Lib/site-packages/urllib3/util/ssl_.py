@@ -373,8 +373,7 @@ def ssl_wrap_socket(
     key_password: str | None = ...,
     ca_cert_data: None | str | bytes = ...,
     tls_in_tls: typing.Literal[False] = ...,
-) -> ssl.SSLSocket:
-    ...
+) -> ssl.SSLSocket: ...
 
 
 @typing.overload
@@ -392,8 +391,7 @@ def ssl_wrap_socket(
     key_password: str | None = ...,
     ca_cert_data: None | str | bytes = ...,
     tls_in_tls: bool = ...,
-) -> ssl.SSLSocket | SSLTransportType:
-    ...
+) -> ssl.SSLSocket | SSLTransportType: ...
 
 
 def ssl_wrap_socket(

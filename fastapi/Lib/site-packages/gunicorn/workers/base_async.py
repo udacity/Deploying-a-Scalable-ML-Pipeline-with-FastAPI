@@ -93,8 +93,7 @@ class AsyncWorker(base.Worker):
         resp = None
         try:
             self.cfg.pre_request(self, req)
-            resp, environ = wsgi.create(req, sock, addr,
-                                        listener_name, self.cfg)
+            resp, environ = wsgi.create(req, sock, addr, listener_name, self.cfg)
             environ["wsgi.multithread"] = True
             self.nr += 1
             if self.nr >= self.max_requests:
@@ -109,7 +108,7 @@ class AsyncWorker(base.Worker):
             if self.is_already_handled(respiter):
                 return False
             try:
-                if isinstance(respiter, environ['wsgi.file_wrapper']):
+                if isinstance(respiter, environ["wsgi.file_wrapper"]):
                     resp.write_file(respiter)
                 else:
                     for item in respiter:

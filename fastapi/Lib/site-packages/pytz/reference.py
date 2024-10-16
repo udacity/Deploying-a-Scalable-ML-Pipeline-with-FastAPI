@@ -1,21 +1,21 @@
-'''
+"""
 Reference tzinfo implementations from the Python docs.
 Used for testing against as they are only correct for the years
 1987 to 2006. Do not use these for real code.
-'''
+"""
 
 from datetime import tzinfo, timedelta, datetime
 from pytz import HOUR, ZERO, UTC
 
 __all__ = [
-    'FixedOffset',
-    'LocalTimezone',
-    'USTimeZone',
-    'Eastern',
-    'Central',
-    'Mountain',
-    'Pacific',
-    'UTC'
+    "FixedOffset",
+    "LocalTimezone",
+    "USTimeZone",
+    "Eastern",
+    "Central",
+    "Mountain",
+    "Pacific",
+    "UTC",
 ]
 
 
@@ -69,12 +69,21 @@ class LocalTimezone(tzinfo):
         return _time.tzname[self._isdst(dt)]
 
     def _isdst(self, dt):
-        tt = (dt.year, dt.month, dt.day,
-              dt.hour, dt.minute, dt.second,
-              dt.weekday(), 0, -1)
+        tt = (
+            dt.year,
+            dt.month,
+            dt.day,
+            dt.hour,
+            dt.minute,
+            dt.second,
+            dt.weekday(),
+            0,
+            -1,
+        )
         stamp = _time.mktime(tt)
         tt = _time.localtime(stamp)
         return tt.tm_isdst > 0
+
 
 Local = LocalTimezone()
 
@@ -133,6 +142,7 @@ class USTimeZone(tzinfo):
             return HOUR
         else:
             return ZERO
+
 
 Eastern = USTimeZone(-5, "Eastern", "EST", "EDT")
 Central = USTimeZone(-6, "Central", "CST", "CDT")

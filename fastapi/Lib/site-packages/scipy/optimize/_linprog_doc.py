@@ -5,16 +5,26 @@ Created on Sat Aug 22 19:49:17 2020
 """
 
 
-def _linprog_highs_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                       bounds=None, method='highs', callback=None,
-                       maxiter=None, disp=False, presolve=True,
-                       time_limit=None,
-                       dual_feasibility_tolerance=None,
-                       primal_feasibility_tolerance=None,
-                       ipm_optimality_tolerance=None,
-                       simplex_dual_edge_weight_strategy=None,
-                       mip_rel_gap=None,
-                       **unknown_options):
+def _linprog_highs_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="highs",
+    callback=None,
+    maxiter=None,
+    disp=False,
+    presolve=True,
+    time_limit=None,
+    dual_feasibility_tolerance=None,
+    primal_feasibility_tolerance=None,
+    ipm_optimality_tolerance=None,
+    simplex_dual_edge_weight_strategy=None,
+    mip_rel_gap=None,
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using one of the HiGHS solvers.
@@ -289,14 +299,24 @@ def _linprog_highs_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
     pass
 
 
-def _linprog_highs_ds_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                          bounds=None, method='highs-ds', callback=None,
-                          maxiter=None, disp=False, presolve=True,
-                          time_limit=None,
-                          dual_feasibility_tolerance=None,
-                          primal_feasibility_tolerance=None,
-                          simplex_dual_edge_weight_strategy=None,
-                          **unknown_options):
+def _linprog_highs_ds_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="highs-ds",
+    callback=None,
+    maxiter=None,
+    disp=False,
+    presolve=True,
+    time_limit=None,
+    dual_feasibility_tolerance=None,
+    primal_feasibility_tolerance=None,
+    simplex_dual_edge_weight_strategy=None,
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using the HiGHS dual simplex solver.
@@ -530,14 +550,24 @@ def _linprog_highs_ds_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
     pass
 
 
-def _linprog_highs_ipm_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                           bounds=None, method='highs-ipm', callback=None,
-                           maxiter=None, disp=False, presolve=True,
-                           time_limit=None,
-                           dual_feasibility_tolerance=None,
-                           primal_feasibility_tolerance=None,
-                           ipm_optimality_tolerance=None,
-                           **unknown_options):
+def _linprog_highs_ipm_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="highs-ipm",
+    callback=None,
+    maxiter=None,
+    disp=False,
+    presolve=True,
+    time_limit=None,
+    dual_feasibility_tolerance=None,
+    primal_feasibility_tolerance=None,
+    ipm_optimality_tolerance=None,
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using the HiGHS interior point solver.
@@ -758,13 +788,32 @@ def _linprog_highs_ipm_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
     pass
 
 
-def _linprog_ip_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                    bounds=None, method='interior-point', callback=None,
-                    maxiter=1000, disp=False, presolve=True,
-                    tol=1e-8, autoscale=False, rr=True,
-                    alpha0=.99995, beta=0.1, sparse=False,
-                    lstsq=False, sym_pos=True, cholesky=True, pc=True,
-                    ip=False, permc_spec='MMD_AT_PLUS_A', **unknown_options):
+def _linprog_ip_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="interior-point",
+    callback=None,
+    maxiter=1000,
+    disp=False,
+    presolve=True,
+    tol=1e-8,
+    autoscale=False,
+    rr=True,
+    alpha0=0.99995,
+    beta=0.1,
+    sparse=False,
+    lstsq=False,
+    sym_pos=True,
+    cholesky=True,
+    pc=True,
+    ip=False,
+    permc_spec="MMD_AT_PLUS_A",
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using the interior-point method of
@@ -1089,11 +1138,27 @@ def _linprog_ip_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
     pass
 
 
-def _linprog_rs_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                    bounds=None, method='interior-point', callback=None,
-                    x0=None, maxiter=5000, disp=False, presolve=True,
-                    tol=1e-12, autoscale=False, rr=True, maxupdate=10,
-                    mast=False, pivot="mrc", **unknown_options):
+def _linprog_rs_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="interior-point",
+    callback=None,
+    x0=None,
+    maxiter=5000,
+    disp=False,
+    presolve=True,
+    tol=1e-12,
+    autoscale=False,
+    rr=True,
+    maxupdate=10,
+    mast=False,
+    pivot="mrc",
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using the revised simplex method.
@@ -1275,11 +1340,24 @@ def _linprog_rs_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
     pass
 
 
-def _linprog_simplex_doc(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
-                         bounds=None, method='interior-point', callback=None,
-                         maxiter=5000, disp=False, presolve=True,
-                         tol=1e-12, autoscale=False, rr=True, bland=False,
-                         **unknown_options):
+def _linprog_simplex_doc(
+    c,
+    A_ub=None,
+    b_ub=None,
+    A_eq=None,
+    b_eq=None,
+    bounds=None,
+    method="interior-point",
+    callback=None,
+    maxiter=5000,
+    disp=False,
+    presolve=True,
+    tol=1e-12,
+    autoscale=False,
+    rr=True,
+    bland=False,
+    **unknown_options
+):
     r"""
     Linear programming: minimize a linear objective function subject to linear
     equality and inequality constraints using the tableau-based simplex method.

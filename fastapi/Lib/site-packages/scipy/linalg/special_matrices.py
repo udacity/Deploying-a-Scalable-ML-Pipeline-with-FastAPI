@@ -5,10 +5,23 @@
 from scipy._lib.deprecation import _sub_module_deprecation
 
 __all__ = [  # noqa: F822
-    'toeplitz', 'circulant', 'hankel',
-    'hadamard', 'leslie', 'kron', 'block_diag', 'companion',
-    'helmert', 'hilbert', 'invhilbert', 'pascal', 'invpascal', 'dft',
-    'fiedler', 'fiedler_companion', 'convolution_matrix'
+    "toeplitz",
+    "circulant",
+    "hankel",
+    "hadamard",
+    "leslie",
+    "kron",
+    "block_diag",
+    "companion",
+    "helmert",
+    "hilbert",
+    "invhilbert",
+    "pascal",
+    "invpascal",
+    "dft",
+    "fiedler",
+    "fiedler_companion",
+    "convolution_matrix",
 ]
 
 
@@ -17,6 +30,10 @@ def __dir__():
 
 
 def __getattr__(name):
-    return _sub_module_deprecation(sub_package="linalg", module="special_matrices",
-                                   private_modules=["_special_matrices"], all=__all__,
-                                   attribute=name)
+    return _sub_module_deprecation(
+        sub_package="linalg",
+        module="special_matrices",
+        private_modules=["_special_matrices"],
+        all=__all__,
+        attribute=name,
+    )

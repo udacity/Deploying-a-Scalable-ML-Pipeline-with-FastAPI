@@ -24,8 +24,7 @@ def test_default_device():
 def test_default_dtypes():
     dtypes = info.default_dtypes()
     assert dtypes["real floating"] == np.float64 == np.asarray(0.0).dtype
-    assert dtypes["complex floating"] == np.complex128 == \
-        np.asarray(0.0j).dtype
+    assert dtypes["complex floating"] == np.complex128 == np.asarray(0.0j).dtype
     assert dtypes["integral"] == np.intp == np.asarray(0).dtype
     assert dtypes["indexing"] == np.intp == np.argmax(np.zeros(10)).dtype
 
@@ -68,8 +67,7 @@ dtype_categories = {
     },
     "integral": ("signed integer", "unsigned integer"),
     "real floating": {"float32": np.float32, "float64": np.float64},
-    "complex floating": {"complex64": np.complex64, "complex128":
-                         np.complex128},
+    "complex floating": {"complex64": np.complex64, "complex128": np.complex128},
     "numeric": ("integral", "real floating", "complex floating"),
 }
 

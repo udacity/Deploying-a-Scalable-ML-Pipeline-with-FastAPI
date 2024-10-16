@@ -3,7 +3,6 @@
 
 # Some Traditional Chinese characters: ㄇいゅ才
 def big5_f():
-    """ノ代刚ㄧ计
-    """
+    """ノ代刚ㄧ计"""
     # 爹睦
     return 0
