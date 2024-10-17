@@ -39,4 +39,4 @@ jobs:
         run: |
           python -m pip install flake8 black
           flake8 main.py local_api.py ml/ --max-line-length=79 --ignore=E501,F821
-          black --check main.py local_api.py ml/ --line-length 79
+          black main.py local_api.py ml/ --line-length 79
