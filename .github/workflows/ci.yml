@@ -38,5 +38,5 @@ jobs:
       - name: FastAPI Linting and Formatting
         run: |
           python -m pip install flake8 black
-          flake8 ./main.py ./local_api.py ./ml/ --max-line-length=79 --ignore=E501,F821 --exclude=.venv,site-packages,dist-packages
+          flake8 main.py local_api.py ml/ --max-line-length=79 --ignore=E501,F821 --exclude=env,venv,.venv,__pycache__,.git,.tox,.conda,build,dist,site-packages
           black main.py local_api.py ml/ --line-length 79
