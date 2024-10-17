@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 79
+ignore = E501, F821
+exclude =
+    env,
+    venv,
+    .venv,
+    __pycache__,
+    .git,
+    .tox,
+    .conda,
+    build,
+    dist,
+    site-packages
