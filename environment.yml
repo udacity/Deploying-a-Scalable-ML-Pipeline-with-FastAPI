@@ -9,6 +9,7 @@ dependencies:
   - pytest=8.3.2
   - requests==2.32.3
   - fastapi=0.112.0
-  - uvicorn=0.30.5
+  - typing_extensions=4.11.0
+  - uvicorn=0.32.0
   - gunicorn=22.0.0
   - pip=23.2.1
