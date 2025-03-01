@@ -1,31 +1,42 @@
-name: Python CI
+import pickle
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import fbeta_score, precision_score, recall_score
+from ml.data import process_data
 
-on: [push]
+def train_model(X_train, y_train):
+    model = RandomForestClassifier(random_state=42)
+    model.fit(X_train, y_train)
+    return model
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10"] 
+def compute_model_metrics(y, preds):
+    fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
+    precision = precision_score(y, preds, zero_division=1)
+    recall = recall_score(y, preds, zero_division=1)
+    return precision, recall, fbeta
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest test_ml.py -v
+def inference(model, X):
+    return model.predict(X)
+
+def save_model(model, path):
+    with open(path, 'wb') as f:
+        pickle.dump(model, f)
+
+def load_model(path):
+    with open(path, 'rb') as f:
+        return pickle.load(f)
+
+def performance_on_categorical_slice(
+    data, column_name, slice_value, categorical_features, label, encoder, lb, model
+):
+    slice_data = data[data[column_name] == slice_value]
+    X_slice, y_slice, _, _ = process_data(
+        slice_data,
+        categorical_features=categorical_features,
+        label=label,
+        training=False,
+        encoder=encoder,
+        lb=lb
+    )
+    preds = inference(model, X_slice)
+    precision, recall, fbeta = compute_model_metrics(y_slice, preds)
+    return precision, recall, fbeta
