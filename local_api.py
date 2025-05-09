@@ -2,17 +2,18 @@ import json
 
 import requests
 
-# TODO: send a GET using the URL http://127.0.0.1:8000
-r = None # Your code here
+# Send a GET using the URL http://127.0.0.1:8000
+url="http://127.0.0.1:8000/predict" # Your code here
 
+r = requests.get("http://127.0.0.1:8000")
 # TODO: print the status code
-# print()
+print("Status Code:", r.status_code)
 # TODO: print the welcome message
-# print()
+print("Results:", r.json())
 
 
 
-data = {
+input_data = {
     "age": 37,
     "workclass": "Private",
     "fnlgt": 178356,
@@ -26,13 +27,19 @@ data = {
     "capital-gain": 0,
     "capital-loss": 0,
     "hours-per-week": 40,
-    "native-country": "United-States",
+    "native-country": "United-States"
 }
 
-# TODO: send a POST using the data above
-r = None # Your code here
 
-# TODO: print the status code
-# print()
-# TODO: print the result
-# print()
+# Send a POST using the data above
+response = requests.post(url, json=input_data) # Your code here
+
+# Print the status code
+print("Status Code: {response.status_code}")
+
+print("Response text:", response.text)
+# Print the result
+if response.status_code == 200:
+    print("Result:", response.json())
+else:
+    print(f"Failed with status code {response.status_code}. Response text: {response.text}")

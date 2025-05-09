@@ -53,12 +53,15 @@ def process_data(
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
 
-    if training is True:
+    if training:
         encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
         y = lb.fit_transform(y.values).ravel()
     else:
+        if encoder is None:
+            raise ValueError("Encoder and LabelBinarizer must be provided during inference")
+
         X_categorical = encoder.transform(X_categorical)
         try:
             y = lb.transform(y.values).ravel()
