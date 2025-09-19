@@ -3,12 +3,16 @@ import json
 import requests
 
 # TODO: send a GET using the URL http://127.0.0.1:8000
-r = None # Your code here
+
+
+#r = None # Your code here
+url = "http://127.0.0.1:8000"
+r = requests.get(url)
 
 # TODO: print the status code
-# print()
+print(r.status_code)
 # TODO: print the welcome message
-# print()
+print(r.json())
 
 
 
@@ -30,9 +34,10 @@ data = {
 }
 
 # TODO: send a POST using the data above
-r = None # Your code here
+#r = None # Your code here
+r = requests.post(f"{url}/predict",json=data)
 
 # TODO: print the status code
-# print()
+print(r.status_code)
 # TODO: print the result
-# print()
+print(r.json())
