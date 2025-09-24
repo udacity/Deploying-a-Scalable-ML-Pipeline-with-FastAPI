@@ -3,6 +3,25 @@ Working in a command line environment is recommended for ease of use with git an
 # Environment Set up (pip or conda)
 * Option 1: use the supplied file `environment.yml` to create a new environment with conda
 * Option 2: use the supplied file `requirements.txt` to create a new environment with pip
+
+Quick start (venv + editable install)
+-----------------------------------
+If you prefer a lightweight virtualenv workflow, create and activate a venv, install the project in editable mode and run the tiny trainer used in CI:
+
+```bash
+# create & activate venv (macOS / Linux)
+python -m venv .venv
+source .venv/bin/activate
+
+# install the project and dependencies in editable mode
+pip install --upgrade pip
+pip install -e .
+
+# run the small training helper (writes artifacts to ./model)
+python scripts/train_tiny_model.py
+```
+
+This mirrors how the CI installs the repository and makes the local `ml` package importable without modifying PYTHONPATH.
     
 ## Repositories
 * Create a directory for the project and initialize git.

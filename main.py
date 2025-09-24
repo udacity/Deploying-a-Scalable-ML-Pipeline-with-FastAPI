@@ -1,74 +1,107 @@
 import os
 
 import pandas as pd
-from fastapi import FastAPI
-from pydantic import BaseModel, Field
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, ConfigDict, Field
 
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
 
-# DO NOT MODIFY
+
+# ---------- Request schema (Pydantic v2 style) ----------
 class Data(BaseModel):
-    age: int = Field(..., example=37)
-    workclass: str = Field(..., example="Private")
-    fnlgt: int = Field(..., example=178356)
-    education: str = Field(..., example="HS-grad")
-    education_num: int = Field(..., example=10, alias="education-num")
-    marital_status: str = Field(
-        ..., example="Married-civ-spouse", alias="marital-status"
+    # allow aliases (hyphenated names) and show a full example in /docs
+    model_config = ConfigDict(
+        populate_by_name=True,
+        json_schema_extra={
+            "example": {
+                "age": 37,
+                "workclass": "Private",
+                "fnlgt": 178356,
+                "education": "HS-grad",
+                "education-num": 10,
+                "marital-status": "Married-civ-spouse",
+                "occupation": "Prof-specialty",
+                "relationship": "Husband",
+                "race": "White",
+                "sex": "Male",
+                "capital-gain": 0,
+                "capital-loss": 0,
+                "hours-per-week": 40,
+                "native-country": "United-States",
+            }
+        },
     )
-    occupation: str = Field(..., example="Prof-specialty")
-    relationship: str = Field(..., example="Husband")
-    race: str = Field(..., example="White")
-    sex: str = Field(..., example="Male")
-    capital_gain: int = Field(..., example=0, alias="capital-gain")
-    capital_loss: int = Field(..., example=0, alias="capital-loss")
-    hours_per_week: int = Field(..., example=40, alias="hours-per-week")
-    native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = None # TODO: enter the path for the saved encoder 
-encoder = load_model(path)
+    age: int
+    workclass: str
+    fnlgt: int
+    education: str
+    education_num: int = Field(alias="education-num")
+    marital_status: str = Field(alias="marital-status")
+    occupation: str
+    relationship: str
+    race: str
+    sex: str
+    capital_gain: int = Field(alias="capital-gain")
+    capital_loss: int = Field(alias="capital-loss")
+    hours_per_week: int = Field(alias="hours-per-week")
+    native_country: str = Field(alias="native-country")
 
-path = None # TODO: enter the path for the saved model 
-model = load_model(path)
 
-# TODO: create a RESTful API using FastAPI
-app = None # your code here
+# ---------- Load artifacts ----------
+_PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+ENCODER_PATH = os.path.join(_PROJECT_ROOT, "model", "encoder.pkl")
+MODEL_PATH = os.path.join(_PROJECT_ROOT, "model", "model.pkl")
 
-# TODO: create a GET on the root giving a welcome message
+if not os.path.exists(ENCODER_PATH):
+    raise RuntimeError(
+        f"Encoder not found at {ENCODER_PATH}. Did you run train_model.py?"
+    )
+if not os.path.exists(MODEL_PATH):
+    raise RuntimeError(f"Model not found at {MODEL_PATH}. Did you run train_model.py?")
+
+encoder = load_model(ENCODER_PATH)
+model = load_model(MODEL_PATH)
+
+
+# ---------- FastAPI app ----------
+app = FastAPI(title="Census Income Inference API")
+
+
 @app.get("/")
 async def get_root():
-    """ Say hello!"""
-    # your code here
-    pass
+    return {"message": "Welcome to the Census Income Inference API"}
 
 
-# TODO: create a POST on a different path that does model inference
 @app.post("/data/")
 async def post_inference(data: Data):
-    # DO NOT MODIFY: turn the Pydantic model into a dict.
-    data_dict = data.dict()
-    # DO NOT MODIFY: clean up the dict to turn it into a Pandas DataFrame.
-    # The data has names with hyphens and Python does not allow those as variable names.
-    # Here it uses the functionality of FastAPI/Pydantic/etc to deal with this.
-    data = {k.replace("_", "-"): [v] for k, v in data_dict.items()}
-    data = pd.DataFrame.from_dict(data)
+    try:
+        # Use aliases and normalize keys to hyphenated for the pipeline
+        data_dict = data.model_dump(by_alias=True)
+        df = pd.DataFrame([{k.replace("_", "-"): v for k, v in data_dict.items()}])
 
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
-    data_processed, _, _, _ = process_data(
-        # your code here
-        # use data as data input
-        # use training = False
-        # do not need to pass lb as input
-    )
-    _inference = None # your code here to predict the result using data_processed
-    return {"result": apply_label(_inference)}
+        cat_features = [
+            "workclass",
+            "education",
+            "marital-status",
+            "occupation",
+            "relationship",
+            "race",
+            "sex",
+            "native-country",
+        ]
+
+        X, _, _, _ = process_data(
+            df,
+            categorical_features=cat_features,
+            label=None,
+            training=False,
+            encoder=encoder,
+            lb=None,
+        )
+        preds = inference(model, X)
+        return {"result": apply_label(preds)}
+    except Exception as e:
+        # Keep stacktrace in server logs but surface a clear client error
+        raise HTTPException(status_code=500, detail=f"Inference failed: {e}")

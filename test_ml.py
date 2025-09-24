@@ -1,28 +1,54 @@
-import pytest
-# TODO: add necessary import
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
-    """
-    # add description for the first test
-    """
-    # Your code here
-    pass
+from ml.data import process_data
+from ml.model import inference, train_model
 
-
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
-    """
-    # add description for the second test
-    """
-    # Your code here
-    pass
+CATS = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
+LABEL = "salary"
 
 
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
-    """
-    # add description for the third test
-    """
-    # Your code here
-    pass
+def _prep():
+    df = pd.read_csv("data/census.csv")
+    train, test = train_test_split(
+        df, test_size=0.2, random_state=0, stratify=df[LABEL]
+    )
+    Xtr, ytr, enc, lb = process_data(train, CATS, label=LABEL, training=True)
+    Xte, yte, _, _ = process_data(
+        test, CATS, label=LABEL, training=False, encoder=enc, lb=lb
+    )
+    return Xtr, ytr, Xte, yte
+
+
+def test_train_and_infer_shapes():
+    Xtr, ytr, Xte, yte = _prep()
+    m = train_model(Xtr, ytr)
+    yhat = inference(m, Xte)
+    assert yhat.shape[0] == yte.shape[0]
+
+
+def test_model_type():
+    Xtr, ytr, _, _ = _prep()
+    m = train_model(Xtr, ytr)
+    from sklearn.ensemble import RandomForestClassifier
+
+    assert isinstance(m, RandomForestClassifier)
+
+
+def test_metrics_reasonable():
+    Xtr, ytr, Xte, yte = _prep()
+    m = train_model(Xtr, ytr)
+    from sklearn.metrics import f1_score
+
+    yhat = inference(m, Xte)
+    f1 = f1_score(yte, yhat)
+    assert 0.3 <= f1 <= 1.0

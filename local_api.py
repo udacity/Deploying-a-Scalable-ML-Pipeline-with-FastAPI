@@ -1,18 +1,49 @@
-import json
-
 import requests
 
-# TODO: send a GET using the URL http://127.0.0.1:8000
-r = None # Your code here
-
-# TODO: print the status code
-# print()
-# TODO: print the welcome message
-# print()
+URL = "http://127.0.0.1:8000"
 
 
+def safe_request(method, url, **kwargs):
+    try:
+        r = requests.request(method, url, timeout=5, **kwargs)
+        try:
+            # Try to parse as JSON
+            print(f"{method} {url}:", r.status_code, r.json())
+        except ValueError:
+            # Fallback to raw text if not JSON (e.g. error pages, 500s)
+            print(f"{method} {url}:", r.status_code, r.text)
+    except requests.exceptions.ConnectionError:
+        print(f"❌ Could not connect to {url}. Is the server running?")
+    except requests.exceptions.Timeout:
+        print(f"⏱️ Request to {url} timed out.")
+    except Exception as e:
+        print(f"⚠️ Unexpected error calling {url}: {e}")
 
-data = {
+
+# GET request
+safe_request("GET", URL)
+
+# First POST payload
+payload1 = {
+    "age": 52,
+    "workclass": "Private",
+    "fnlgt": 209642,
+    "education": "Masters",
+    "education-num": 14,
+    "marital-status": "Married-civ-spouse",
+    "occupation": "Exec-managerial",
+    "relationship": "Husband",
+    "race": "White",
+    "sex": "Male",
+    "capital-gain": 0,
+    "capital-loss": 0,
+    "hours-per-week": 45,
+    "native-country": "United-States",
+}
+safe_request("POST", f"{URL}/data/", json=payload1)
+
+# Second POST payload
+payload2 = {
     "age": 37,
     "workclass": "Private",
     "fnlgt": 178356,
@@ -28,11 +59,4 @@ data = {
     "hours-per-week": 40,
     "native-country": "United-States",
 }
-
-# TODO: send a POST using the data above
-r = None # Your code here
-
-# TODO: print the status code
-# print()
-# TODO: print the result
-# print()
+safe_request("POST", f"{URL}/data/", json=payload2)
