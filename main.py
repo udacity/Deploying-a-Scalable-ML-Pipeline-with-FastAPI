@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
 
+
 # DO NOT MODIFY
 class Data(BaseModel):
     age: int = Field(..., example=37)
@@ -26,25 +27,32 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = None # TODO: enter the path for the saved encoder 
-encoder = load_model(path)
 
-path = None # TODO: enter the path for the saved model 
-model = load_model(path)
+# ---- load saved artifacts -------------------------------------------------
+project_path = "."
+model_dir = os.path.join(project_path, "model")
 
-# TODO: create a RESTful API using FastAPI
-app = None # your code here
+encoder_path = os.path.join(model_dir, "encoder.pkl")
+lb_path = os.path.join(model_dir, "lb.pkl")
+model_path = os.path.join(model_dir, "model.pkl")
 
-# TODO: create a GET on the root giving a welcome message
+encoder = load_model(encoder_path)
+lb = load_model(lb_path)
+model = load_model(model_path)
+
+# ---- create FastAPI app ---------------------------------------------------
+app = FastAPI(title="Income Classification API")
+
+
+# ---- root endpoint --------------------------------------------------------
 @app.get("/")
 async def get_root():
-    """ Say hello!"""
-    # your code here
-    pass
+    """Simple welcome endpoint."""
+    return {"message": "Hello from the income classification API!"}
 
 
-# TODO: create a POST on a different path that does model inference
-@app.post("/data/")
+# ---- prediction endpoint --------------------------------------------------
+@app.post("/predict/")
 async def post_inference(data: Data):
     # DO NOT MODIFY: turn the Pydantic model into a dict.
     data_dict = data.dict()
@@ -64,11 +72,21 @@ async def post_inference(data: Data):
         "sex",
         "native-country",
     ]
+
+    # process data for inference
     data_processed, _, _, _ = process_data(
-        # your code here
-        # use data as data input
-        # use training = False
-        # do not need to pass lb as input
+        data,
+        categorical_features=cat_features,
+        label=None,
+        training=False,
+        encoder=encoder,
+        lb=lb,
     )
-    _inference = None # your code here to predict the result using data_processed
-    return {"result": apply_label(_inference)}
+
+    # make prediction
+    preds = inference(model, data_processed)
+    _inference = preds[0]
+
+    # convert 0/1 to <=50K />50K label
+    # NOTE: apply_label expects an indexable input, so wrap in a list
+    return {"result": apply_label([_inference])}
