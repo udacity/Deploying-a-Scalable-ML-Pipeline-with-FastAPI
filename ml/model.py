@@ -32,7 +32,7 @@ def train_model(X_train, y_train):
     grid_search = GridSearchCV(
         estimator=rf,
         param_grid=param_grid,
-        cv=3,
+        cv=2,
         scoring="accuracy",
         n_jobs=-1
     )
